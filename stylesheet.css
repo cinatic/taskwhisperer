@@ -1,0 +1,61 @@
+.button {
+	border-radius: 2px;
+	padding: 5px;
+}
+
+.taskGrid {
+	width: 500px;
+}
+
+.taskDataRowMenuItem {
+	padding: 0;
+	margin: 0;
+}
+
+.taskDataRow {
+	padding: 3px;
+	width: 450px;
+}
+
+.taskDataRow .rowValue {
+	width: 330px;
+	overflow: hidden;
+}
+
+.buttonBox {
+	width: 450px;
+	margin-bottom: 5px;
+}
+
+.buttonBox .button {
+	margin-right: 10px;
+}
+
+.button:hover {
+	color: white;
+	background: rgba(144, 144, 148, 0.21);
+}
+
+.taskModificationDialog .headline {
+	margin-bottom: 10px;
+}
+
+.taskModificationDialog .modificationInputBox {
+	margin: 7px 0;
+}
+
+.createTaskDialog {
+	width: 450px;
+}
+
+.createTaskDialog .headline {
+	margin-bottom: 10px;
+}
+
+.createTaskDialog StEntry {
+	margin-bottom: 10px;
+}
+
+.createTaskDialog .additionalArgumentsInputBox {
+	margin-bottom: 0;
+}

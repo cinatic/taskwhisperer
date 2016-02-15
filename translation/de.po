@@ -1,0 +1,111 @@
+# German translations for PACKAGE package
+# German translation for PACKAGE.
+# Copyright (C) 2016 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#  <florijanh@gmail.com>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-15 20:15+0100\n"
+"PO-Revision-Date: 2016-02-15 19:06+0100\n"
+"Last-Translator:  <florijanh@gmail.com>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: extension.js:138
+msgid "..."
+msgstr ""
+
+#: extension.js:228 extension.js:304
+#, javascript-format
+msgid "%d Task"
+msgid_plural "%d Tasks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: extension.js:240
+msgid "Add new Task"
+msgstr "Neuen Eintrag erstellen"
+
+#: extension.js:245
+msgid "Reload Task Data"
+msgstr "Daten neu laden"
+
+#: extension.js:273 dialogs.js:75
+msgid "Identifier:"
+msgstr ""
+
+#: extension.js:274 dialogs.js:76
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#: extension.js:275 dialogs.js:77
+msgid "Status:"
+msgstr ""
+
+#: extension.js:279 dialogs.js:81
+msgid "Tags:"
+msgstr ""
+
+#: extension.js:284 dialogs.js:86
+msgid "%H:%M %A %d. %b. %Y"
+msgstr ""
+
+#: extension.js:286 dialogs.js:88
+msgid "Due:"
+msgstr "Fälligkeit:"
+
+#: extension.js:298
+msgid "Set Task Done"
+msgstr "Task erledigt"
+
+#: extension.js:308
+msgid "Modify Task"
+msgstr "Task bearbeiten"
+
+#: dialogs.js:73
+msgid "Modify:"
+msgstr "Bearbeiten:"
+
+#: dialogs.js:99
+msgid "%d.%m.%Y %H:%M"
+msgstr ""
+
+#: dialogs.js:110 dialogs.js:225
+msgid "Sorry, that didn't work. Please try again."
+msgstr "Ein Problem trat auf. Probieren Sie es nochmal."
+
+#: dialogs.js:118 dialogs.js:237
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: dialogs.js:123
+msgid "Modify"
+msgstr "Ändern"
+
+#: dialogs.js:200
+msgid "Create New Task"
+msgstr "Neuen Eintrag erstellen"
+
+#: dialogs.js:205
+#, fuzzy
+msgid "Enter Description"
+msgstr "Beschreibung eingeben"
+
+#: dialogs.js:212
+msgid "Enter DueDate"
+msgstr "Fälligkeit eingeben"
+
+#: dialogs.js:219
+msgid "Additional Arguments"
+msgstr "Weitere Parameter"
+
+#: dialogs.js:242
+msgid "Create"
+msgstr "Erstellen"
