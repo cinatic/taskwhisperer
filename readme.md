@@ -1,43 +1,35 @@
 ![Screenshot](https://github.com/cinatic/taskwhisperer/raw/master/images/menu.png)
 
-*gnome-shell-extension-openweather* is a simple extension for displaying pending tasks created by [TaskWarrior](https://taskwarrior.org/) in GNOME Shell.
+*gnome-shell-extension-taskwhisperer* is a simple extension for displaying pending tasks created by [TaskWarrior](https://taskwarrior.org/) in GNOME Shell.
 
-The weather data is fetched from export function of TaskWarrior ([TaskWarrior Docs](https://taskwarrior.org/docs/))
+The data is fetched from export function of TaskWarrior ([TaskWarrior Docs](https://taskwarrior.org/docs/))
 
 ----
 
-# Installation
+## Installation
 
 After the installation, restart GNOME Shell (`Alt`+`F2`, `r`, `Enter`) and enable the extension through *gnome-tweak-tool*.
 
-- Not Yet commited - 
-Go on the [TaskWhisperer](https://extensions.gnome.org/) extension page on extensions.gnome.org, click on the switch ("OFF" => "ON"), click on the install button. That's it !
+Not Yet commited 
+Go on the [TaskWhisperer](https://extensions.gnome.org/) extension page on extensions.gnome.org and click on the switch ("OFF" => "ON")!
 
-## Generic (Local installation)
+### Generic (Local installation)
 
 Move files into your locale (~/.locale/share/gnome-shell/extension) directory and enable the extension via the Tweak Tool
 
-----
-
-# Preparation
+## Preparation
 
 Make sure you have TaskWarrior installed
 
-----
-
 ## Preview
 
-# Task creation
+### Task creation
 ![Screenshot](https://github.com/cinatic/taskwhisperer/raw/master/images/create.png)
 
-----
-
-# Task modification
+### Task modification
 ![Screenshot](https://github.com/cinatic/taskwhisperer/raw/master/images/modify.png)
 
-----
-
-# Licence
+## Licence
 
 Copyright (C) 2016
 
