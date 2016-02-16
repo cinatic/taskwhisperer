@@ -11,7 +11,7 @@ The data is fetched from export function of TaskWarrior ([TaskWarrior Docs](http
 After the installation, restart GNOME Shell (`Alt`+`F2`, `r`, `Enter`) and enable the extension through *gnome-tweak-tool*.
 
 Not Yet commited 
-Go on the [TaskWhisperer](https://extensions.gnome.org/) extension page on extensions.gnome.org and click on the switch ("OFF" => "ON")!
+Go on the [TaskWhisperer](https://extensions.gnome.org/extension/1039/taskwhisperer/) extension page on extensions.gnome.org and click on the switch ("OFF" => "ON")!
 
 ### Generic (Local installation)
 
