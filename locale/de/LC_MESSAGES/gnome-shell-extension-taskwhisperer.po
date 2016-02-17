@@ -6,28 +6,29 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-15 20:15+0100\n"
-"PO-Revision-Date: 2016-02-15 19:06+0100\n"
-"Last-Translator:  <florijanh@gmail.com>\n"
+"PO-Revision-Date: 2016-02-16 20:54+0100\n"
+"Last-Translator: Heiko Adams <heiko.adams@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: extension.js:138
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: extension.js:228 extension.js:304
 #, javascript-format
 msgid "%d Task"
 msgid_plural "%d Tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Aufgabe"
+msgstr[1] "%d Aufgaben"
 
 #: extension.js:240
 msgid "Add new Task"
@@ -39,7 +40,7 @@ msgstr "Daten neu laden"
 
 #: extension.js:273 dialogs.js:75
 msgid "Identifier:"
-msgstr ""
+msgstr "Identifikator:"
 
 #: extension.js:274 dialogs.js:76
 msgid "Description:"
@@ -47,15 +48,15 @@ msgstr "Beschreibung:"
 
 #: extension.js:275 dialogs.js:77
 msgid "Status:"
-msgstr ""
+msgstr "Status:"
 
 #: extension.js:279 dialogs.js:81
 msgid "Tags:"
-msgstr ""
+msgstr "Tags:"
 
 #: extension.js:284 dialogs.js:86
 msgid "%H:%M %A %d. %b. %Y"
-msgstr ""
+msgstr "%H:%M %A %d. %b. %Y"
 
 #: extension.js:286 dialogs.js:88
 msgid "Due:"
@@ -75,7 +76,7 @@ msgstr "Bearbeiten:"
 
 #: dialogs.js:99
 msgid "%d.%m.%Y %H:%M"
-msgstr ""
+msgstr "%d.%m.%Y %H:%M"
 
 #: dialogs.js:110 dialogs.js:225
 msgid "Sorry, that didn't work. Please try again."
@@ -94,7 +95,6 @@ msgid "Create New Task"
 msgstr "Neuen Eintrag erstellen"
 
 #: dialogs.js:205
-#, fuzzy
 msgid "Enter Description"
 msgstr "Beschreibung eingeben"
 
