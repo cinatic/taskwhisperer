@@ -2,7 +2,7 @@
 /* -*- mode: js -*- */
 /*
  Copyright (c) 2011-2012,   Giovanni Campagna <scampa.giovanni@gmail.com>
-               2016,        Florijan Hamzic <florijanh@gmail.com>
+ 2016,        Florijan Hamzic <florijanh@gmail.com>
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -112,6 +112,11 @@ function getSettings(schema)
 
 function isoToDate(input)
 {
+    if(!input)
+    {
+        return;
+    }
+
     let a = Date.parse(input.slice(0, 4) + "-" + input.slice(4, 6) + "-" + input.slice(6, 11) + ":" +
         input.slice(11, 13) + ":" + input.slice(13, 16));
 
@@ -120,6 +125,11 @@ function isoToDate(input)
 
 function getBestTimeAbbreviation(a, b)
 {
+    if(!a || !b)
+    {
+        return;
+    }
+
     // Discard the time and time-zone information.
     let diffTime = b - a;
     let result = "";

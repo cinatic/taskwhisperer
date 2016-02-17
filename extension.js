@@ -218,8 +218,12 @@ const TaskWhispererMenuButton = new Lang.Class({
             {
                 data.sort(function(a, b)
                 {
-                    var dueA = a.Due.replace("T", "").replace("Z", "");
-                    var dueB = b.Due.replace("T", "").replace("Z", "");
+                    let dueA = a.Due || "";
+                    let dueB = b.Due || "";
+
+                    dueA = dueA.replace("T", "").replace("Z", "");
+                    dueB = dueB.replace("T", "").replace("Z", "");
+
                     return dueA - dueB;
                 });
 

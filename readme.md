@@ -29,6 +29,13 @@ Make sure you have TaskWarrior installed
 ### Task modification
 ![Screenshot](https://github.com/cinatic/taskwhisperer/raw/master/images/modify.png)
 
+## Troubleshooting
+
+### Wrong JSON Format
+`(gnome-shell:1916): Gjs-WARNING **: JS ERROR: TypeError: taskListData.map is not a function`
+
+Some TaskWarrior packages (e.g. in GnUbuntu) came without opt.in the json.array=on flag. So you have to add json.array=on in your [*~/.taskrc*](https://taskwarrior.org/docs/configuration.html)
+
 ## Licence
 
 Copyright (C) 2016
