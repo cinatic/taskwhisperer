@@ -7,6 +7,23 @@
 	width: 500px;
 }
 
+.taskGrid .hidden {
+	visibility: hidden;
+}
+
+.taskGrid .minor {
+	color: #00c6ff;
+}
+
+.taskGrid .medium {
+	color: #ffff00;
+}
+
+.taskGrid .warning,
+.taskGrid .urgent {
+	color: #ff5b00;
+}
+
 .taskDataRowMenuItem {
 	padding: 0;
 	margin: 0;
@@ -58,4 +75,9 @@
 
 .createTaskDialog .additionalArgumentsInputBox {
 	margin-bottom: 0;
+}
+
+.prompt-dialog-error-label{
+	margin-top: 10px;
+	color: #ff2f31;
 }

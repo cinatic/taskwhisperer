@@ -34,6 +34,12 @@ const Convenience = Me.imports.convenience;
 const Gio = imports.gi.Gio;
 const Lang = imports.lang;
 
+const TaskPriority = {
+    LOW   : "L",
+    MEDIUM: "M",
+    HIGH  : "H"
+};
+
 
 const TaskProperties = {
     ID         : "id",
@@ -44,7 +50,8 @@ const TaskProperties = {
     URGENCY    : "urgency",
     MODIFIED   : "modified",
     CREATED    : "entry",
-    DUE        : "due"
+    DUE        : "due",
+    PRIORITY   : "priority"
 };
 
 
@@ -95,6 +102,7 @@ const Task = new Lang.Class({
         this.Modified = taskData[TaskProperties.MODIFIED];
         this.Created = taskData[TaskProperties.CREATED];
         this.Due = taskData[TaskProperties.DUE];
+        this.Priority = taskData[TaskProperties.PRIORITY];
     }
 });
 
@@ -103,7 +111,7 @@ const TaskService = new Lang.Class({
     Name             : "TaskService",
     loadTaskDataAsync: function(onDataLoaded)
     {
-        let shellProc = Gio.Subprocess.new(['task', 'status:Pending', 'export'], Gio.SubprocessFlags.STDOUT_PIPE);
+        let shellProc = Gio.Subprocess.new(['task', 'rc.json.array=on', 'status:Pending', 'export'], Gio.SubprocessFlags.STDOUT_PIPE);
 
         shellProc.wait_async(null, function(obj, result)
         {
@@ -145,7 +153,7 @@ const TaskService = new Lang.Class({
             return;
         }
 
-        let shellProc = Gio.Subprocess.new(['task', taskID.toString(), 'done'], Gio.SubprocessFlags.STDOUT_PIPE);
+        let shellProc = Gio.Subprocess.new(['task', taskID.toString(), 'done'], Gio.SubprocessFlags.STDERR_MERGE);
 
         shellProc.wait_async(null, function(obj, result)
         {
@@ -183,7 +191,7 @@ const TaskService = new Lang.Class({
         // FIXME: Gio.Subprocess: due to only passing string vector is allowed, it's not possible to directly pass the
         //        input of the user to subprocess (why & how, if you can answer then please send msg to fh@infinicode.de)
         //        bypassing problem with own shell script
-        let shellProc = Gio.Subprocess.new(['/bin/sh', EXTENSIONDIR + '/extra/modify.sh', taskID.toString(), params], Gio.SubprocessFlags.STDOUT_PIPE);
+        let shellProc = Gio.Subprocess.new(['/bin/sh', EXTENSIONDIR + '/extra/modify.sh', taskID.toString(), params], Gio.SubprocessFlags.STDOUT_PIPE + Gio.SubprocessFlags.STDERR_MERGE);
 
         shellProc.wait_async(null, function(obj, result)
         {
@@ -217,7 +225,7 @@ const TaskService = new Lang.Class({
         // FIXME: Gio.Subprocess: due to only passing string vector is allowed, it's not possible to directly pass the
         //        input of the user to subprocess (why & how, if you can answer then please send msg to fh@infinicode.de)
         //        bypassing problem with own shell script
-        let shellProc = Gio.Subprocess.new(['/bin/sh', EXTENSIONDIR + '/extra/create.sh', params], Gio.SubprocessFlags.STDOUT_PIPE);
+        let shellProc = Gio.Subprocess.new(['/bin/sh', EXTENSIONDIR + '/extra/create.sh', params], Gio.SubprocessFlags.STDOUT_PIPE + Gio.SubprocessFlags.STDERR_MERGE);
 
         shellProc.wait_async(null, function(obj, result)
         {

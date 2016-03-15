@@ -29,7 +29,8 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 const Dialogs = Me.imports.dialogs;
-const TaskService = Me.imports.taskService.TaskService;
+const taskService = Me.imports.taskService;
+const TaskService = taskService.TaskService;
 
 const Config = imports.misc.config;
 const Clutter = imports.gi.Clutter;
@@ -269,10 +270,40 @@ const TaskWhispererMenuButton = new Lang.Class({
         for(let i = 0; i < data.length; i++)
         {
             let task = data[i];
-            let dueDateAbbreviation = task.DueDateAbbreviation || "";
+            let dueDateAbbreviation = task.DueDateAbbreviation;
 
-            let gridMenu = new PopupMenu.PopupSubMenuMenuItem(dueDateAbbreviation + "  " + task.Description, true);
+            let description = (dueDateAbbreviation ? dueDateAbbreviation + "  " : "") + task.Description
+            let gridMenu = new PopupMenu.PopupSubMenuMenuItem(description, true);
             gridMenu.actor.add_style_class_name("taskGrid");
+            //gridMenu.icon.icon_name = 'task-due-symbolic';
+            //gridMenu.icon.icon_name = 'software-update-urgent-symbolic';
+            //gridMenu.icon.icon_name = 'task-high-priority-symbolic';
+
+            if(!dueDateAbbreviation)
+            {
+                gridMenu.icon.icon_name = 'dialog-warning-symbolic';
+                gridMenu.icon.add_style_class_name("warning");
+            }
+            else if(task.Priority == taskService.TaskPriority.LOW)
+            {
+                gridMenu.icon.icon_name = 'flag-symbolic';
+                gridMenu.icon.add_style_class_name("minor");
+            }
+            else if(task.Priority == taskService.TaskPriority.MEDIUM)
+            {
+                gridMenu.icon.icon_name = 'flag-symbolic';
+                gridMenu.icon.add_style_class_name("medium");
+            }
+            else if(task.Priority == taskService.TaskPriority.HIGH)
+            {
+                gridMenu.icon.icon_name = 'flag-symbolic';
+                gridMenu.icon.add_style_class_name("urgent");
+            }
+            else
+            {
+                gridMenu.icon.icon_name = 'list-remove-symbolic';
+                gridMenu.icon.add_style_class_name("hidden");
+            }
 
             this._appendDataRow(gridMenu, _("Identifier:"), task.ID + " (" + task.UUID + ")");
             this._appendDataRow(gridMenu, _("Description:"), task.Description);
@@ -281,6 +312,11 @@ const TaskWhispererMenuButton = new Lang.Class({
             if(task.Tags)
             {
                 this._appendDataRow(gridMenu, _("Tags:"), task.TagsAsString);
+            }
+
+            if(task.Priority)
+            {
+                this._appendDataRow(gridMenu, _("Priority:"), task.Priority);
             }
 
             if(task.Due)
@@ -387,6 +423,7 @@ const TaskWhispererMenuButton = new Lang.Class({
                 {
                     if(status != 0)
                     {
+                        dialog._errorMessageLabel.text = _("Sorry, that didn\'t work. Please try again.") + "\r\n" + buffer;
                         dialog._errorMessageLabel.show();
                         return;
                     }
@@ -416,6 +453,7 @@ const TaskWhispererMenuButton = new Lang.Class({
                 {
                     if(status != 0)
                     {
+                        dialog._errorMessageLabel.text = _("Sorry, that didn\'t work. Please try again.") + "\r\n" + buffer;
                         dialog._errorMessageLabel.show();
                         return;
                     }

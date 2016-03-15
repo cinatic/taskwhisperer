@@ -102,6 +102,7 @@ const ModifyTaskDialog = new Lang.Class({
             this._descriptionInputBox.text = "due:'" + formattedText + "' " + this._descriptionInputBox.text;
         }
 
+        this._descriptionInputBox.clutter_text.connect('activate', Lang.bind(this, this._onModifyTaskButton));
         this._messageBox.add(this._descriptionInputBox, {expand: true});
         this.setInitialKeyFocus(this._descriptionInputBox);
 
@@ -159,6 +160,7 @@ const ModifyTaskDialog = new Lang.Class({
     {
         if(!this._descriptionInputBox.text)
         {
+            this._errorMessageLabel.text = _("A description is required to create a new task!");
             this._errorMessageLabel.show();
             return;
         }
@@ -228,6 +230,11 @@ const CreateTaskDialog = new Lang.Class({
         this._errorMessageLabel.clutter_text.line_wrap = true;
         this._errorMessageLabel.hide();
 
+        this.setInitialKeyFocus(this._descriptionInputBox);
+        this._descriptionInputBox.clutter_text.connect('activate', Lang.bind(this, this._onAddTaskButton));
+        this._dueDateInputBox.clutter_text.connect('activate', Lang.bind(this, this._onAddTaskButton));
+        this._additionalArgumentsInputBox.clutter_text.connect('activate', Lang.bind(this, this._onAddTaskButton));
+
         this._messageBox.add(this._descriptionInputBox, {expand: true});
         this._messageBox.add(this._dueDateInputBox, {expand: true});
         this._messageBox.add(this._additionalArgumentsInputBox, {expand: true});
@@ -256,6 +263,7 @@ const CreateTaskDialog = new Lang.Class({
     {
         if(!this._descriptionInputBox.text || this._descriptionInputBox.text == this._descriptionInputBox.hint_text)
         {
+            this._errorMessageLabel.text = _("A description is required to create a new task!");
             this._errorMessageLabel.show();
             return;
         }

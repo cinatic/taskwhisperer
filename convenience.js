@@ -139,7 +139,7 @@ function getBestTimeAbbreviation(a, b)
 
     if(minutes < 0)
     {
-        result = "!!";
+        result = undefined;
     }
     else if(minutes <= 60)
     {
