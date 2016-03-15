@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-15 20:15+0100\n"
+"POT-Creation-Date: 2016-03-15 22:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,93 +18,101 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: extension.js:138
+#: ../extension.js:139
 msgid "..."
 msgstr ""
 
-#: extension.js:228 extension.js:304
+#: ../extension.js:233 ../extension.js:344
 #, javascript-format
 msgid "%d Task"
 msgid_plural "%d Tasks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension.js:240
+#: ../extension.js:245
 msgid "Add new Task"
 msgstr ""
 
-#: extension.js:245
+#: ../extension.js:250
 msgid "Reload Task Data"
 msgstr ""
 
-#: extension.js:273 dialogs.js:75
+#: ../extension.js:308 ../dialogs.js:75
 msgid "Identifier:"
 msgstr ""
 
-#: extension.js:274 dialogs.js:76
+#: ../extension.js:309 ../dialogs.js:76
 msgid "Description:"
 msgstr ""
 
-#: extension.js:275 dialogs.js:77
+#: ../extension.js:310 ../dialogs.js:77
 msgid "Status:"
 msgstr ""
 
-#: extension.js:279 dialogs.js:81
+#: ../extension.js:314 ../dialogs.js:81
 msgid "Tags:"
 msgstr ""
 
-#: extension.js:284 dialogs.js:86
+#: ../extension.js:319
+msgid "Priority:"
+msgstr ""
+
+#: ../extension.js:324 ../dialogs.js:86
 msgid "%H:%M %A %d. %b. %Y"
 msgstr ""
 
-#: extension.js:286 dialogs.js:88
+#: ../extension.js:326 ../dialogs.js:88
 msgid "Due:"
 msgstr ""
 
-#: extension.js:298
+#: ../extension.js:338
 msgid "Set Task Done"
 msgstr ""
 
-#: extension.js:308
+#: ../extension.js:348
 msgid "Modify Task"
 msgstr ""
 
-#: dialogs.js:73
-msgid "Modify:"
-msgstr ""
-
-#: dialogs.js:99
-msgid "%d.%m.%Y %H:%M"
-msgstr ""
-
-#: dialogs.js:110 dialogs.js:225
+#: ../extension.js:426 ../extension.js:456 ../dialogs.js:111 ../dialogs.js:227
 msgid "Sorry, that didn't work. Please try again."
 msgstr ""
 
-#: dialogs.js:118 dialogs.js:237
+#: ../dialogs.js:73
+msgid "Modify:"
+msgstr ""
+
+#: ../dialogs.js:99
+msgid "%d.%m.%Y %H:%M"
+msgstr ""
+
+#: ../dialogs.js:119 ../dialogs.js:244
 msgid "Cancel"
 msgstr ""
 
-#: dialogs.js:123
+#: ../dialogs.js:124
 msgid "Modify"
 msgstr ""
 
-#: dialogs.js:200
+#: ../dialogs.js:163 ../dialogs.js:266
+msgid "A description is required to create a new task!"
+msgstr ""
+
+#: ../dialogs.js:202
 msgid "Create New Task"
 msgstr ""
 
-#: dialogs.js:205
+#: ../dialogs.js:207
 msgid "Enter Description"
 msgstr ""
 
-#: dialogs.js:212
+#: ../dialogs.js:214
 msgid "Enter DueDate"
 msgstr ""
 
-#: dialogs.js:219
+#: ../dialogs.js:221
 msgid "Additional Arguments"
 msgstr ""
 
-#: dialogs.js:242
+#: ../dialogs.js:249
 msgid "Create"
 msgstr ""
