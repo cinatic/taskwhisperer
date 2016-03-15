@@ -153,7 +153,7 @@ const TaskService = new Lang.Class({
             return;
         }
 
-        let shellProc = Gio.Subprocess.new(['task', taskID.toString(), 'done'], Gio.SubprocessFlags.STDERR_MERGE);
+        let shellProc = Gio.Subprocess.new(['task', taskID.toString(), 'done'], Gio.SubprocessFlags.STDOUT_PIPE);
 
         shellProc.wait_async(null, function(obj, result)
         {
