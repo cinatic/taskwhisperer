@@ -6,28 +6,29 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-15 22:33+0100\n"
-"PO-Revision-Date: 2016-02-15 19:06+0100\n"
-"Last-Translator:  <florijanh@gmail.com>\n"
+"POT-Creation-Date: 2016-03-27 13:43+0200\n"
+"PO-Revision-Date: 2016-03-27 13:46+0200\n"
+"Last-Translator: Heiko Adams <heiko.adams@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../extension.js:139
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: ../extension.js:233 ../extension.js:344
 #, javascript-format
 msgid "%d Task"
 msgid_plural "%d Tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Aufgabe"
+msgstr[1] "%d Aufgaben"
 
 #: ../extension.js:245
 msgid "Add new Task"
@@ -39,7 +40,7 @@ msgstr "Daten neu laden"
 
 #: ../extension.js:308 ../dialogs.js:75
 msgid "Identifier:"
-msgstr ""
+msgstr "Identifikator:"
 
 #: ../extension.js:309 ../dialogs.js:76
 msgid "Description:"
@@ -47,23 +48,23 @@ msgstr "Beschreibung:"
 
 #: ../extension.js:310 ../dialogs.js:77
 msgid "Status:"
-msgstr ""
+msgstr "Status:"
 
 #: ../extension.js:314 ../dialogs.js:81
 msgid "Tags:"
-msgstr ""
+msgstr "Tags:"
 
 #: ../extension.js:319
 msgid "Priority:"
-msgstr "PrioritÃ¤t:"
+msgstr "Priorität:"
 
 #: ../extension.js:324 ../dialogs.js:86
 msgid "%H:%M %A %d. %b. %Y"
-msgstr ""
+msgstr "%H:%M %A %d. %b. %Y"
 
 #: ../extension.js:326 ../dialogs.js:88
 msgid "Due:"
-msgstr "FÃ¤lligkeit:"
+msgstr "Fälligkeit:"
 
 #: ../extension.js:338
 msgid "Set Task Done"
@@ -83,7 +84,7 @@ msgstr "Bearbeiten:"
 
 #: ../dialogs.js:99
 msgid "%d.%m.%Y %H:%M"
-msgstr ""
+msgstr "%d.%m.%Y %H:%M"
 
 #: ../dialogs.js:119 ../dialogs.js:244
 msgid "Cancel"
@@ -91,7 +92,7 @@ msgstr "Abbrechen"
 
 #: ../dialogs.js:124
 msgid "Modify"
-msgstr "Ã„ndern"
+msgstr "Ändern"
 
 #: ../dialogs.js:163 ../dialogs.js:266
 msgid "A description is required to create a new task!"
@@ -102,13 +103,12 @@ msgid "Create New Task"
 msgstr "Neuen Eintrag erstellen"
 
 #: ../dialogs.js:207
-#, fuzzy
 msgid "Enter Description"
 msgstr "Beschreibung eingeben"
 
 #: ../dialogs.js:214
 msgid "Enter DueDate"
-msgstr "FÃ¤lligkeit eingeben"
+msgstr "Fälligkeit eingeben"
 
 #: ../dialogs.js:221
 msgid "Additional Arguments"
