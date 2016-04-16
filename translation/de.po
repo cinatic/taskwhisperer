@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-27 13:43+0200\n"
-"PO-Revision-Date: 2016-03-27 13:46+0200\n"
+"POT-Creation-Date: 2016-04-16 23:39+0200\n"
+"PO-Revision-Date: 2016-04-16 23:40+0200\n"
 "Last-Translator: Heiko Adams <heiko.adams@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -19,101 +19,109 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: ../extension.js:139
-msgid "..."
-msgstr "..."
+#: dialogs.js:73
+msgid "Modify:"
+msgstr "Bearbeiten:"
 
-#: ../extension.js:233 ../extension.js:344
+#: dialogs.js:75 extension.js:178 extension.js:183
+msgid "Identifier:"
+msgstr "Identifikator:"
+
+#: dialogs.js:76 extension.js:186
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#: dialogs.js:77 extension.js:187
+msgid "Status:"
+msgstr "Status:"
+
+#: dialogs.js:81 extension.js:191
+msgid "Tags:"
+msgstr "Tags:"
+
+#: dialogs.js:88 extension.js:205
+msgid "Due:"
+msgstr "Fälligkeit:"
+
+#: dialogs.js:111 dialogs.js:227 extension.js:670 extension.js:700
+msgid "Sorry, that didn't work. Please try again."
+msgstr "Ein Problem trat auf. Probieren Sie es nochmal."
+
+#: dialogs.js:119 dialogs.js:244
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: dialogs.js:124
+msgid "Modify"
+msgstr "Ändern"
+
+#: dialogs.js:163 dialogs.js:266
+msgid "A description is required to create a new task!"
+msgstr "Eine Beschreibung ist notwendig um ein Task zu erstellen!"
+
+#: dialogs.js:202
+msgid "Create New Task"
+msgstr "Neuen Eintrag erstellen"
+
+#: dialogs.js:207
+msgid "Enter Description"
+msgstr "Beschreibung eingeben"
+
+#: dialogs.js:214
+msgid "Enter DueDate"
+msgstr "Fälligkeit eingeben"
+
+#: dialogs.js:221
+msgid "Additional Arguments"
+msgstr "Weitere Parameter"
+
+#: dialogs.js:249
+msgid "Create"
+msgstr "Erstellen"
+
+#: extension.js:196
+msgid "Priority:"
+msgstr "Priorität:"
+
+#: extension.js:199
+msgid "Urgency:"
+msgstr "Dringlichkeit:"
+
+#: extension.js:219
+msgid "Set Task Done"
+msgstr "Task erledigt"
+
+#: extension.js:224
+msgid "Modify Task"
+msgstr "Task bearbeiten"
+
+#: extension.js:364
 #, javascript-format
 msgid "%d Task"
 msgid_plural "%d Tasks"
 msgstr[0] "%d Aufgabe"
 msgstr[1] "%d Aufgaben"
 
-#: ../extension.js:245
-msgid "Add new Task"
-msgstr "Neuen Eintrag erstellen"
+#: extension.js:419
+msgid "Active"
+msgstr "Aktiv"
 
-#: ../extension.js:250
-msgid "Reload Task Data"
-msgstr "Daten neu laden"
+#: extension.js:423
+msgid "Completed"
+msgstr "Abgeschlossen"
 
-#: ../extension.js:308 ../dialogs.js:75
-msgid "Identifier:"
-msgstr "Identifikator:"
+#: extension.js:526
+msgid "..."
+msgstr "..."
 
-#: ../extension.js:309 ../dialogs.js:76
-msgid "Description:"
-msgstr "Beschreibung:"
+#~ msgid "Add new Task"
+#~ msgstr "Neuen Eintrag erstellen"
 
-#: ../extension.js:310 ../dialogs.js:77
-msgid "Status:"
-msgstr "Status:"
+#~ msgid "Reload Task Data"
+#~ msgstr "Daten neu laden"
 
-#: ../extension.js:314 ../dialogs.js:81
-msgid "Tags:"
-msgstr "Tags:"
+#~ msgid "%H:%M %A %d. %b. %Y"
+#~ msgstr "%H:%M %A %d. %b. %Y"
 
-#: ../extension.js:319
-msgid "Priority:"
-msgstr "Priorität:"
-
-#: ../extension.js:324 ../dialogs.js:86
-msgid "%H:%M %A %d. %b. %Y"
-msgstr "%H:%M %A %d. %b. %Y"
-
-#: ../extension.js:326 ../dialogs.js:88
-msgid "Due:"
-msgstr "Fälligkeit:"
-
-#: ../extension.js:338
-msgid "Set Task Done"
-msgstr "Task erledigt"
-
-#: ../extension.js:348
-msgid "Modify Task"
-msgstr "Task bearbeiten"
-
-#: ../extension.js:426 ../extension.js:456 ../dialogs.js:111 ../dialogs.js:227
-msgid "Sorry, that didn't work. Please try again."
-msgstr "Ein Problem trat auf. Probieren Sie es nochmal."
-
-#: ../dialogs.js:73
-msgid "Modify:"
-msgstr "Bearbeiten:"
-
-#: ../dialogs.js:99
-msgid "%d.%m.%Y %H:%M"
-msgstr "%d.%m.%Y %H:%M"
-
-#: ../dialogs.js:119 ../dialogs.js:244
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: ../dialogs.js:124
-msgid "Modify"
-msgstr "Ändern"
-
-#: ../dialogs.js:163 ../dialogs.js:266
-msgid "A description is required to create a new task!"
-msgstr "Eine Beschreibung ist notwendig um ein Task zu erstellen!"
-
-#: ../dialogs.js:202
-msgid "Create New Task"
-msgstr "Neuen Eintrag erstellen"
-
-#: ../dialogs.js:207
-msgid "Enter Description"
-msgstr "Beschreibung eingeben"
-
-#: ../dialogs.js:214
-msgid "Enter DueDate"
-msgstr "Fälligkeit eingeben"
-
-#: ../dialogs.js:221
-msgid "Additional Arguments"
-msgstr "Weitere Parameter"
-
-#: ../dialogs.js:249
-msgid "Create"
-msgstr "Erstellen"
+#~ msgid "%d.%m.%Y %H:%M"
+#~ msgstr "%d.%m.%Y %H:%M"
