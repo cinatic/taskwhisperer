@@ -34,10 +34,26 @@ const Convenience = Me.imports.convenience;
 const Gio = imports.gi.Gio;
 const Lang = imports.lang;
 
+const SortOrder = {
+    DUE    : 0,
+    URGENCY: 1
+};
+
+const TaskType = {
+    ACTIVE   : 0,
+    COMPLETED: 1
+};
+
+
 const TaskPriority = {
     LOW   : "L",
     MEDIUM: "M",
     HIGH  : "H"
+};
+
+const TaskStatus = {
+    COMPLETED: "completed",
+    OPEN     : "pending"
 };
 
 
@@ -103,15 +119,29 @@ const Task = new Lang.Class({
         this.Created = taskData[TaskProperties.CREATED];
         this.Due = taskData[TaskProperties.DUE];
         this.Priority = taskData[TaskProperties.PRIORITY];
+
+        this.IsCompleted = this.Status == TaskStatus.COMPLETED;
     }
 });
 
 
 const TaskService = new Lang.Class({
     Name             : "TaskService",
-    loadTaskDataAsync: function(onDataLoaded)
+    loadTaskDataAsync: function(taskType, onDataLoaded)
     {
-        let shellProc = Gio.Subprocess.new(['task', 'rc.json.array=on', 'status:Pending', 'export'], Gio.SubprocessFlags.STDOUT_PIPE);
+        let status = "Pending";
+
+        switch(taskType)
+        {
+            case TaskType.ACTIVE:
+                status = "Pending";
+                break;
+            case TaskType.COMPLETED:
+                status = "Completed";
+                break;
+        }
+
+        let shellProc = Gio.Subprocess.new(['task', 'rc.json.array=on', 'status:' + status, 'export'], Gio.SubprocessFlags.STDOUT_PIPE);
 
         shellProc.wait_async(null, function(obj, result)
         {
