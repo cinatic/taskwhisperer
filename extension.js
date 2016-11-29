@@ -56,6 +56,9 @@ const PopupMenu = imports.ui.popupMenu;
 const TASKWHISPERER_SETTINGS_SCHEMA = 'org.gnome.shell.extensions.taskwhisperer';
 const TASKWHISPERER_DESKTOP_INTERFACE = 'org.gnome.desktop.interface';
 
+const TASKWHISPERER_POSITION_IN_PANEL_KEY = 'position-in-panel';
+const TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync';
+
 
 const MenuPosition = {
     CENTER: 0,
@@ -142,27 +145,27 @@ const ScrollBox = new Lang.Class({
 
         if(task.IsCompleted)
         {
-            gridMenu.icon.icon_name = 'object-select-symbolic';
+            gridMenu.icon.icon_name = 'done';
             gridMenu.icon.add_style_class_name("completed");
         }
         else if(!dueDateAbbreviation)
         {
-            gridMenu.icon.icon_name = 'dialog-warning-symbolic';
+            gridMenu.icon.icon_name = 'warning';
             gridMenu.icon.add_style_class_name("warning");
         }
         else if(task.Priority == taskService.TaskPriority.LOW)
         {
-            gridMenu.icon.icon_name = 'flag-symbolic';
+            gridMenu.icon.icon_name = 'priority_low';
             gridMenu.icon.add_style_class_name("minor");
         }
         else if(task.Priority == taskService.TaskPriority.MEDIUM)
         {
-            gridMenu.icon.icon_name = 'flag-symbolic';
+            gridMenu.icon.icon_name = 'priority_medium';
             gridMenu.icon.add_style_class_name("medium");
         }
         else if(task.Priority == taskService.TaskPriority.HIGH)
         {
-            gridMenu.icon.icon_name = 'flag-symbolic';
+            gridMenu.icon.icon_name = 'priority_high';
             gridMenu.icon.add_style_class_name("urgent");
         }
         else
@@ -170,8 +173,6 @@ const ScrollBox = new Lang.Class({
             gridMenu.icon.icon_name = 'list-remove-symbolic';
             gridMenu.icon.add_style_class_name("hidden");
         }
-
-        log(JSON.stringify(task, null, 4));
 
         if(task.IsCompleted)
         {
@@ -334,40 +335,59 @@ const ScrollBox = new Lang.Class({
         if(refreshCache || !_cacheExpirationTime || _cacheExpirationTime < now)
         {
             _cacheExpirationTime = now + _cacheDurationInSeconds;
-            this.menu.service.loadTaskDataAsync(_currentTaskType, Lang.bind(this, function(data)
+
+            if(this.menu._enable_taskd_sync)
+	    {
+                this.menu.service.syncTasksAsync(Lang.bind(this, function(data)
+                {
+                    log("TaskWhisperer Sync: " + data);
+                    this.menu.service.loadTaskDataAsync(_currentTaskType, Lang.bind(this, function(data)
+		    {
+                        this.processTaskData(afterReloadCallback, data);
+                    }));
+                }));
+            }
+            else
             {
-                let sortFunction = this.menu._sortByDue;
+		this.menu.service.loadTaskDataAsync(_currentTaskType, Lang.bind(this, function(data)
+	        {
+                    this.processTaskData(afterReloadCallback, data);
+                }));
+            }
+        }
+    },
+    processTaskData: function(afterReloadCallback, data)
+    {
+        let sortFunction = this.menu._sortByDue;
 
-                switch(_currentSortID)
+        switch(_currentSortID)
+        {
+            case taskService.SortOrder.DUE:
+                if(_currentTaskType == taskService.TaskType.COMPLETED)
                 {
-                    case taskService.SortOrder.DUE:
-                        if(_currentTaskType == taskService.TaskType.COMPLETED)
-                        {
-                            sortFunction = this.menu._sortByModification;
-                        }
-                        else
-                        {
-                            sortFunction = this.menu._sortByDue;
-                        }
-                        break;
-                    case taskService.SortOrder.URGENCY:
-                        sortFunction = this.menu._sortByUrgency;
-                        break;
+                    sortFunction = this.menu._sortByModification;
                 }
-
-                data.sort(sortFunction);
-
-                _currentItems = data;
-
-                this.loadNextItems(true);
-
-                this.menu._panelButtonLabel.text = ngettext("%d Task", "%d Tasks", data.length).format(data.length);
-
-                if(afterReloadCallback)
+                else
                 {
-                    afterReloadCallback.call(this);
+                    sortFunction = this.menu._sortByDue;
                 }
-            }));
+                break;
+            case taskService.SortOrder.URGENCY:
+                sortFunction = this.menu._sortByUrgency;
+                break;
+        }
+
+        data.sort(sortFunction);
+
+        _currentItems = data;
+
+        this.loadNextItems(true);
+
+        this.menu._panelButtonLabel.text = ngettext("%d Task", "%d Tasks", data.length).format(data.length);
+
+        if(afterReloadCallback)
+        {
+            afterReloadCallback.call(this);
         }
     }
 });
@@ -396,14 +416,22 @@ const HeaderBar = new Lang.Class({
             style_class: "leftBox"
         });
 
-        leftBox.add(Convenience.createActionButton("list-add-symbolic", "hatt", null, Lang.bind(this.menu, function()
+        leftBox.add(Convenience.createActionButton("create", "hatt", null, Lang.bind(this.menu, function()
         {
             this._openTaskCreationDialog();
         })));
 
-        leftBox.add(Convenience.createActionButton("view-refresh-symbolic", "hatt2", "last", Lang.bind(this.menu, function()
+        leftBox.add(Convenience.createActionButton("refresh", "hatt2", null, Lang.bind(this.menu, function()
         {
             this.taskBox.reloadTaskData(true);
+        })));
+
+        leftBox.add(Convenience.createActionButton("settings", "hatt2", "last", Lang.bind(this.menu, function()
+        {
+		this.menu.actor.hide();
+		this.actor.hide();
+                this.actor.show();
+		Util.spawn(["gnome-shell-extension-prefs", "taskwhisperer-extension@infinicode.de"]);
         })));
 
         return leftBox;
@@ -416,11 +444,11 @@ const HeaderBar = new Lang.Class({
         });
 
         let activeClass = taskService.TaskType.ACTIVE == _currentTaskType ? "active" : "";
-        let activeButton = Convenience.createButton(_("Active"), "active", "activeButton " + activeClass, Lang.bind(this, this._toggleTaskType));
+        var activeButton = Convenience.createActionButton("task_open", "hatt3", "activeButton " + activeClass, Lang.bind(this, this._toggleTaskType));
         activeButton.TypeID = taskService.TaskType.ACTIVE;
 
         activeClass = taskService.TaskType.COMPLETED == _currentTaskType ? "active" : "";
-        let closedButton = Convenience.createButton(_("Completed"), "completed", "completedButton " + activeClass, Lang.bind(this, this._toggleTaskType));
+        var closedButton = Convenience.createActionButton("task_done", "hatt3", "completedButton last " + activeClass, Lang.bind(this, this._toggleTaskType));
         closedButton.TypeID = taskService.TaskType.COMPLETED;
 
         middleBox.add(activeButton);
@@ -434,12 +462,12 @@ const HeaderBar = new Lang.Class({
         let rightBox = new St.BoxLayout({style_class: "rightBox"});
 
         let activeClass = taskService.SortOrder.DUE == _currentSortID ? "active" : "";
-        var addIcon = Convenience.createActionButton("appointment-symbolic", "hatt3", activeClass, Lang.bind(this, this._toggleSortIcon));
+        var addIcon = Convenience.createActionButton("sort_time", "hatt3", activeClass, Lang.bind(this, this._toggleSortIcon));
         addIcon.SortID = taskService.SortOrder.DUE;
         rightBox.add(addIcon, {expand: false, x_fill: false, x_align: St.Align.END});
 
         activeClass = taskService.SortOrder.URGENCY == _currentSortID ? "active" : "";
-        var reloadIcon = Convenience.createActionButton("flag-symbolic", "hatt4", "last " + activeClass, Lang.bind(this, this._toggleSortIcon));
+        var reloadIcon = Convenience.createActionButton("sort_priority", "hatt4", "last " + activeClass, Lang.bind(this, this._toggleSortIcon));
         reloadIcon.SortID = taskService.SortOrder.URGENCY;
         rightBox.add(reloadIcon, {expand: false, x_fill: false, x_align: St.Align.END});
 
@@ -505,12 +533,22 @@ const TaskWhispererMenuButton = new Lang.Class({
 
     get _position_in_panel()
     {
-        //if(!this._settings)
-        //{
-        //    this.loadConfig();
-        //}
+        if(!this._settings)
+        {
+            this.loadSettings();
+        }
 
-        return MenuPosition.CENTER;
+        return this._settings.get_enum(TASKWHISPERER_POSITION_IN_PANEL_KEY);
+    },
+
+    get _enable_taskd_sync()
+    {
+        if(!this._settings)
+        {
+            this.loadSettings();
+        }
+
+        return this._settings.get_boolean(TASKWHISPERER_ENABLE_TASKD_SYNC);
     },
 
     _init: function()
@@ -518,7 +556,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         this.switchProvider();
 
         // Load settings
-        // this.loadConfig();
+        this.loadSettings();
 
         // Label
         this._panelButtonLabel = new St.Label({
@@ -549,6 +587,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         this.actor.add_style_class_name('task-whisperer');
 
         let children = null;
+        this._oldPanelPosition = this._position_in_panel;
         switch(this._position_in_panel)
         {
             case MenuPosition.LEFT:
@@ -590,7 +629,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         this.menu.connect('open-state-changed', Lang.bind(this, function(menu, isOpen)
         {
             _isOpen = isOpen;
-            this.taskBox.reloadTaskData(true);
+            this.taskBox.reloadTaskData(false);
         }));
 
         let section = new PopupMenu.PopupMenuSection();
@@ -609,6 +648,40 @@ const TaskWhispererMenuButton = new Lang.Class({
                 this._needsColorUpdate = true;
             }));
         }
+    },
+
+    checkPositionInPanel: function() {
+        if (this._oldPanelPosition != this._position_in_panel) {
+            switch (this._oldPanelPosition) {
+                case MenuPosition.LEFT:
+                    Main.panel._leftBox.remove_actor(this.actor);
+                    break;
+                case MenuPosition.CENTER:
+                    Main.panel._centerBox.remove_actor(this.actor);
+                    break;
+                case MenuPosition.RIGHT:
+                    Main.panel._rightBox.remove_actor(this.actor);
+                    break;
+            }
+
+            let children = null;
+            switch (this._position_in_panel) {
+                case MenuPosition.LEFT:
+                    children = Main.panel._leftBox.get_children();
+                    Main.panel._leftBox.insert_child_at_index(this.actor, children.length);
+                    break;
+                case MenuPosition.CENTER:
+                    children = Main.panel._centerBox.get_children();
+                    Main.panel._centerBox.insert_child_at_index(this.actor, children.length);
+                    break;
+                case MenuPosition.RIGHT:
+                    children = Main.panel._rightBox.get_children();
+                    Main.panel._rightBox.insert_child_at_index(this.actor, 0);
+                    break;
+            }
+            this._oldPanelPosition = this._position_in_panel;
+        }
+
     },
 
     _sortByDue: function(a, b)
@@ -710,6 +783,15 @@ const TaskWhispererMenuButton = new Lang.Class({
         this._createTaskDialog.open(global.get_current_time());
     },
 
+    loadSettings: function()
+    {
+        this._settings = Convenience.getSettings(TASKWHISPERER_SETTINGS_SCHEMA);
+
+        this._settingsC = this._settings.connect("changed", Lang.bind(this, function() {
+        	this.checkPositionInPanel();
+        }));
+    },
+
     switchProvider: function()
     {
         // By now only direct export of taskwarrior is supported
@@ -757,9 +839,11 @@ const TaskWhispererMenuButton = new Lang.Class({
 
 let taskWhispererMenu;
 
-function init()
+function init(extensionMeta)
 {
     Convenience.initTranslations('gnome-shell-extension-taskwhisperer');
+    let theme = imports.gi.Gtk.IconTheme.get_default();
+    theme.append_search_path(extensionMeta.path + "/icons");
 }
 
 function enable()

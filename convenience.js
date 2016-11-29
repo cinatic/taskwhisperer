@@ -40,6 +40,12 @@ const _MS_PER_MINUTE = 1000 * 60 * 1;
 const _MS_PER_HOUR = 1000 * 60 * 60;
 const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
+
+// extensionMeta is the object obtained from the metadata.json file, plus // the path property which is the path of the extension folder!
+function init(extensionMeta) {
+    let theme = imports.gi.Gtk.IconTheme.get_default(); theme.append_search_path(extensionMeta.path + "/icons");
+}
+
 /**
  * initTranslations:
  * @domain: (optional): the gettext domain to use

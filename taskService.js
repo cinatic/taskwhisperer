@@ -283,5 +283,37 @@ const TaskService = new Lang.Class({
             stream = shellProc.get_stdout_pipe();
             stream.read_bytes_async(8192, 1, null, readCB);
         });
+    },
+    syncTasksAsync: function(onDataLoaded)
+    {
+        let shellProc = Gio.Subprocess.new(['task', 'sync'], Gio.SubprocessFlags.STDOUT_PIPE);
+
+        shellProc.wait_async(null, function(obj, result)
+        {
+            let shellProcExited = true;
+            shellProc.wait_finish(result);
+            let buffer = "";
+            var stream;
+
+            function readCB(obj, result)
+            {
+                var bytes = stream.read_bytes_finish(result);
+
+                if(!bytes.get_size())
+                {
+                    buffer = buffer.toString();
+
+                    onDataLoaded(buffer);
+                }
+                else
+                {
+                    buffer = buffer + bytes.get_data();
+                    stream.read_bytes_async(8192, 1, null, readCB);
+                }
+            }
+
+            stream = shellProc.get_stdout_pipe();
+            stream.read_bytes_async(8192, 1, null, readCB);
+        });
     }
 });
