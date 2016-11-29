@@ -6,49 +6,79 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-16 23:39+0200\n"
+"POT-Creation-Date: 2016-11-29 12:54+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 1.8.7.1\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-SearchPath-0: convenience.js\n"
-"X-Poedit-SearchPath-1: dialogs.js\n"
-"X-Poedit-SearchPath-2: extension.js\n"
-"X-Poedit-SearchPath-3: taskService.js\n"
+
+#: extension.js:179 extension.js:184 dialogs.js:75
+msgid "Identifier:"
+msgstr ""
+
+#: extension.js:187 dialogs.js:76
+msgid "Description:"
+msgstr ""
+
+#: extension.js:188 dialogs.js:77
+msgid "Status:"
+msgstr ""
+
+#: extension.js:192 dialogs.js:81
+msgid "Tags:"
+msgstr ""
+
+#: extension.js:197
+msgid "Priority:"
+msgstr ""
+
+#: extension.js:200
+msgid "Urgency:"
+msgstr ""
+
+#: extension.js:204 dialogs.js:86
+msgid "%H:%M %A %d. %b. %Y"
+msgstr ""
+
+#: extension.js:206 dialogs.js:88
+msgid "Due:"
+msgstr ""
+
+#: extension.js:220
+msgid "Set Task Done"
+msgstr ""
+
+#: extension.js:225
+msgid "Modify Task"
+msgstr ""
+
+#: extension.js:386
+#, javascript-format
+msgid "%d Task"
+msgid_plural "%d Tasks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: extension.js:564
+msgid "..."
+msgstr ""
+
+#: extension.js:743 extension.js:773 dialogs.js:111 dialogs.js:227
+msgid "Sorry, that didn't work. Please try again."
+msgstr ""
 
 #: dialogs.js:73
 msgid "Modify:"
 msgstr ""
 
-#: dialogs.js:75 extension.js:178 extension.js:183
-msgid "Identifier:"
-msgstr ""
-
-#: dialogs.js:76 extension.js:186
-msgid "Description:"
-msgstr ""
-
-#: dialogs.js:77 extension.js:187
-msgid "Status:"
-msgstr ""
-
-#: dialogs.js:81 extension.js:191
-msgid "Tags:"
-msgstr ""
-
-#: dialogs.js:88 extension.js:205
-msgid "Due:"
-msgstr ""
-
-#: dialogs.js:111 dialogs.js:227 extension.js:670 extension.js:700
-msgid "Sorry, that didn't work. Please try again."
+#: dialogs.js:99
+msgid "%d.%m.%Y %H:%M"
 msgstr ""
 
 #: dialogs.js:119 dialogs.js:244
@@ -83,37 +113,66 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: extension.js:196
-msgid "Priority:"
+#: settings.ui:46
+msgid "Enable Taskd Syncronization"
 msgstr ""
 
-#: extension.js:199
-msgid "Urgency:"
+#: settings.ui:57
+msgid ""
+"Please make sure taskd is proper configured, otherwise you will get errors "
+"fetching data!"
 msgstr ""
 
-#: extension.js:219
-msgid "Set Task Done"
+#: settings.ui:74
+msgid "Taskwarrior"
 msgstr ""
 
-#: extension.js:224
-msgid "Modify Task"
+#: settings.ui:97
+msgid "Position in Panel"
 msgstr ""
 
-#: extension.js:364
-#, javascript-format
-msgid "%d Task"
-msgid_plural "%d Tasks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: extension.js:419
-msgid "Active"
+#: settings.ui:111
+msgid "Center"
 msgstr ""
 
-#: extension.js:423
-msgid "Completed"
+#: settings.ui:112
+msgid "Right"
 msgstr ""
 
-#: extension.js:526
-msgid "..."
+#: settings.ui:113
+msgid "Left"
+msgstr ""
+
+#: settings.ui:131
+msgid "Layout"
+msgstr ""
+
+#: settings.ui:183
+msgid "Version: "
+msgstr ""
+
+#: settings.ui:197
+msgid "unknown (self-build ?)"
+msgstr ""
+
+#: settings.ui:217
+msgid ""
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
+"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
+"upcoming tasks and task details as well as to create and modify them.</span>"
+msgstr ""
+
+#: settings.ui:240
+msgid "Maintained by"
+msgstr ""
+
+#: settings.ui:291
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
+"License, version 3 or later</a> for details.</span>"
+msgstr ""
+
+#: settings.ui:312
+msgid "About"
 msgstr ""
