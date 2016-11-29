@@ -1,14 +1,8 @@
-# German translations for PACKAGE package
-# German translation for PACKAGE.
-# Copyright (C) 2016 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-#  <florijanh@gmail.com>, 2016.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-16 23:39+0200\n"
+"POT-Creation-Date: 2016-11-29 12:54+0800\n"
 "PO-Revision-Date: 2016-04-16 23:40+0200\n"
 "Last-Translator: Heiko Adams <heiko.adams@gmail.com>\n"
 "Language-Team: German\n"
@@ -19,33 +13,68 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
+#: extension.js:179 extension.js:184 dialogs.js:75
+msgid "Identifier:"
+msgstr "Identifikator:"
+
+#: extension.js:187 dialogs.js:76
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#: extension.js:188 dialogs.js:77
+msgid "Status:"
+msgstr "Status:"
+
+#: extension.js:192 dialogs.js:81
+msgid "Tags:"
+msgstr "Tags:"
+
+#: extension.js:197
+msgid "Priority:"
+msgstr "Priorität:"
+
+#: extension.js:200
+msgid "Urgency:"
+msgstr "Dringlichkeit:"
+
+#: extension.js:204 dialogs.js:86
+msgid "%H:%M %A %d. %b. %Y"
+msgstr ""
+
+#: extension.js:206 dialogs.js:88
+msgid "Due:"
+msgstr "Fälligkeit:"
+
+#: extension.js:220
+msgid "Set Task Done"
+msgstr "Task erledigt"
+
+#: extension.js:225
+msgid "Modify Task"
+msgstr "Task bearbeiten"
+
+#: extension.js:386
+#, javascript-format
+msgid "%d Task"
+msgid_plural "%d Tasks"
+msgstr[0] "%d Aufgabe"
+msgstr[1] "%d Aufgaben"
+
+#: extension.js:564
+msgid "..."
+msgstr "..."
+
+#: extension.js:743 extension.js:773 dialogs.js:111 dialogs.js:227
+msgid "Sorry, that didn't work. Please try again."
+msgstr "Ein Problem trat auf. Probieren Sie es nochmal."
+
 #: dialogs.js:73
 msgid "Modify:"
 msgstr "Bearbeiten:"
 
-#: dialogs.js:75 extension.js:178 extension.js:183
-msgid "Identifier:"
-msgstr "Identifikator:"
-
-#: dialogs.js:76 extension.js:186
-msgid "Description:"
-msgstr "Beschreibung:"
-
-#: dialogs.js:77 extension.js:187
-msgid "Status:"
-msgstr "Status:"
-
-#: dialogs.js:81 extension.js:191
-msgid "Tags:"
-msgstr "Tags:"
-
-#: dialogs.js:88 extension.js:205
-msgid "Due:"
-msgstr "Fälligkeit:"
-
-#: dialogs.js:111 dialogs.js:227 extension.js:670 extension.js:700
-msgid "Sorry, that didn't work. Please try again."
-msgstr "Ein Problem trat auf. Probieren Sie es nochmal."
+#: dialogs.js:99
+msgid "%d.%m.%Y %H:%M"
+msgstr ""
 
 #: dialogs.js:119 dialogs.js:244
 msgid "Cancel"
@@ -79,49 +108,72 @@ msgstr "Weitere Parameter"
 msgid "Create"
 msgstr "Erstellen"
 
-#: extension.js:196
-msgid "Priority:"
-msgstr "Priorität:"
+#: settings.ui:46
+msgid "Enable Taskd Syncronization"
+msgstr "Task Syncronisierung aktivieren"
 
-#: extension.js:199
-msgid "Urgency:"
-msgstr "Dringlichkeit:"
+#: settings.ui:57
+msgid ""
+"Please make sure taskd is proper configured, otherwise you will get errors "
+"fetching data!"
+msgstr "Please make sure taskd is proper configured, otherwise you will get errors fetching data!"
 
-#: extension.js:219
-msgid "Set Task Done"
-msgstr "Task erledigt"
+#: settings.ui:74
+msgid "Taskwarrior"
+msgstr ""
 
-#: extension.js:224
-msgid "Modify Task"
-msgstr "Task bearbeiten"
+#: settings.ui:97
+msgid "Position in Panel"
+msgstr "Position"
 
-#: extension.js:364
-#, javascript-format
-msgid "%d Task"
-msgid_plural "%d Tasks"
-msgstr[0] "%d Aufgabe"
-msgstr[1] "%d Aufgaben"
+#: settings.ui:111
+msgid "Center"
+msgstr "Mittig"
 
-#: extension.js:419
-msgid "Active"
-msgstr "Aktiv"
+#: settings.ui:112
+msgid "Right"
+msgstr "Rechts"
 
-#: extension.js:423
-msgid "Completed"
-msgstr "Abgeschlossen"
+#: settings.ui:113
+msgid "Left"
+msgstr "Links"
 
-#: extension.js:526
-msgid "..."
-msgstr "..."
+#: settings.ui:131
+msgid "Layout"
+msgstr "Layout"
 
-#~ msgid "Add new Task"
-#~ msgstr "Neuen Eintrag erstellen"
+#: settings.ui:183
+msgid "Version: "
+msgstr "Version: "
 
-#~ msgid "Reload Task Data"
-#~ msgstr "Daten neu laden"
+#: settings.ui:197
+msgid "unknown (self-build ?)"
+msgstr ""
 
-#~ msgid "%H:%M %A %d. %b. %Y"
-#~ msgstr "%H:%M %A %d. %b. %Y"
+#: settings.ui:217
+msgid ""
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
+"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
+"upcoming tasks and task details as well as to create and modify them.</span>"
+msgstr "<span>Taskwhisperer is a extension for TaskWarrior Application <a href=\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display upcoming tasks and task details as well as to create and modify them.</span>"
 
-#~ msgid "%d.%m.%Y %H:%M"
-#~ msgstr "%d.%m.%Y %H:%M"
+#: settings.ui:240
+msgid "Maintained by"
+msgstr "Maintained von"
+
+#: settings.ui:291
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
+"License, version 3 or later</a> for details.</span>"
+msgstr "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\nSee the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public License, version 3 or later</a> for details.</span>"
+
+#: settings.ui:312
+msgid "About"
+msgstr ""
+
+#~ msgid "Active"
+#~ msgstr "Aktiv"
+
+#~ msgid "Completed"
+#~ msgstr "Abgeschlossen"
