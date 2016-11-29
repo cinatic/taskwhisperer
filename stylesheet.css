@@ -8,6 +8,7 @@
 }
 
 .headerBar .system-menu-action {
+        border: 1px solid #282c2c;
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
@@ -17,10 +18,15 @@
 
 .headerBar .system-menu-action:focus,
 .headerBar .system-menu-action:hover {
-	color: #07a0c6;
-	border: 1px solid #282c2c;
+	background: #07a0c6;
 	padding: 8px;
 	border-right: 0;
+}
+
+.headerBar .system-menu-action,
+.headerBar .system-menu-action svg{
+   fill: #fff !important;
+   color: #fff !important;
 }
 
 .headerBar .system-menu-action.last:focus,
@@ -32,6 +38,7 @@
 .headerBar .system-menu-action.active:focus,
 .headerBar .system-menu-action.active:hover,
 .headerBar .system-menu-action.active {
+	background-color: #077391;
 	color: white;
 }
 
@@ -95,7 +102,7 @@
 .taskDataRow {
 	padding: 3px;
 	width: 450px;
-	height: 20px;
+	/*height: 20px;*/
 }
 
 .taskDataRow .rowValue {

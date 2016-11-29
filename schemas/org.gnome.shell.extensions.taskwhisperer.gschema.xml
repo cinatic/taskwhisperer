@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="gnome-shell-extension-taskwhisperer">
+  <enum id="org.gnome.shell.extensions.taskwhisperer.position">
+    <value value="0" nick="center"/>
+    <value value="1" nick="right"/>
+    <value value="2" nick="left"/>
+  </enum>
+  <schema path="/org/gnome/shell/extensions/taskwhisperer/" id="org.gnome.shell.extensions.taskwhisperer">
+    <key name="position-in-panel" enum="org.gnome.shell.extensions.taskwhisperer.position">
+      <default>'center'</default>
+      <summary>Position in Panel</summary>
+    </key>
+    <key name="enable-taskd-sync" type="b">
+      <default>false</default>
+      <summary>Enable Task Server Syncronization</summary>
+    </key>
+  </schema>
+</schemalist>
