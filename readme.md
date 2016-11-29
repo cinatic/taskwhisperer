@@ -19,7 +19,12 @@ Move files into your locale (~/.locale/share/gnome-shell/extension) directory an
 
 ## Preparation
 
-Make sure you have TaskWarrior installed
+Make sure you have TaskWarrior installed.
+
+### Task Server Syncronization
+If you like to use Taskwarrior on multiple devices and keep your tasks everywhere in sync then you can now enable the **Enable Task Sync** option in the Extension Settings.
+
+[Here you can find how to setup the server: https://taskwarrior.org/docs/taskserver/setup.html](https://taskwarrior.org/docs/taskserver/setup.html)
 
 ## Preview
 
@@ -28,6 +33,9 @@ Make sure you have TaskWarrior installed
 
 ### Task modification
 ![Screenshot](https://github.com/cinatic/taskwhisperer/raw/master/images/modify.png)
+
+### Settings
+![Screenshot](https://github.com/cinatic/taskwhisperer/raw/master/images/settings.png)
 
 ## Troubleshooting
 
@@ -56,4 +64,5 @@ This file is part of *gnome-shell-extension-taskwhisperer*.
 *gnome-shell-extension-taskwhisperer* is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with *gnome-shell-extension-taskwhisperer*.  If not, see <http://www.gnu.org/licenses/>.
+
 
