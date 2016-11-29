@@ -36,6 +36,13 @@ Make sure you have TaskWarrior installed
 
 Some TaskWarrior packages (e.g. in GnUbuntu) came without opt.in the json.array=on flag. So you have to add json.array=on in your [*~/.taskrc*](https://taskwarrior.org/docs/configuration.html)
 
+## [icons8.com](https://www.icons8.com)
+Finally i added the beatiful and dank svg icons from [icons8.com](https://www.icons8.com). 
+
+You are the real MVP, such beautiness, many strokes, so much awesome, WOW!
+
+:heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :point_right: [icons8.com](https://www.icons8.com) :point_left: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart: :heart:
+
 ## Licence
 
 Copyright (C) 2016
