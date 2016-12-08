@@ -15,7 +15,7 @@ Go on the [TaskWhisperer](https://extensions.gnome.org/extension/1039/taskwhispe
 
 ### Generic (Local installation)
 
-Move files into your locale (~/.locale/share/gnome-shell/extension) directory and enable the extension via the Tweak Tool
+Move files into your locale (~/.locale/share/gnome-shell/extension/taskwhisperer-extension@infinicode.de) directory and enable the extension via the Tweak Tool, it is **important** to move it to **taskwhisperer-extension@infinicode.de** otherwise the extension will not be recognized by gnome.
 
 ## Preparation
 
