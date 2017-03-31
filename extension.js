@@ -139,9 +139,14 @@ const ScrollBox = new Lang.Class({
             description = "⭐ " + description;
         }
         let gridMenu = new PopupMenu.PopupSubMenuMenuItem(description, true);
-        gridMenu.actor.add_style_class_name("taskGrid");
         if (task.started){
-            gridMenu.actor.add_style_class_name("active");
+            gridMenu.actor.add_style_class_name("activeTask");
+            icon = new St.Icon();
+            icon.icon_name = 'in_progress';
+            icon.set_icon_size(19);
+            gridMenu.actor.insert_child_at_index(icon, 1);
+        } else {
+            gridMenu.actor.add_style_class_name("taskGrid");
         }
         gridMenu.menu.box.add_style_class_name("taskGridInner");
         gridMenu.menu._needsScrollbar = function()

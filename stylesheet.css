@@ -90,7 +90,7 @@
 	color: #13d000;
 }
 
-.taskGrid .active
+.activeTask{
 	background-color: rgba(255, 128, 0, 0.5);
 	color: orange;
 }
