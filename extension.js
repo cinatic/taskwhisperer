@@ -135,8 +135,14 @@ const ScrollBox = new Lang.Class({
         let dueDateAbbreviation = task.DueDateAbbreviation;
 
         let description = (dueDateAbbreviation ? dueDateAbbreviation + "  " : "") + task.Description
+        if (task.started){
+            description = "⭐ " + description;
+        }
         let gridMenu = new PopupMenu.PopupSubMenuMenuItem(description, true);
         gridMenu.actor.add_style_class_name("taskGrid");
+        if (task.started){
+            gridMenu.actor.add_style_class_name("active");
+        }
         gridMenu.menu.box.add_style_class_name("taskGridInner");
         gridMenu.menu._needsScrollbar = function()
         {
@@ -217,6 +223,18 @@ const ScrollBox = new Lang.Class({
 
         if(!task.IsCompleted)
         {
+            let _markStartStopButton;
+            if (task.started){
+                // El Stop task hacerlo con fondo rojo. Y si eso, el botón de start con fondo verde.
+                _markStartStopButton = Convenience.createButton(_("Stop task"), "stopTask", "stopTask", Lang.bind(this, function() {
+                    this.emit('startStop', task);
+                }));
+            } else {
+                _markStartStopButton = Convenience.createButton(_("Start task"), "startTask", "startTask", Lang.bind(this, function() {
+                    this.emit('startStop', task);
+                }));
+            }
+
             let _markDoneButton = Convenience.createButton(_("Set Task Done"), "doneTask", "doneTask", Lang.bind(this, function()
             {
                 this.emit('setDone', task);
@@ -227,6 +245,7 @@ const ScrollBox = new Lang.Class({
                 this.emit('modify', task);
             }));
 
+            buttonBox.add(_markStartStopButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
             buttonBox.add(_markDoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
             buttonBox.add(_modifyButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
         }
@@ -561,7 +580,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         // Label
         this._panelButtonLabel = new St.Label({
             y_align: Clutter.ActorAlign.CENTER,
-            text   : _('...')
+            text   : _('…')
         });
 
         // Panel menu item - the current class
@@ -615,6 +634,21 @@ const TaskWhispererMenuButton = new Lang.Class({
 
         this.taskBox = new ScrollBox(this, "");
         this._renderPanelMenuHeaderBox();
+
+        this.taskBox.connect('startStop', Lang.bind(this, function(that, task){
+            // log("started: " + task.started);
+            if (!task.started){
+                this.service.startTask(task.ID, Lang.bind(this, function(){
+                    // log("startTask " + task.ID + "(" + task.Start + ")");
+                    this.taskBox.reloadTaskData(true);
+                }));
+            } else {
+                this.service.stopTask(task.ID, Lang.bind(this, function(){
+                    // log("stopTask " + task.ID + "(" + task.Start + ")");
+                    this.taskBox.reloadTaskData(true);
+                }));
+            }
+        }));
 
         this.taskBox.connect("setDone", Lang.bind(this, function(that, task)
         {
