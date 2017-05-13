@@ -26,6 +26,10 @@
  */
 
 
+const Shell = imports.gi.Shell;
+const Gettext = imports.gettext;
+const _ = Gettext.gettext;
+
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const EXTENSIONDIR = Me.dir.get_path();
@@ -68,18 +72,51 @@ const TaskProperties = {
     CREATED    : "entry",
     DUE        : "due",
     PRIORITY   : "priority",
-    START      : "start"
+    START      : "start",
+    PROJECT    : "project",
+    ANNOTATIONS: "annotations"
 };
+
+const EmptyProject = "(none)";
 
 
 const Task = new Lang.Class({
     Name: 'Task',
 
+    get AnnotationsAsString()
+    {
+        let that = this;
+        let dateFormat = Shell.util_translate_time_string(N_("%H:%M:%S %d. %b. %Y"));
+
+        if(!this._annotationsAsString && this.Annotations)
+        {
+            this._annotationsAsString = "";
+            this.Annotations.forEach(function(item, index)
+            {
+                let entryDate = Convenience.isoToDate(item.entry);
+                let dateText = entryDate.toLocaleFormat(dateFormat);
+
+                if(index != 0)
+                {
+                    that._annotationsAsString += "\r\n";
+                }
+
+                if(item.description)
+                {
+                    that._annotationsAsString += dateText + "\r\n" + item.description;
+                }
+            });
+        }
+
+        return this._annotationsAsString;
+    },
+
     get TagsAsString()
     {
         if(!this._tagsAsString)
         {
-            this._tagsAsString = (this.Tags || []).join(", ");
+            this._tagsAsString = this._tagsAsString || [];
+            this._tagsAsString = this._tagsAsString.join("\r\n ");
         }
 
         return this._tagsAsString;
@@ -105,9 +142,10 @@ const Task = new Lang.Class({
         return this._dueDateAbbreviation;
     },
 
-
-    get started(){
-        if (!this._started){
+    get Started()
+    {
+        if(!this._started)
+        {
             this._started = this.Start != null;
         }
         return this._started;
@@ -121,6 +159,8 @@ const Task = new Lang.Class({
         this.UUID = taskData[TaskProperties.UUID];
         this.Description = taskData[TaskProperties.DESCRIPTION];
         this.Tags = taskData[TaskProperties.TAGS];
+        this.Annotations = taskData[TaskProperties.ANNOTATIONS];
+        this.Project = taskData[TaskProperties.PROJECT];
         this.Status = taskData[TaskProperties.STATUS];
         this.Urgency = taskData[TaskProperties.URGENCY];
         this.Modified = taskData[TaskProperties.MODIFIED];
@@ -135,33 +175,35 @@ const Task = new Lang.Class({
 
 
 const TaskService = new Lang.Class({
-    Name             : "TaskService",
-    loadTaskDataAsync: function(taskType, onDataLoaded)
+    Name                 : "TaskService",
+    loadTaskDataAsync    : function(taskType, projectName, onDataLoaded)
     {
         let status = "Pending";
 
         switch(taskType)
         {
             case TaskType.ACTIVE:
-                status = "Pending";
+                status = "status:Pending";
                 break;
             case TaskType.COMPLETED:
-                status = "Completed";
+                status = "status:Completed";
                 break;
         }
 
-        let shellProc = Gio.Subprocess.new(['task', 'rc.json.array=on', 'status:' + status, 'export'], Gio.SubprocessFlags.STDOUT_PIPE);
+        let project = projectName ? "project:" + projectName : "";
+
+        let shellProc = Gio.Subprocess.new(['task', 'rc.json.array=on', status, project, 'export'], Gio.SubprocessFlags.STDOUT_PIPE);
 
         shellProc.wait_async(null, function(obj, result)
         {
             let shellProcExited = true;
             shellProc.wait_finish(result);
             let buffer = "";
-            var stream;
+            let stream;
 
             function readCB(obj, result)
             {
-                var bytes = stream.read_bytes_finish(result);
+                let bytes = stream.read_bytes_finish(result);
 
                 if(!bytes.get_size())
                 {
@@ -185,7 +227,63 @@ const TaskService = new Lang.Class({
             stream.read_bytes_async(8192, 1, null, readCB);
         });
     },
-    setTaskDone      : function(taskID, cb)
+    loadProjectsDataAsync: function(taskType, onDataLoaded)
+    {
+        let status = "Pending";
+
+        switch(taskType)
+        {
+            case TaskType.ACTIVE:
+                status = "status:Pending";
+                break;
+            case TaskType.COMPLETED:
+                status = "status:Completed";
+                break;
+        }
+
+        let shellProc = Gio.Subprocess.new(['task', status, 'projects'], Gio.SubprocessFlags.STDOUT_PIPE);
+
+        shellProc.wait_async(null, function(obj, result)
+        {
+            let shellProcExited = true;
+            shellProc.wait_finish(result);
+            let buffer = "";
+            let stream;
+
+            function readCB(obj, result)
+            {
+                let bytes = stream.read_bytes_finish(result);
+
+                if(!bytes.get_size())
+                {
+                    buffer = buffer.toString();
+                    let projects = {};
+                    buffer.split("\n").forEach(function(line)
+                    {
+                        let values = line.split(" ").filter(value => value);
+                        if(values.length !== 2 || isNaN(parseInt(values[1])))
+                        {
+                            return;
+                        }
+
+                        projects[values[0]] = values[1];
+
+                    });
+
+                    onDataLoaded(projects);
+                }
+                else
+                {
+                    buffer = buffer + bytes.get_data();
+                    stream.read_bytes_async(8192, 1, null, readCB);
+                }
+            }
+
+            stream = shellProc.get_stdout_pipe();
+            stream.read_bytes_async(8192, 1, null, readCB);
+        });
+    },
+    setTaskDone          : function(taskID, cb)
     {
         if(!taskID)
         {
@@ -202,7 +300,7 @@ const TaskService = new Lang.Class({
 
             function readCB(obj, result)
             {
-                var bytes = stream.read_bytes_finish(result);
+                let bytes = stream.read_bytes_finish(result);
 
                 if(!bytes.get_size())
                 {
@@ -220,53 +318,71 @@ const TaskService = new Lang.Class({
             stream.read_bytes_async(8192, 1, null, readCB);
         });
     },
-    startTask        : function(taskID, cb){
-        if (!taskID){
+    startTask            : function(taskID, cb)
+    {
+        if(!taskID)
+        {
             return;
         }
         let shellProc = Gio.Subprocess.new(['task', taskID.toString(), 'start'], Gio.SubprocessFlags.STDOUT_PIPE);
-        shellProc.wait_async(null, function(obj, result){
+        shellProc.wait_async(null, function(obj, result)
+        {
             let shellProcExited = true;
             shellProc.wait_finish(result);
             let buffer = "";
-            function readCB(obj, result){
-                var bytes = stream.read_bytes_finish(result);
-                if(!bytes.get_size()){
+
+            function readCB(obj, result)
+            {
+                let bytes = stream.read_bytes_finish(result);
+                if(!bytes.get_size())
+                {
                     buffer = buffer.toString();
                     cb();
-                } else {
+                }
+                else
+                {
                     buffer = buffer + bytes.get_data();
                     stream.read_bytes_async(8192, 1, null, readCB);
                 }
             }
+
             stream = shellProc.get_stdout_pipe();
             stream.read_bytes_async(8192, 1, null, readCB);
         });
     },
-    stopTask         : function(taskID, cb){
-        if (!taskID){
+    stopTask             : function(taskID, cb)
+    {
+        if(!taskID)
+        {
             return;
         }
         let shellProc = Gio.Subprocess.new(['task', taskID.toString(), 'stop'], Gio.SubprocessFlags.STDOUT_PIPE);
-        shellProc.wait_async(null, function(obj, result){
+        shellProc.wait_async(null, function(obj, result)
+        {
             let shellProcExited = true;
             shellProc.wait_finish(result);
             let buffer = "";
-            function readCB(obj, result){
-                var bytes = stream.read_bytes_finish(result);
-                if(!bytes.get_size()){
+
+            function readCB(obj, result)
+            {
+                let bytes = stream.read_bytes_finish(result);
+                if(!bytes.get_size())
+                {
                     buffer = buffer.toString();
                     cb();
-                } else {
+                }
+                else
+                {
                     buffer = buffer + bytes.get_data();
                     stream.read_bytes_async(8192, 1, null, readCB);
                 }
             }
+
             stream = shellProc.get_stdout_pipe();
             stream.read_bytes_async(8192, 1, null, readCB);
         });
     },
-    modifyTask       : function(taskID, params, cb)
+    modifyTask           : function(taskID, params, cb)
     {
         if(!taskID)
         {
@@ -286,7 +402,7 @@ const TaskService = new Lang.Class({
 
             function readCB(obj, result)
             {
-                var bytes = stream.read_bytes_finish(result);
+                let bytes = stream.read_bytes_finish(result);
 
                 if(!bytes.get_size())
                 {
@@ -305,7 +421,7 @@ const TaskService = new Lang.Class({
             stream.read_bytes_async(8192, 1, null, readCB);
         });
     },
-    createTask       : function(params, cb)
+    createTask           : function(params, cb)
     {
         // FIXME: Gio.Subprocess: due to only passing string vector is allowed, it's not possible to directly pass the
         //        input of the user to subprocess (why & how, if you can answer then please send msg to fh@infinicode.de)
@@ -320,7 +436,7 @@ const TaskService = new Lang.Class({
 
             function readCB(obj, result)
             {
-                var bytes = stream.read_bytes_finish(result);
+                let bytes = stream.read_bytes_finish(result);
 
                 if(!bytes.get_size())
                 {
@@ -339,7 +455,7 @@ const TaskService = new Lang.Class({
             stream.read_bytes_async(8192, 1, null, readCB);
         });
     },
-    syncTasksAsync: function(onDataLoaded)
+    syncTasksAsync       : function(onDataLoaded)
     {
         let shellProc = Gio.Subprocess.new(['task', 'sync'], Gio.SubprocessFlags.STDOUT_PIPE);
 
@@ -348,11 +464,11 @@ const TaskService = new Lang.Class({
             let shellProcExited = true;
             shellProc.wait_finish(result);
             let buffer = "";
-            var stream;
+            let stream;
 
             function readCB(obj, result)
             {
-                var bytes = stream.read_bytes_finish(result);
+                let bytes = stream.read_bytes_finish(result);
 
                 if(!bytes.get_size())
                 {

@@ -1,8 +1,7 @@
 /* jshint esnext:true */
 /* -*- mode: js -*- */
 /*
- Copyright (c) 2011-2012,   Giovanni Campagna <scampa.giovanni@gmail.com>
- 2016,        Florijan Hamzic <florijanh@gmail.com>
+ Copyright (c) 2007 Florijan Hamzic <florijanh@gmail.com>
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -31,7 +30,6 @@ const Gettext = imports.gettext;
 const Lang = imports.lang;
 
 const Gio = imports.gi.Gio;
-const St = imports.gi.St;
 
 const Config = imports.misc.config;
 const ExtensionUtils = imports.misc.extensionUtils;
@@ -166,45 +164,4 @@ function getBestTimeAbbreviation(a, b)
     }
 
     return result;
-}
-
-function createActionButton(iconName, accessibleName, classes, onClick)
-{
-    classes = classes || "";
-
-    let icon = new St.Button({
-        reactive       : true,
-        can_focus      : true,
-        track_hover    : true,
-        accessible_name: accessibleName,
-        style_class    : 'system-menu-action ' + classes
-    });
-
-    icon.child = new St.Icon({icon_name: iconName});
-
-    if(onClick)
-    {
-        icon.connect('clicked', Lang.bind(this, onClick));
-    }
-
-    return icon;
-}
-
-function createButton(text, accessibleName, classes, onClick)
-{
-    let button = new St.Button({
-        reactive       : true,
-        can_focus      : true,
-        track_hover    : true,
-        label          : text,
-        accessible_name: accessibleName,
-        style_class    : 'popup-menu-item button ' + classes
-    });
-
-    if(onClick)
-    {
-        button.connect('clicked', Lang.bind(this, onClick));
-    }
-
-    return button;
 }

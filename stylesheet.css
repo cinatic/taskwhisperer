@@ -8,7 +8,7 @@
 }
 
 .headerBar .system-menu-action {
-        border: 1px solid #282c2c;
+	border: 1px solid #282c2c;
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
@@ -21,12 +21,6 @@
 	background: #07a0c6;
 	padding: 8px;
 	border-right: 0;
-}
-
-.headerBar .system-menu-action,
-.headerBar .system-menu-action svg{
-   fill: #fff !important;
-   color: #fff !important;
 }
 
 .headerBar .system-menu-action.last:focus,
@@ -59,6 +53,48 @@
 	background-color: #077391;
 }
 
+.projectScrollBox {
+	width: 300px;
+	margin-left: 20px;
+}
+
+.projectScrollBox .projectButton {
+	width: 50px;
+}
+
+.projectScrollBox .projectButton {
+	border: 1px solid #282c2c;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	border-right: 0;
+	padding: 4px 8px;
+}
+
+.projectScrollBox .projectButton:focus,
+.projectScrollBox .projectButton:hover {
+	background: #07a0c6;
+	padding: 4px 8px;
+	border-right: 0;
+}
+
+.projectScrollBox .projectButton.last:focus,
+.projectScrollBox .projectButton.last:hover,
+.projectScrollBox .projectButton.last {
+	border-right: 1px;
+}
+
+.projectScrollBox .projectButton.active:focus,
+.projectScrollBox .projectButton.active:hover,
+.projectScrollBox .projectButton.active {
+	background-color: #077391;
+	color: white;
+}
+
+.projectScrollBox .projectButton.active {
+	background-color: #077391;
+}
+
 .scrollBox {
 	margin-top: 5px;
 	height: 500px;
@@ -86,17 +122,21 @@
 	color: #ff5b00;
 }
 
-.taskGrid .completed{
+.taskGrid .completed {
 	color: #13d000;
 }
 
-.activeTask{
-	background-color: rgba(255, 128, 0, 0.5);
+.activeTask {
+	overflow: hidden;
+	border: 1px solid rgba(255, 128, 0, 0.5);
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
 	color: orange;
 }
 
-.button-container{
-	padding: 5px 0 0 25px;
+.button-container {
+	padding: 5px 0 0 0;
 }
 
 .taskDataRowMenuItem {
@@ -115,12 +155,12 @@
 }
 
 .buttonBox {
-	width: 450px;
+	width: 400px;
 	margin-bottom: 5px;
 }
 
 .buttonBox .button {
-	margin-right: 10px;
+	margin: 10px 3px;
 }
 
 .button:hover {
@@ -158,9 +198,10 @@
 }
 
 .stopTask {
-	background: red;
+	background: #af0000;
 }
 
 .startTask {
 	background: green;
 }
+
