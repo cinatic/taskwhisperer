@@ -113,10 +113,9 @@ const Task = new Lang.Class({
 
     get TagsAsString()
     {
-        if(!this._tagsAsString)
+        if(!this._tagsAsString && this.Tags)
         {
-            this._tagsAsString = this._tagsAsString || [];
-            this._tagsAsString = this._tagsAsString.join("\r\n ");
+            this._tagsAsString = (this.Tags || []).join("\r\n ");
         }
 
         return this._tagsAsString;
