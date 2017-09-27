@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="220"
+   height="220"
+   viewBox="0 0 219.99999 219.99999"
+   id="svg3504"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="taskwarrior_head.svg"
+   inkscape:export-filename="/home/nicolas/Projects/Sailfish/Sailfish-Taskwarrior-GUI/taskwarrior_head.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs3506" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.56"
+     inkscape:cx="107.78442"
+     inkscape:cy="107.45077"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     inkscape:window-width="1364"
+     inkscape:window-height="750"
+     inkscape:window-x="0"
+     inkscape:window-y="16"
+     inkscape:window-maximized="1"
+     units="px"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata3509">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Background"
+     style="display:none"
+     transform="translate(0,-832.36227)">
+    <rect
+       style="fill:#b3b3b3;fill-opacity:1"
+       id="rect4380"
+       width="218.66646"
+       height="219.07686"
+       x="0.80451554"
+       y="833.40643" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-832.36227)">
+    <g
+       id="g3417"
+       transform="translate(-855.71474,879.03455)">
+      <path
+         style="fill:#ffffff;fill-opacity:1"
+         d="m 942.08347,150.98486 c -13.45183,-7.28749 -40.10468,-29.65574 -39.06922,-32.78858 8.07022,-24.4166 11.24846,-39.378643 11.32395,-53.308908 0.0477,-8.371454 -0.35833,-10.870813 -3.08853,-19.128978 -2.8849,-8.725531 -3.09419,-10.176709 -2.56904,-17.81485 1.85663,-27.00217517 15.06215,-45.332468 37.73615,-52.380592 9.01344,-2.801802 27.70335,-2.934226 37.07418,-0.262697 18.51524,5.278574 30.40014,16.6112928 36.22954,34.5465535 2.1136,6.5028085 2.5719,9.7619275 2.6618,18.9293705 0.096,9.818024 -0.1597,11.674825 -2.2563,16.3704 -1.9841,4.443388 -2.426,7.17579 -2.7437,16.967207 -0.4379,13.499695 1.5822,26.125725 7.0845,44.278704 1.8263,6.02512 3.3206,11.56246 3.3206,12.30522 0,1.57469 -13.9261,14.98251 -21.9318,21.1156 -10.6838,8.18479 -23.33781,15.11125 -27.60697,15.11125 l -2.46144,0 0,-39.30943 0,-39.309408 14.81557,-10.886661 c 14.31494,-10.518867 14.83344,-11.020191 15.34554,-14.838923 0.2917,-2.173728 0.4494,-4.03274 0.3513,-4.131128 -0.099,-0.09841 -7.76229,1.079312 -17.03091,2.617096 -20.95344,3.476506 -27.13265,3.474851 -47.66675,-0.01294 -9.00369,-1.529235 -16.51193,-2.63953 -16.68489,-2.467317 -0.17297,0.17221 0.0493,2.152005 0.49355,4.399545 0.76682,3.877681 1.52086,4.61295 14.75901,14.391918 l 13.95088,10.305426 0.25156,39.620792 0.25155,39.62081 -2.65886,-0.0133 c -1.46235,-0.008 -5.90884,-1.77419 -9.88105,-3.92614 z"
+         id="path3502"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="csccsssssccsssscccsccsscsscccccc" />
+    </g>
+  </g>
+</svg>

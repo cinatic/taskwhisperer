@@ -14,5 +14,25 @@
       <default>false</default>
       <summary>Enable Task Server Syncronization</summary>
     </key>
+    <key name="show-no-dates-at-end" type="b">
+      <default>false</default>
+      <summary>Show Tasks w/ no due at end of list</summary>
+    </key>
+    <key name="show-taskwarrior-icon" type="b">
+      <default>true</default>
+      <summary>Show TaskWarrior Icon in Panel</summary>
+    </key>
+    <key name="show-task-amount" type="b">
+      <default>true</default>
+      <summary>Show Task Amount in Panel</summary>
+    </key>
+      <key name="use-alternative-theme" type="b">
+      <default>false</default>
+      <summary>Use alternative theme</summary>
+    </key>
+    <key name="dateformat" type="s">
+      <default>'test'</default>
+      <summary>Date &amp; Time Format</summary>
+    </key>
   </schema>
 </schemalist>

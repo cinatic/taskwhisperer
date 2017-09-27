@@ -8,109 +8,123 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-29 12:54+0800\n"
+"POT-Creation-Date: 2017-09-27 12:50+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: extension.js:179 extension.js:184 dialogs.js:75
+#: extension.js:296 extension.js:300 dialogs.js:77
 msgid "Identifier:"
 msgstr ""
 
-#: extension.js:187 dialogs.js:76
+#: extension.js:303 dialogs.js:78
 msgid "Description:"
 msgstr ""
 
-#: extension.js:188 dialogs.js:77
+#: extension.js:304 dialogs.js:79
 msgid "Status:"
 msgstr ""
 
-#: extension.js:192 dialogs.js:81
+#: extension.js:308
+msgid "Project:"
+msgstr ""
+
+#: extension.js:313
+msgid "Annotations:"
+msgstr ""
+
+#: extension.js:318 dialogs.js:83
 msgid "Tags:"
 msgstr ""
 
-#: extension.js:197
+#: extension.js:323
 msgid "Priority:"
 msgstr ""
 
-#: extension.js:200
+#: extension.js:326
 msgid "Urgency:"
 msgstr ""
 
-#: extension.js:204 dialogs.js:86
+#: extension.js:330 dialogs.js:94
 msgid "%H:%M %A %d. %b. %Y"
 msgstr ""
 
-#: extension.js:206 dialogs.js:88
+#: extension.js:332 dialogs.js:96
 msgid "Due:"
 msgstr ""
 
-#: extension.js:220
+#: extension.js:346
+msgid "Set Task Undone"
+msgstr ""
+
+#: extension.js:358
+msgid "Stop task"
+msgstr ""
+
+#: extension.js:365
+msgid "Start task"
+msgstr ""
+
+#: extension.js:371
 msgid "Set Task Done"
 msgstr ""
 
-#: extension.js:225
+#: extension.js:376
 msgid "Modify Task"
 msgstr ""
 
-#: extension.js:386
+#: extension.js:485
+msgid ""
+"No Tasks to show! \n"
+"\n"
+" Add some more tasks or change filter settings."
+msgstr ""
+
+#: extension.js:505
+msgid "All"
+msgstr ""
+
+#: extension.js:588
 #, javascript-format
 msgid "%d Task"
 msgid_plural "%d Tasks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: extension.js:564
-msgid "..."
+#: extension.js:597
+msgid ""
+"There was an error executing TaskWarrior: \n"
+"\n"
 msgstr ""
 
-#: extension.js:743 extension.js:773 dialogs.js:111 dialogs.js:227
+#: extension.js:598
+msgid ""
+"You can find some troubleshoot information on TaskWhisperer Github page!"
+msgstr ""
+
+#: extension.js:599
+msgid "TaskWhisperer Service Error"
+msgstr ""
+
+#: extension.js:601
+msgid "Error!"
+msgstr ""
+
+#: extension.js:823
+msgid "…"
+msgstr ""
+
+#: extension.js:1092 extension.js:1122 dialogs.js:115 dialogs.js:242
 msgid "Sorry, that didn't work. Please try again."
 msgstr ""
 
-#: dialogs.js:73
-msgid "Modify:"
-msgstr ""
-
-#: dialogs.js:99
-msgid "%d.%m.%Y %H:%M"
-msgstr ""
-
-#: dialogs.js:119 dialogs.js:244
-msgid "Cancel"
-msgstr ""
-
-#: dialogs.js:124
-msgid "Modify"
-msgstr ""
-
-#: dialogs.js:163 dialogs.js:266
-msgid "A description is required to create a new task!"
-msgstr ""
-
-#: dialogs.js:202
-msgid "Create New Task"
-msgstr ""
-
-#: dialogs.js:207
-msgid "Enter Description"
-msgstr ""
-
-#: dialogs.js:214
-msgid "Enter DueDate"
-msgstr ""
-
-#: dialogs.js:221
-msgid "Additional Arguments"
-msgstr ""
-
-#: dialogs.js:249
-msgid "Create"
+#: taskService.js:89
+msgid "%H:%M:%S %d. %b. %Y"
 msgstr ""
 
 #: settings.ui:46
@@ -123,56 +137,122 @@ msgid ""
 "fetching data!"
 msgstr ""
 
-#: settings.ui:74
+#: settings.ui:72
+msgid "Show Tasks w/ no due at end of list"
+msgstr ""
+
+#: settings.ui:97 settings.ui:113
+msgid "The date format is used when creating taks and showing dates"
+msgstr ""
+
+#: settings.ui:98
+msgid "Date & Time Format"
+msgstr ""
+
+#. property name="secondary_icon_name">edit-clear-symbolic</property>
+#. <property name="secondary_icon_tooltip_text" translatable="yes">Clear entry</property
+#: settings.ui:116
+msgid "e.g. D.M.Y H:N (default is Y-M-D)"
+msgstr ""
+
+#: settings.ui:132
 msgid "Taskwarrior"
 msgstr ""
 
-#: settings.ui:97
+#: settings.ui:155
 msgid "Position in Panel"
 msgstr ""
 
-#: settings.ui:111
+#: settings.ui:170
 msgid "Center"
 msgstr ""
 
-#: settings.ui:112
+#: settings.ui:171
 msgid "Right"
 msgstr ""
 
-#: settings.ui:113
+#: settings.ui:172
 msgid "Left"
 msgstr ""
 
-#: settings.ui:131
+#: settings.ui:187
+msgid "Show TaskWarrior Icon in Panel"
+msgstr ""
+
+#: settings.ui:213
+msgid "Show Task Amount in Panel"
+msgstr ""
+
+#: settings.ui:239
+msgid "Use alternative Theme"
+msgstr ""
+
+#: settings.ui:268
 msgid "Layout"
 msgstr ""
 
-#: settings.ui:183
+#: settings.ui:320
 msgid "Version: "
 msgstr ""
 
-#: settings.ui:197
+#: settings.ui:334
 msgid "unknown (self-build ?)"
 msgstr ""
 
-#: settings.ui:217
+#: settings.ui:354
 msgid ""
 "<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
 "\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
 "upcoming tasks and task details as well as to create and modify them.</span>"
 msgstr ""
 
-#: settings.ui:240
+#: settings.ui:377
 msgid "Maintained by"
 msgstr ""
 
-#: settings.ui:291
+#: settings.ui:428
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
 "License, version 3 or later</a> for details.</span>"
 msgstr ""
 
-#: settings.ui:312
+#: settings.ui:449
 msgid "About"
+msgstr ""
+
+#: dialogs.js:75
+msgid "Modify:"
+msgstr ""
+
+#: dialogs.js:123 dialogs.js:270
+msgid "Cancel"
+msgstr ""
+
+#: dialogs.js:128
+msgid "Modify"
+msgstr ""
+
+#: dialogs.js:170 dialogs.js:295
+msgid "A description is required to create a new task!"
+msgstr ""
+
+#: dialogs.js:217
+msgid "Create New Task"
+msgstr ""
+
+#: dialogs.js:222
+msgid "Enter Description"
+msgstr ""
+
+#: dialogs.js:229
+msgid "Enter DueDate"
+msgstr ""
+
+#: dialogs.js:236
+msgid "Additional Arguments"
+msgstr ""
+
+#: dialogs.js:275
+msgid "Create"
 msgstr ""

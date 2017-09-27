@@ -31,6 +31,9 @@ const Lang = imports.lang;
 
 const St = imports.gi.St;
 
+const Main = imports.ui.main;
+const MessageTray = imports.ui.messageTray;
+
 
 // extensionMeta is the object obtained from the metadata.json file, plus // the path property which is the path of the extension folder!
 function init(extensionMeta) {
@@ -76,4 +79,12 @@ function createButton(text, accessibleName, classes, onClick)
     }
 
     return button;
+}
+
+function showNotification(title, message, icon)
+{
+    let source = new MessageTray.Source('TaskWhisperer', icon || "dialog-warning");
+    let notification = new MessageTray.Notification(source, title, message);
+    Main.messageTray.add(source);
+    source.notify(notification);
 }
