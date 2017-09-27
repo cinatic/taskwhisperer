@@ -38,8 +38,16 @@ If you like to use Taskwarrior on multiple devices and keep your tasks everywher
 ![Screenshot](https://github.com/cinatic/taskwhisperer/raw/master/images/settings.png)
 
 ## Troubleshooting
+### GLib.SpawnError: Failed to execute child process “task” (No such file or directory)
+You need to install [TaskWarrior](https://taskwarrior.org/download/) first
+
+### JSON.parse: unexpected character at line 1 column 1 of the JSON data
+On some distributions you need to specifiy a config path first before you can start using TaskWarrior. Please execute 'task' in a shell and follow the instructions. 
+
+Here you can find useful things for the [Basic Usage](https://taskwarrior.org/docs/#start)
 
 ### Wrong JSON Format
+**Should not happen anymore because json.array is overwritten via parameter inside extension**
 `(gnome-shell:1916): Gjs-WARNING **: JS ERROR: TypeError: taskListData.map is not a function`
 
 Some TaskWarrior packages (e.g. in GnUbuntu) came without opt.in the json.array=on flag. So you have to add json.array=on in your [*~/.taskrc*](https://taskwarrior.org/docs/configuration.html)

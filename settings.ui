@@ -50,16 +50,74 @@
                     <property name="top_attach">0</property>
                   </packing>
                 </child>
-                <child>
+                <child>									
                   <object class="GtkSwitch" id="enable_taskd_sync">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">Please make sure taskd is proper configured, otherwise you will get errors fetching data!</property>
                     <property name="halign">center</property>
                   </object>
+                  
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="show-no-dates-at-end-label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="hexpand">True</property>
+                    <property name="label" translatable="yes">Show Tasks w/ no due at end of list</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="show_no_dates_at_end">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">center</property>
+                  </object>
+
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label-dateformat">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="hexpand">True</property>
+                    <property name="tooltip_text" translatable="yes">The date format is used when creating taks and showing dates</property>
+                    <property name="label" translatable="yes">Date &amp; Time Format</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
+                  </packing>
+                </child>
+                <child>									
+                  <object class="GtkEntry" id="dateformat">
+                      <property name="visible">True</property>
+                      <property name="can_focus">True</property>
+                      <property name="hexpand">True</property>
+                      <property name="primary_icon_activatable">False</property>
+                      <property name="primary_icon_sensitive">False</property>
+                      <property name="caps-lock-warning">False</property>
+                      <property name="tooltip_text" translatable="yes">The date format is used when creating taks and showing dates</property>
+                      <!--property name="secondary_icon_name">edit-clear-symbolic</property>
+                      <property name="secondary_icon_tooltip_text" translatable="yes">Clear entry</property-->
+                      <property name="placeholder_text" translatable="yes">e.g. D.M.Y H:N (default is Y-M-D)</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">2</property>
                   </packing>
                 </child>
               </object>
@@ -96,6 +154,7 @@
                     <property name="hexpand">True</property>
                     <property name="label" translatable="yes">Position in Panel</property>
                   </object>
+									
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="top_attach">0</property>
@@ -116,6 +175,84 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
+                  </packing>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="show-taskwarrior-icon-label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="hexpand">True</property>
+                    <property name="label" translatable="yes">Show TaskWarrior Icon in Panel</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="show_taskwarrior_icon">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">center</property>
+                  </object>
+
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="show-task-amount-label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="hexpand">True</property>
+                    <property name="label" translatable="yes">Show Task Amount in Panel</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="show_task_amount">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">center</property>
+                  </object>
+
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">2</property>
+                  </packing>
+                </child>
+
+                <child>
+                  <object class="GtkLabel" id="use-alternative-theme-label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="hexpand">True</property>
+                    <property name="label" translatable="yes">Use alternative Theme</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="use_alternative_theme">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">center</property>
+                  </object>
+
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">3</property>
                   </packing>
                 </child>
               </object>

@@ -34,10 +34,11 @@ const Gio = imports.gi.Gio;
 const Config = imports.misc.config;
 const ExtensionUtils = imports.misc.extensionUtils;
 
-const _MS_PER_MINUTE = 1000 * 60 * 1;
+const _MS_PER_MINUTE = 1000 * 60;
 const _MS_PER_HOUR = 1000 * 60 * 60;
 const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
+const ALPHABET_DICT = {"a":"a","b":"b","c":"c","d":"d","e":"e","f":"f","g":"g","h":"h","i":"i","j":"j","k":"k","l":"l","m":"m","n":"n","o":"o","p":"p","q":"q","r":"r","s":"s","t":"t","u":"u","v":"v","w":"w","x":"x","y":"y","z":"z"};
 
 // extensionMeta is the object obtained from the metadata.json file, plus // the path property which is the path of the extension folder!
 function init(extensionMeta) {
@@ -128,6 +129,48 @@ function isoToDate(input)
         input.slice(11, 13) + ":" + input.slice(13, 16));
 
     return isNaN(a) ? null : new Date(a);
+}
+
+function taskDateFormatToStringDateFormat(date, format)
+{
+    if(!format)
+    {
+        return;
+    }
+
+    let stringDateFormat = "";
+
+    for(let i = 0; i<format.length; i++)
+    {
+        let char = format[i];
+
+        switch(char)
+        {
+            case "H":
+                let hours = date.getHours();
+                stringDateFormat += hours > 9 ? hours : '0' + hours;
+                break;
+            case "N":
+                let minutes = date.getMinutes();
+                stringDateFormat += minutes > 9 ? minutes : '0' + minutes;
+                break;
+            case "D":
+                stringDateFormat += date.getDate();
+                break;
+            case "M":
+                let month = date.getMonth() + 1;
+                stringDateFormat += month > 9 ? month : '0' + month;
+                break;
+            case "Y":
+                stringDateFormat += date.getFullYear();
+                break;
+            default:
+                stringDateFormat += char;
+                break;
+        }
+    }
+
+    return stringDateFormat;
 }
 
 function getBestTimeAbbreviation(a, b)

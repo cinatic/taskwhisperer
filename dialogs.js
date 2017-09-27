@@ -27,6 +27,7 @@
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
+const Convenience = Me.imports.convenience;
 
 const Clutter = imports.gi.Clutter;
 const Lang = imports.lang;
@@ -45,9 +46,10 @@ const ModifyTaskDialog = new Lang.Class({
     Name   : 'ModifyTaskDialog',
     Extends: ModalDialog.ModalDialog,
 
-    _init: function(task)
+    _init: function(task, dateFormat)
     {
         this.parent({styleClass: 'taskModificationDialog'});
+        this._dateFormat = dateFormat;
 
         let mainContentBox = new St.BoxLayout({
             style_class: 'prompt-dialog-main-layout',
@@ -81,13 +83,6 @@ const ModifyTaskDialog = new Lang.Class({
             this._renderTaskDataRow(this._messageBox, _("Tags:"), task.TagsAsString);
         }
 
-        if(task.Due)
-        {
-            let dateFormat = Shell.util_translate_time_string(N_("%H:%M %A %d. %b. %Y"));
-            let formattedText = task.DueDate.toLocaleFormat(dateFormat);
-            this._renderTaskDataRow(this._messageBox, _("Due:"), formattedText);
-        }
-
         this._descriptionInputBox = new St.Entry({
             style_class: 'modificationInputBox',
             text       : "description:'" + task.Description + "'",
@@ -96,13 +91,22 @@ const ModifyTaskDialog = new Lang.Class({
 
         if(task.Due)
         {
-            let dateFormat = Shell.util_translate_time_string(N_("%d.%m.%Y %H:%M"));
-            let formattedText = task.DueDate.toLocaleFormat(dateFormat);
+            let displayDateFormat = Shell.util_translate_time_string(N_("%H:%M %A %d. %b. %Y"));
+            let formattedText = task.DueDate.toLocaleFormat(displayDateFormat);
+            this._renderTaskDataRow(this._messageBox, _("Due:"), formattedText);
+
+            let dateFormat = this._dateFormat || "Y-M-D";
+
+            formattedText = Convenience.taskDateFormatToStringDateFormat(task.DueDate, dateFormat);
 
             this._descriptionInputBox.text = "due:'" + formattedText + "' " + this._descriptionInputBox.text;
         }
 
-        this._descriptionInputBox.clutter_text.connect('activate', Lang.bind(this, this._onModifyTaskButton));
+        this._descriptionInputBox.clutter_text.connect('activate', Lang.bind(this, function()
+        {
+            this._onModifyTaskButton.call(this, dateFormat);
+        }));
+
         this._messageBox.add(this._descriptionInputBox, {expand: true});
         this.setInitialKeyFocus(this._descriptionInputBox);
 
@@ -122,7 +126,10 @@ const ModifyTaskDialog = new Lang.Class({
         },
             {
                 label  : _("Modify"),
-                action : Lang.bind(this, this._onModifyTaskButton),
+                action : Lang.bind(this, function()
+                        {
+                            this._onModifyTaskButton.call(this, dateFormat);
+                        }),
                 default: true
             }];
 
@@ -165,7 +172,14 @@ const ModifyTaskDialog = new Lang.Class({
             return;
         }
 
-        this.emit('modify', this._descriptionInputBox.text);
+        let params = this._descriptionInputBox.text;
+
+        if(this._dateFormat)
+        {
+            params = "rc.dateformat='" + this._dateFormat + "' " + params;
+        }
+
+        this.emit('modify', params);
     }
 });
 
@@ -174,9 +188,10 @@ const CreateTaskDialog = new Lang.Class({
     Name   : 'CreateTaskDialog',
     Extends: ModalDialog.ModalDialog,
 
-    _init: function()
+    _init: function(dateFormat)
     {
         this.parent({styleClass: 'createTaskDialog'});
+        this._dateFormat = dateFormat;
 
         let mainContentBox = new St.BoxLayout({
             style_class: 'prompt-dialog-main-layout',
@@ -231,9 +246,20 @@ const CreateTaskDialog = new Lang.Class({
         this._errorMessageLabel.hide();
 
         this.setInitialKeyFocus(this._descriptionInputBox);
-        this._descriptionInputBox.clutter_text.connect('activate', Lang.bind(this, this._onAddTaskButton));
-        this._dueDateInputBox.clutter_text.connect('activate', Lang.bind(this, this._onAddTaskButton));
-        this._additionalArgumentsInputBox.clutter_text.connect('activate', Lang.bind(this, this._onAddTaskButton));
+        this._descriptionInputBox.clutter_text.connect('activate', Lang.bind(this, function()
+        {
+            this._onAddTaskButton.call(this, dateFormat);
+        }));
+
+        this._dueDateInputBox.clutter_text.connect('activate', Lang.bind(this, function()
+        {
+            this._onAddTaskButton.call(this, dateFormat);
+        }));
+
+        this._additionalArgumentsInputBox.clutter_text.connect('activate', Lang.bind(this, function()
+        {
+            this._onAddTaskButton.call(this, dateFormat);
+        }));
 
         this._messageBox.add(this._descriptionInputBox, {expand: true});
         this._messageBox.add(this._dueDateInputBox, {expand: true});
@@ -247,7 +273,10 @@ const CreateTaskDialog = new Lang.Class({
         },
             {
                 label  : _("Create"),
-                action : Lang.bind(this, this._onAddTaskButton),
+                action : Lang.bind(this, function()
+                        {
+                            this._onAddTaskButton.call(this, dateFormat);
+                        }),
                 default: true
             }];
 
@@ -268,7 +297,7 @@ const CreateTaskDialog = new Lang.Class({
             return;
         }
 
-        var argumentsString = this._descriptionInputBox.text;
+        let argumentsString = this._descriptionInputBox.text;
 
         if(this._dueDateInputBox.text && this._dueDateInputBox.text != this._dueDateInputBox.hint_text)
         {
@@ -278,6 +307,11 @@ const CreateTaskDialog = new Lang.Class({
         if(this._additionalArgumentsInputBox.text && this._additionalArgumentsInputBox.text != this._additionalArgumentsInputBox.hint_text)
         {
             argumentsString = argumentsString + " " + this._additionalArgumentsInputBox.text;
+        }
+
+        if(this._dateFormat)
+        {
+            argumentsString = "rc.dateformat='" + this._dateFormat + "' " + argumentsString;
         }
 
         this.emit('create', argumentsString);

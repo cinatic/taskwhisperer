@@ -155,7 +155,7 @@
 }
 
 .buttonBox {
-	width: 400px;
+	width: 480px;
 	margin-bottom: 5px;
 }
 
@@ -205,3 +205,31 @@
 	background: green;
 }
 
+.messageBox {
+	width: 350px;
+	padding: 20px;
+	margin-top: 130px;
+}
+
+.messageBox.noTasks {
+	text-align: center;
+	margin-top: 180px;
+}
+
+.system-status-icon,
+.whispererIcon{
+	display: none;
+		visibility: hidden;
+}
+
+.rowMenuIconButton
+{
+	height: 15px;
+	width: 20px;
+	padding: 0;
+	margin: 0;
+}
+
+.headerBar.dark .system-menu-action{
+	background: rgba(0, 33, 115, 0.71);
+}

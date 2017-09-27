@@ -147,6 +147,7 @@ const Task = new Lang.Class({
         {
             this._started = this.Start != null;
         }
+
         return this._started;
     },
 
@@ -175,7 +176,7 @@ const Task = new Lang.Class({
 
 const TaskService = new Lang.Class({
     Name                 : "TaskService",
-    loadTaskDataAsync    : function(taskType, projectName, onDataLoaded)
+    loadTaskDataAsync    : function(taskType, projectName, onDataLoaded, onError)
     {
         let status = "Pending";
 
@@ -191,7 +192,17 @@ const TaskService = new Lang.Class({
 
         let project = projectName ? "project:" + projectName : "";
 
-        let shellProc = Gio.Subprocess.new(['task', 'rc.json.array=on', status, project, 'export'], Gio.SubprocessFlags.STDOUT_PIPE);
+        let shellProc;
+
+        try
+        {
+            shellProc = Gio.Subprocess.new(['task', 'rc.json.array=on', status, project, 'export'], Gio.SubprocessFlags.STDOUT_PIPE);
+        }
+        catch(err)
+        {
+            onError(err);
+            return;
+        }
 
         shellProc.wait_async(null, function(obj, result)
         {
@@ -206,8 +217,19 @@ const TaskService = new Lang.Class({
 
                 if(!bytes.get_size())
                 {
+                    let taskListData;
                     buffer = buffer.toString();
-                    let taskListData = JSON.parse(buffer);
+
+                    try
+                    {
+                        taskListData = JSON.parse(buffer);
+                    }
+                    catch(err)
+                    {
+                        onError(err);
+                        return;
+                    }
+
                     let taskList = taskListData.map(function(taskData, index, data)
                     {
                         return new Task(taskData);
@@ -290,6 +312,41 @@ const TaskService = new Lang.Class({
         }
 
         let shellProc = Gio.Subprocess.new(['task', taskID.toString(), 'done'], Gio.SubprocessFlags.STDOUT_PIPE);
+
+        shellProc.wait_async(null, function(obj, result)
+        {
+            let shellProcExited = true;
+            shellProc.wait_finish(result);
+            let buffer = "";
+
+            function readCB(obj, result)
+            {
+                let bytes = stream.read_bytes_finish(result);
+
+                if(!bytes.get_size())
+                {
+                    buffer = buffer.toString();
+                    cb();
+                }
+                else
+                {
+                    buffer = buffer + bytes.get_data();
+                    stream.read_bytes_async(8192, 1, null, readCB);
+                }
+            }
+
+            stream = shellProc.get_stdout_pipe();
+            stream.read_bytes_async(8192, 1, null, readCB);
+        });
+    },
+    setTaskUndone          : function(taskID, cb)
+    {
+        if(!taskID)
+        {
+            return;
+        }
+
+        let shellProc = Gio.Subprocess.new(['task', 'modify', taskID.toString(), 'status:pending'], Gio.SubprocessFlags.STDOUT_PIPE);
 
         shellProc.wait_async(null, function(obj, result)
         {
@@ -454,9 +511,19 @@ const TaskService = new Lang.Class({
             stream.read_bytes_async(8192, 1, null, readCB);
         });
     },
-    syncTasksAsync       : function(onDataLoaded)
+    syncTasksAsync       : function(onDataLoaded, onError)
     {
-        let shellProc = Gio.Subprocess.new(['task', 'sync'], Gio.SubprocessFlags.STDOUT_PIPE);
+        let shellProc;
+
+        try
+        {
+            shellProc = Gio.Subprocess.new(['task', 'sync'], Gio.SubprocessFlags.STDOUT_PIPE);
+        }
+        catch(err)
+        {
+            onError(err);
+            return;
+        }
 
         shellProc.wait_async(null, function(obj, result)
         {

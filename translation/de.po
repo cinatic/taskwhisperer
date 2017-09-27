@@ -2,178 +2,267 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-29 12:54+0800\n"
+"POT-Creation-Date: 2017-09-27 12:50+0800\n"
 "PO-Revision-Date: 2016-04-16 23:40+0200\n"
-"Last-Translator: Heiko Adams <heiko.adams@gmail.com>\n"
+"Last-Translator: Florijan Hamzic <florijanh@gmail.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: extension.js:179 extension.js:184 dialogs.js:75
+#: extension.js:296 extension.js:300 dialogs.js:77
 msgid "Identifier:"
 msgstr "Identifikator:"
 
-#: extension.js:187 dialogs.js:76
+#: extension.js:303 dialogs.js:78
 msgid "Description:"
 msgstr "Beschreibung:"
 
-#: extension.js:188 dialogs.js:77
+#: extension.js:304 dialogs.js:79
 msgid "Status:"
 msgstr "Status:"
 
-#: extension.js:192 dialogs.js:81
+#: extension.js:308
+msgid "Project:"
+msgstr "Projekt:"
+
+#: extension.js:313
+msgid "Annotations:"
+msgstr "Notizen:"
+
+#: extension.js:318 dialogs.js:83
 msgid "Tags:"
 msgstr "Tags:"
 
-#: extension.js:197
+#: extension.js:323
 msgid "Priority:"
-msgstr "Priorit�t:"
+msgstr "Priorität:"
 
-#: extension.js:200
+#: extension.js:326
 msgid "Urgency:"
 msgstr "Dringlichkeit:"
 
-#: extension.js:204 dialogs.js:86
+#: extension.js:330 dialogs.js:94
 msgid "%H:%M %A %d. %b. %Y"
 msgstr ""
 
-#: extension.js:206 dialogs.js:88
+#: extension.js:332 dialogs.js:96
 msgid "Due:"
-msgstr "F�lligkeit:"
+msgstr "Fälligkeit:"
 
-#: extension.js:220
+#: extension.js:346
+#, fuzzy
+msgid "Set Task Undone"
+msgstr "Task erledigt"
+
+#: extension.js:358
+msgid "Stop task"
+msgstr "Stoppen"
+
+#: extension.js:365
+msgid "Start task"
+msgstr "Starten"
+
+#: extension.js:371
 msgid "Set Task Done"
 msgstr "Task erledigt"
 
-#: extension.js:225
+#: extension.js:376
 msgid "Modify Task"
 msgstr "Task bearbeiten"
 
-#: extension.js:386
+#: extension.js:485
+msgid ""
+"No Tasks to show! \n"
+"\n"
+" Add some more tasks or change filter settings."
+msgstr ""
+"Keine Aufgaben zum Anzeigen.\n"
+"\n"
+"Erstelle neue Aufgaben oder änder den Filter."
+
+#: extension.js:505
+msgid "All"
+msgstr "Alle"
+
+#: extension.js:588
 #, javascript-format
 msgid "%d Task"
 msgid_plural "%d Tasks"
 msgstr[0] "%d Aufgabe"
 msgstr[1] "%d Aufgaben"
 
-#: extension.js:564
-msgid "..."
-msgstr "..."
+#: extension.js:597
+msgid ""
+"There was an error executing TaskWarrior: \n"
+"\n"
+msgstr ""
+"Beim Ausführen von TaskWarrior trat ein Fehler auf: \n"
+"\n"
 
-#: extension.js:743 extension.js:773 dialogs.js:111 dialogs.js:227
+#: extension.js:598
+msgid ""
+"You can find some troubleshoot information on TaskWhisperer Github page!"
+msgstr "Weitere Informationen findest du auch auf Github!"
+
+#: extension.js:599
+msgid "TaskWhisperer Service Error"
+msgstr "TaskWhisperer Service Fehler"
+
+#: extension.js:601
+msgid "Error!"
+msgstr "Fehler!"
+
+#: extension.js:823
+msgid "…"
+msgstr ""
+
+#: extension.js:1092 extension.js:1122 dialogs.js:115 dialogs.js:242
 msgid "Sorry, that didn't work. Please try again."
 msgstr "Ein Problem trat auf. Probieren Sie es nochmal."
 
-#: dialogs.js:73
-msgid "Modify:"
-msgstr "Bearbeiten:"
-
-#: dialogs.js:99
-msgid "%d.%m.%Y %H:%M"
+#: taskService.js:89
+msgid "%H:%M:%S %d. %b. %Y"
 msgstr ""
-
-#: dialogs.js:119 dialogs.js:244
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: dialogs.js:124
-msgid "Modify"
-msgstr "�ndern"
-
-#: dialogs.js:163 dialogs.js:266
-msgid "A description is required to create a new task!"
-msgstr "Eine Beschreibung ist notwendig um ein Task zu erstellen!"
-
-#: dialogs.js:202
-msgid "Create New Task"
-msgstr "Neuen Eintrag erstellen"
-
-#: dialogs.js:207
-msgid "Enter Description"
-msgstr "Beschreibung eingeben"
-
-#: dialogs.js:214
-msgid "Enter DueDate"
-msgstr "F�lligkeit eingeben"
-
-#: dialogs.js:221
-msgid "Additional Arguments"
-msgstr "Weitere Parameter"
-
-#: dialogs.js:249
-msgid "Create"
-msgstr "Erstellen"
 
 #: settings.ui:46
 msgid "Enable Taskd Syncronization"
-msgstr "Task Syncronisierung aktivieren"
+msgstr "Taskd Syncronization aktivieren"
 
 #: settings.ui:57
 msgid ""
 "Please make sure taskd is proper configured, otherwise you will get errors "
 "fetching data!"
-msgstr "Please make sure taskd is proper configured, otherwise you will get errors fetching data!"
+msgstr ""
+"Stell sicher, dass taskd richtig konfiguriert ist. Andernfalls können Fehler "
+"auftreten!"
 
-#: settings.ui:74
+#: settings.ui:72
+msgid "Show Tasks w/ no due at end of list"
+msgstr "Aufgaben ohne Zeit am Ende anzeigen"
+
+#: settings.ui:97 settings.ui:113
+msgid "The date format is used when creating taks and showing dates"
+msgstr "Das Datumsformat wird beim speichern und editieren verwendet"
+
+#: settings.ui:98
+msgid "Date & Time Format"
+msgstr "Zeit und Datumsformat"
+
+#. property name="secondary_icon_name">edit-clear-symbolic</property>
+#. <property name="secondary_icon_tooltip_text" translatable="yes">Clear entry</property
+#: settings.ui:116
+msgid "e.g. D.M.Y H:N (default is Y-M-D)"
+msgstr "D.M.Y H:N (standard Y-M-D)"
+
+#: settings.ui:132
 msgid "Taskwarrior"
 msgstr ""
 
-#: settings.ui:97
+#: settings.ui:155
 msgid "Position in Panel"
 msgstr "Position"
 
-#: settings.ui:111
+#: settings.ui:170
 msgid "Center"
 msgstr "Mittig"
 
-#: settings.ui:112
+#: settings.ui:171
 msgid "Right"
 msgstr "Rechts"
 
-#: settings.ui:113
+#: settings.ui:172
 msgid "Left"
 msgstr "Links"
 
-#: settings.ui:131
+#: settings.ui:187
+msgid "Show TaskWarrior Icon in Panel"
+msgstr "Zeige TaskWarrior Icon im Panel"
+
+#: settings.ui:213
+#, fuzzy
+msgid "Show Task Amount in Panel"
+msgstr "Zeige TaskWarrior Icon im Panel"
+
+#: settings.ui:239
+msgid "Use alternative Theme"
+msgstr "Benutze alternatives Theme"
+
+#: settings.ui:268
 msgid "Layout"
 msgstr "Layout"
 
-#: settings.ui:183
+#: settings.ui:320
 msgid "Version: "
 msgstr "Version: "
 
-#: settings.ui:197
+#: settings.ui:334
 msgid "unknown (self-build ?)"
 msgstr ""
 
-#: settings.ui:217
+#: settings.ui:354
 msgid ""
 "<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
 "\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
 "upcoming tasks and task details as well as to create and modify them.</span>"
-msgstr "<span>Taskwhisperer is a extension for TaskWarrior Application <a href=\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display upcoming tasks and task details as well as to create and modify them.</span>"
+msgstr ""
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
+"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
+"upcoming tasks and task details as well as to create and modify them.</span>"
 
-#: settings.ui:240
+#: settings.ui:377
 msgid "Maintained by"
 msgstr "Maintained von"
 
-#: settings.ui:291
+#: settings.ui:428
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
 "License, version 3 or later</a> for details.</span>"
-msgstr "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\nSee the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public License, version 3 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
+"License, version 3 or later</a> for details.</span>"
 
-#: settings.ui:312
+#: settings.ui:449
 msgid "About"
 msgstr ""
 
-#~ msgid "Active"
-#~ msgstr "Aktiv"
+#: dialogs.js:75
+msgid "Modify:"
+msgstr "Bearbeiten:"
 
-#~ msgid "Completed"
-#~ msgstr "Abgeschlossen"
+#: dialogs.js:123 dialogs.js:270
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: dialogs.js:128
+msgid "Modify"
+msgstr "Ändern"
+
+#: dialogs.js:170 dialogs.js:295
+msgid "A description is required to create a new task!"
+msgstr "Eine Beschreibung ist notwendig um ein Task zu erstellen!"
+
+#: dialogs.js:217
+msgid "Create New Task"
+msgstr "Neuen Eintrag erstellen"
+
+#: dialogs.js:222
+msgid "Enter Description"
+msgstr "Beschreibung eingeben"
+
+#: dialogs.js:229
+msgid "Enter DueDate"
+msgstr "Fälligkeit eingeben"
+
+#: dialogs.js:236
+msgid "Additional Arguments"
+msgstr "Weitere Parameter"
+
+#: dialogs.js:275
+msgid "Create"
+msgstr "Erstellen"

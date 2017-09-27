@@ -31,6 +31,7 @@ const Convenience = Me.imports.convenience;
 const UiHelper = Me.imports.uiHelper;
 const Dialogs = Me.imports.dialogs;
 const taskService = Me.imports.taskService;
+const Prefs = Me.imports.prefs;
 const TaskService = taskService.TaskService;
 
 const Config = imports.misc.config;
@@ -41,6 +42,7 @@ const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Shell = imports.gi.Shell;
 const ShellEntry = imports.ui.shellEntry;
+const Pango = imports.gi.Pango;
 const St = imports.gi.St;
 const Util = imports.misc.util;
 
@@ -103,8 +105,7 @@ const ProjectHeaderBar = new Lang.Class({
         });
 
         this.actor = new St.ScrollView({
-            style_class: 'projectScrollBox',
-
+            style_class: 'projectScrollBox'
         });
 
         this.actor.add_actor(this.box, {expand: false, x_fill: false, x_align: St.Align.LEFT});
@@ -220,6 +221,25 @@ const ScrollBox = new Lang.Class({
 
         let gridMenu = new PopupMenu.PopupSubMenuMenuItem(description, true);
 
+        if(!task.IsCompleted)
+        {
+            let iconName = this.menu._use_alternative_theme ? "task_done_dark" : "task_done_white";
+            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", Lang.bind(this, function()
+            {
+                this.emit('setDone', task);
+            }));
+            gridMenu.actor.insert_child_at_index(changeButton, 4);
+        }
+        else
+        {
+            let iconName = this.menu._use_alternative_theme ? "in_progress_dark" : "in_progress";
+            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", Lang.bind(this, function()
+            {
+                this.emit('setUndone', task);
+            }));
+            gridMenu.actor.insert_child_at_index(changeButton, 4);
+        }
+
         if(task.Started)
         {
             gridMenu.actor.add_style_class_name("activeTask");
@@ -274,7 +294,6 @@ const ScrollBox = new Lang.Class({
         if(task.ID)
         {
             this._appendDataRow(gridMenu, _("Identifier:"), task.ID + " (" + task.UUID + ")");
-
         }
         else
         {
@@ -322,7 +341,16 @@ const ScrollBox = new Lang.Class({
             style_class: 'button-container'
         });
 
-        if(!task.IsCompleted)
+        if(task.IsCompleted)
+        {
+            let _markUndoneButton = UiHelper.createButton(_("Set Task Undone"), "doneTask", "doneTask", Lang.bind(this, function()
+            {
+                this.emit('setUndone', task);
+            }));
+
+            buttonBox.add(_markUndoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+        }
+        else
         {
             let _markStartStopButton;
             if(task.Started)
@@ -451,6 +479,11 @@ const ScrollBox = new Lang.Class({
 
         _currentPage++;
         _hitScrollEvent = false;
+
+        if(!this.box.get_children().length)
+        {
+            this.showTextBox(_("No Tasks to show! \n\n Add some more tasks or change filter settings."), "noTasks");
+        }
     },
 
     createProjectData: function()
@@ -502,7 +535,13 @@ const ScrollBox = new Lang.Class({
                     this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, Lang.bind(this, function(data)
                     {
                         this.processTaskData(afterReloadCallback, data);
+                    }), Lang.bind(this, function(errorMessage)
+                    {
+                        this.showServiceError(errorMessage);
                     }));
+                }), Lang.bind(this, function(errorMessage)
+                {
+                    this.showServiceError(errorMessage);
                 }));
             }
             else
@@ -510,6 +549,9 @@ const ScrollBox = new Lang.Class({
                 this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, Lang.bind(this, function(data)
                 {
                     this.processTaskData(afterReloadCallback, data);
+                }), Lang.bind(this, function(errorMessage)
+                {
+                    this.showServiceError(errorMessage);
                 }));
             }
         }
@@ -535,7 +577,7 @@ const ScrollBox = new Lang.Class({
                 break;
         }
 
-        data.sort(sortFunction);
+        data.sort(Lang.bind(this.menu, sortFunction));
 
         _currentItems = data;
 
@@ -549,6 +591,30 @@ const ScrollBox = new Lang.Class({
         {
             afterReloadCallback.call(this);
         }
+    },
+    showServiceError: function(processErrorMessage)
+    {
+        let errorMessage = _('There was an error executing TaskWarrior: \n\n') + processErrorMessage || "---";
+        let errorMessageAppendix = _("You can find some troubleshoot information on TaskWhisperer Github page!");
+        UiHelper.showNotification(_('TaskWhisperer Service Error'), errorMessage);
+
+        this.menu._panelButtonLabel.text = _("Error!");
+        this.showTextBox(errorMessage + "\n\n" + errorMessageAppendix);
+    },
+    showTextBox: function(message, classes)
+    {
+        this._destroyItems();
+
+        let placeholderLabel = new St.Label({
+            text       : message,
+            style_class: 'messageBox ' + classes || ""
+        });
+
+        placeholderLabel.clutter_text.set_line_wrap_mode(Pango.WrapMode.WORD_CHAR);
+        placeholderLabel.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
+        placeholderLabel.clutter_text.line_wrap = true;
+
+        this.box.add(placeholderLabel, {expand: true, x_fill: true, y_fill: true, y_align: St.Align.MIDDLE, x_align: St.Align.MIDDLE});
     }
 });
 
@@ -561,7 +627,7 @@ const HeaderBar = new Lang.Class({
     {
         this.menu = menu;
         this.actor = new St.BoxLayout({
-            style_class: "headerBar",
+            style_class: this.menu._use_alternative_theme ? "headerBar dark" : "headerBar",
             vertical   : false
         });
 
@@ -696,26 +762,56 @@ const TaskWhispererMenuButton = new Lang.Class({
 
     get _position_in_panel()
     {
-        if(!this._settings)
-        {
-            this.loadSettings();
-        }
+        return this.Settings.get_enum(Prefs.TASKWHISPERER_POSITION_IN_PANEL_KEY);
+    },
 
-        return this._settings.get_enum(TASKWHISPERER_POSITION_IN_PANEL_KEY);
+    get _show_no_dates_at_end()
+    {
+        return this.Settings.get_boolean(Prefs.TASKWHISPERER_SHOW_NO_DATES_AT_END);
+    },
+
+    get _dateformat()
+    {
+        return this.Settings.get_string(Prefs.TASKWHISPERER_DATEFORMAT);
     },
 
     get _enable_taskd_sync()
     {
-        if(!this._settings)
+        return this.Settings.get_boolean(Prefs.TASKWHISPERER_ENABLE_TASKD_SYNC);
+    },
+
+    get _show_panel_icon()
+    {
+        return this.Settings.get_boolean(Prefs.TASKWHISPERER_SHOW_PANEL_ICON);
+    },
+
+    get _show_panel_label()
+    {
+        return this.Settings.get_boolean(Prefs.TASKWHISPERER_SHOW_PANEL_LABEL);
+    },
+
+    get _use_alternative_theme()
+    {
+        return this.Settings.get_boolean(Prefs.TASKWHISPERER_USE_ALTERNATIVE_THEME);
+    },
+
+    get Settings()
+    {
+        if (!this._settings)
         {
             this.loadSettings();
         }
 
-        return this._settings.get_boolean(TASKWHISPERER_ENABLE_TASKD_SYNC);
+        return this._settings;
     },
 
     _init: function()
     {
+        this._icon = new St.Icon({
+            icon_name: 'taskwarrior_head',
+            style_class: 'system-status-icon'
+        });
+
         this.switchProvider();
 
         // Load settings
@@ -739,6 +835,7 @@ const TaskWhispererMenuButton = new Lang.Class({
 
         // Putting the panel item together
         let topBox = new St.BoxLayout();
+        topBox.add_actor(this._icon);
         topBox.add_actor(this._panelButtonLabel);
         this.actor.add_actor(topBox);
 
@@ -809,12 +906,24 @@ const TaskWhispererMenuButton = new Lang.Class({
             }));
         }));
 
+        this.taskBox.connect("setUndone", Lang.bind(this, function(that, task)
+        {
+            this.service.setTaskUndone(task.UUID, Lang.bind(this, function()
+            {
+                this.taskBox.reloadTaskData(true);
+            }));
+        }));
+
         this.taskBox.connect("modify", Lang.bind(this, this._openModificationDialog));
 
         this.menu.connect('open-state-changed', Lang.bind(this, function(menu, isOpen)
         {
             _isOpen = isOpen;
-            this.taskBox.reloadTaskData(false);
+
+            if(_isOpen)
+            {
+                this.taskBox.reloadTaskData(true);
+            }
         }));
 
         let section = new PopupMenu.PopupMenuSection();
@@ -822,7 +931,7 @@ const TaskWhispererMenuButton = new Lang.Class({
 
         section.actor.add_actor(this.taskBox.actor);
 
-        this.setRefreshTaskDataTimeout();
+        // this.setRefreshTaskDataTimeout();
 
         if(ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION))
         {
@@ -833,6 +942,29 @@ const TaskWhispererMenuButton = new Lang.Class({
                 this._needsColorUpdate = true;
             }));
         }
+    },
+
+    checkPanelControls: function()
+    {
+        if(this._show_panel_icon)
+        {
+            this._icon.show();
+        }
+        else
+        {
+            this._icon.hide();
+        }
+
+        if(this._show_panel_label)
+        {
+            this._panelButtonLabel.show();
+        }
+        else
+        {
+            this._panelButtonLabel.hide();
+        }
+
+        this.headerBar.actor.style_class = this._use_alternative_theme ? "headerBar dark" : "headerBar";
     },
 
     checkPositionInPanel: function()
@@ -875,8 +1007,19 @@ const TaskWhispererMenuButton = new Lang.Class({
 
     _sortByDue: function(a, b)
     {
-        let dueA = a.Due || "";
-        let dueB = b.Due || "";
+        let dueA;
+        let dueB;
+
+        if(this._show_no_dates_at_end)
+        {
+            dueA = a.Due || "999999999999999";
+            dueB = b.Due || "999999999999999";
+        }
+        else
+        {
+            dueA = a.Due || "";
+            dueB = b.Due || "";
+        }
 
         dueA = dueA.replace("T", "").replace("Z", "");
         dueB = dueB.replace("T", "").replace("Z", "");
@@ -937,7 +1080,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         this.actor.hide();
         this.actor.show();
 
-        this._modifyTaskDialog = new Dialogs.ModifyTaskDialog(task);
+        this._modifyTaskDialog = new Dialogs.ModifyTaskDialog(task, this._dateformat);
 
         this._modifyTaskDialog.connect('modify',
             Lang.bind(this, function(dialog, modificationParameter)
@@ -967,7 +1110,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         this.actor.hide();
         this.actor.show();
 
-        this._createTaskDialog = new Dialogs.CreateTaskDialog();
+        this._createTaskDialog = new Dialogs.CreateTaskDialog(this._dateformat);
 
         this._createTaskDialog.connect('create',
             Lang.bind(this, function(dialog, parameterString)
@@ -996,6 +1139,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         this._settingsC = this._settings.connect("changed", Lang.bind(this, function()
         {
             this.checkPositionInPanel();
+            this.checkPanelControls();
         }));
     },
 
