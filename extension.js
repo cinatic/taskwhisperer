@@ -942,6 +942,8 @@ const TaskWhispererMenuButton = new Lang.Class({
                 this._needsColorUpdate = true;
             }));
         }
+
+        this.checkPanelControls();
     },
 
     checkPanelControls: function()
