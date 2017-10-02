@@ -21,6 +21,7 @@ const TASKWHISPERER_SHOW_NO_DATES_AT_END = 'show-no-dates-at-end';
 const TASKWHISPERER_SHOW_PANEL_ICON = 'show-taskwarrior-icon';
 const TASKWHISPERER_SHOW_PANEL_LABEL = 'show-task-amount';
 const TASKWHISPERER_USE_ALTERNATIVE_THEME = 'use-alternative-theme';
+const TASKWHISPERER_SORT_ORDER = 'sort-order';
 
 let inRealize = false;
 
