@@ -794,7 +794,15 @@ const TaskWhispererMenuButton = new Lang.Class({
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_USE_ALTERNATIVE_THEME);
     },
 
-    _sort_order = taskService.SortOrder.DUE;
+    get _sort_order()
+    {
+        return this.Settings.get_enum(Prefs.TASKWHISPERER_SORT_ORDER);
+    },
+
+    set _sort_order(value)
+    {
+        return this.Settings.set_enum(Prefs.TASKWHISPERER_SORT_ORDER, value);
+    },
 
     get Settings()
     {

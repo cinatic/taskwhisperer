@@ -5,6 +5,10 @@
     <value value="1" nick="right"/>
     <value value="2" nick="left"/>
   </enum>
+  <enum id="org.gnome.shell.extensions.taskwhisperer.sortorder">
+    <value value="0" nick="due"/>
+    <value value="1" nick="urgency"/>
+  </enum>
   <schema path="/org/gnome/shell/extensions/taskwhisperer/" id="org.gnome.shell.extensions.taskwhisperer">
     <key name="position-in-panel" enum="org.gnome.shell.extensions.taskwhisperer.position">
       <default>'center'</default>
@@ -33,6 +37,10 @@
     <key name="dateformat" type="s">
       <default>'test'</default>
       <summary>Date &amp; Time Format</summary>
+    </key>
+    <key name="sort-order" enum="org.gnome.shell.extensions.taskwhisperer.sortorder">
+      <default>'due'</default>
+      <summary>Order to sort by</summary>
     </key>
   </schema>
 </schemalist>
