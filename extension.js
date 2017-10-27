@@ -79,7 +79,6 @@ let _isOpen = false;
 let _lastTimeOpened;
 let _hitScrollEvent = false;
 
-let _currentSortID = taskService.SortOrder.DUE;
 let _currentProjectName;
 let _currentTaskType = taskService.TaskType.ACTIVE;
 let _currentItems = [];
@@ -560,7 +559,7 @@ const ScrollBox = new Lang.Class({
     {
         let sortFunction = this.menu._sortByDue;
 
-        switch(_currentSortID)
+        switch(this.menu._sort_order)
         {
             case taskService.SortOrder.DUE:
                 if(_currentTaskType == taskService.TaskType.COMPLETED)
@@ -687,12 +686,12 @@ const HeaderBar = new Lang.Class({
     {
         let rightBox = new St.BoxLayout({style_class: "rightBox"});
 
-        let activeClass = taskService.SortOrder.DUE == _currentSortID ? "active" : "";
+        let activeClass = taskService.SortOrder.DUE == this.menu._sort_order ? "active" : "";
         let addIcon = UiHelper.createActionButton("sort_time", "hatt3", activeClass, Lang.bind(this, this._toggleSortIcon));
         addIcon.SortID = taskService.SortOrder.DUE;
         rightBox.add(addIcon, {expand: false, x_fill: false, x_align: St.Align.END});
 
-        activeClass = taskService.SortOrder.URGENCY == _currentSortID ? "active" : "";
+        activeClass = taskService.SortOrder.URGENCY == this.menu._sort_order ? "active" : "";
         let reloadIcon = UiHelper.createActionButton("sort_priority", "hatt4", "last " + activeClass, Lang.bind(this, this._toggleSortIcon));
         reloadIcon.SortID = taskService.SortOrder.URGENCY;
         rightBox.add(reloadIcon, {expand: false, x_fill: false, x_align: St.Align.END});
@@ -703,7 +702,7 @@ const HeaderBar = new Lang.Class({
     _toggleSortIcon: function(button)
     {
         // skip because it is already active
-        if(_currentSortID == button.SortID)
+        if(this.menu._sort_order == button.SortID)
         {
             return;
         }
@@ -719,7 +718,7 @@ const HeaderBar = new Lang.Class({
         }
 
         button.add_style_class_name("active");
-        _currentSortID = button.SortID;
+        this.menu._sort_order = button.SortID;
 
         // clear box and fetch new data
         this.menu.taskBox.reloadTaskData(true);
@@ -793,6 +792,16 @@ const TaskWhispererMenuButton = new Lang.Class({
     get _use_alternative_theme()
     {
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_USE_ALTERNATIVE_THEME);
+    },
+
+    get _sort_order()
+    {
+        return this.Settings.get_enum(Prefs.TASKWHISPERER_SORT_ORDER);
+    },
+
+    set _sort_order(value)
+    {
+        return this.Settings.set_enum(Prefs.TASKWHISPERER_SORT_ORDER, value);
     },
 
     get Settings()
