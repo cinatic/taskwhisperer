@@ -90,8 +90,7 @@ const ProjectHeaderBar = new Lang.Class({
     Name   : 'ProjectHeaderBar',
     Extends: PopupMenu.PopupBaseMenuItem,
 
-    _init         : function(menu)
-    {
+    _init         : function(menu){
         this.menu = menu;
 
         //this.actor.add(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
@@ -109,8 +108,7 @@ const ProjectHeaderBar = new Lang.Class({
 
         this.actor.add_actor(this.box, {expand: false, x_fill: false, x_align: St.Align.LEFT});
     },
-    addItem       : function(projectName, projectValue, taskCount, isLast)
-    {
+    addItem       : function(projectName, projectValue, taskCount, isLast){
         let last = isLast ? " last" : "";
         let active = _currentProjectName === projectValue ? " active" : "";
         let cssClass = "projectButton" + last + active;
@@ -120,8 +118,7 @@ const ProjectHeaderBar = new Lang.Class({
 
         this.box.add(_projectButton, {expand: false, x_fill: false, x_align: St.Align.MIDDLE});
     },
-    _selectProject: function(button)
-    {
+    _selectProject: function(button){
         // skip because it is already active
         if(_currentProjectName === button.ProjectValue)
         {
@@ -144,8 +141,7 @@ const ProjectHeaderBar = new Lang.Class({
         // clear box and fetch new data
         this.menu.taskBox.reloadTaskData(true);
     },
-    destroyItems  : function()
-    {
+    destroyItems  : function(){
         let items = this.box.get_children();
         for(let i = 0; i < items.length; i++)
         {
@@ -153,12 +149,10 @@ const ProjectHeaderBar = new Lang.Class({
             boxItem.destroy();
         }
     },
-    hide          : function()
-    {
+    hide          : function(){
         this.actor.hide();
     },
-    show          : function()
-    {
+    show          : function(){
         this.actor.show();
     }
 });
@@ -167,8 +161,7 @@ const ScrollBox = new Lang.Class({
     Name   : 'ScrollBox',
     Extends: PopupMenu.PopupMenuBase,
 
-    _init: function(menu, styleClass)
-    {
+    _init: function(menu, styleClass){
         this.menu = menu;
 
         this.box = new St.BoxLayout({
@@ -191,8 +184,7 @@ const ScrollBox = new Lang.Class({
         let scrollBar = this.actor.get_vscroll_bar();
         let appsScrollBoxAdj = scrollBar.get_adjustment();
 
-        this.actor.connect('scroll-event', Lang.bind(this, function()
-        {
+        this.actor.connect('scroll-event', Lang.bind(this, function(){
             if(_hitScrollEvent)
             {
                 return;
@@ -206,14 +198,12 @@ const ScrollBox = new Lang.Class({
             }
         }));
 
-        this.reloadTaskData(true, Lang.bind(this, function()
-        {
+        this.reloadTaskData(true, Lang.bind(this, function(){
             this.loadNextItems();
         }));
     },
 
-    addGridItem       : function(task)
-    {
+    addGridItem       : function(task){
         let dueDateAbbreviation = task.DueDateAbbreviation;
 
         let description = (dueDateAbbreviation ? dueDateAbbreviation + "  " : "") + task.Description;
@@ -223,8 +213,7 @@ const ScrollBox = new Lang.Class({
         if(!task.IsCompleted)
         {
             let iconName = this.menu._use_alternative_theme ? "task_done_dark" : "task_done_white";
-            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", Lang.bind(this, function()
-            {
+            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", Lang.bind(this, function(){
                 this.emit('setDone', task);
             }));
             gridMenu.actor.insert_child_at_index(changeButton, 4);
@@ -232,8 +221,7 @@ const ScrollBox = new Lang.Class({
         else
         {
             let iconName = this.menu._use_alternative_theme ? "in_progress_dark" : "in_progress";
-            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", Lang.bind(this, function()
-            {
+            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", Lang.bind(this, function(){
                 this.emit('setUndone', task);
             }));
             gridMenu.actor.insert_child_at_index(changeButton, 4);
@@ -254,8 +242,7 @@ const ScrollBox = new Lang.Class({
         }
 
         gridMenu.menu.box.add_style_class_name("taskGridInner");
-        gridMenu.menu._needsScrollbar = function()
-        {
+        gridMenu.menu._needsScrollbar = function(){
             return false;
         };
 
@@ -342,8 +329,7 @@ const ScrollBox = new Lang.Class({
 
         if(task.IsCompleted)
         {
-            let _markUndoneButton = UiHelper.createButton(_("Set Task Undone"), "doneTask", "doneTask", Lang.bind(this, function()
-            {
+            let _markUndoneButton = UiHelper.createButton(_("Set Task Undone"), "doneTask", "doneTask", Lang.bind(this, function(){
                 this.emit('setUndone', task);
             }));
 
@@ -354,26 +340,22 @@ const ScrollBox = new Lang.Class({
             let _markStartStopButton;
             if(task.Started)
             {
-                _markStartStopButton = UiHelper.createButton(_("Stop task"), "stopTask", "stopTask", Lang.bind(this, function()
-                {
+                _markStartStopButton = UiHelper.createButton(_("Stop task"), "stopTask", "stopTask", Lang.bind(this, function(){
                     this.emit('startStop', task);
                 }));
             }
             else
             {
-                _markStartStopButton = UiHelper.createButton(_("Start task"), "startTask", "startTask", Lang.bind(this, function()
-                {
+                _markStartStopButton = UiHelper.createButton(_("Start task"), "startTask", "startTask", Lang.bind(this, function(){
                     this.emit('startStop', task);
                 }));
             }
 
-            let _markDoneButton = UiHelper.createButton(_("Set Task Done"), "doneTask", "doneTask", Lang.bind(this, function()
-            {
+            let _markDoneButton = UiHelper.createButton(_("Set Task Done"), "doneTask", "doneTask", Lang.bind(this, function(){
                 this.emit('setDone', task);
             }));
 
-            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", Lang.bind(this, function()
-            {
+            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", Lang.bind(this, function(){
                 this.emit('modify', task);
             }));
 
@@ -396,8 +378,7 @@ const ScrollBox = new Lang.Class({
 
         _gridItems[task.ID] = gridMenu;
     },
-    removeTaskFromGrid: function(taskID)
-    {
+    removeTaskFromGrid: function(taskID){
         let gridMenuItem = _gridItems[task.ID];
         if(gridMenuItem)
         {
@@ -405,8 +386,7 @@ const ScrollBox = new Lang.Class({
         }
     },
 
-    _appendDataRow: function(gridMenu, title, value)
-    {
+    _appendDataRow: function(gridMenu, title, value){
         let rowMenuItem = new PopupMenu.PopupBaseMenuItem({
             reactive   : false,
             style_class: 'taskDataRowMenuItem'
@@ -441,8 +421,7 @@ const ScrollBox = new Lang.Class({
         gridMenu.menu.addMenuItem(rowMenuItem);
     },
 
-    _destroyItems: function()
-    {
+    _destroyItems: function(){
         let items = this.box.get_children();
         for(let i = 0; i < items.length; i++)
         {
@@ -451,8 +430,7 @@ const ScrollBox = new Lang.Class({
         }
     },
 
-    loadNextItems: function(cleanItemBox)
-    {
+    loadNextItems: function(cleanItemBox){
         _hitScrollEvent = true;
 
         if(cleanItemBox)
@@ -485,10 +463,8 @@ const ScrollBox = new Lang.Class({
         }
     },
 
-    createProjectData: function()
-    {
-        this.menu.service.loadProjectsDataAsync(_currentTaskType, Lang.bind(this, function(_projects)
-        {
+    createProjectData: function(){
+        this.menu.service.loadProjectsDataAsync(_currentTaskType, Lang.bind(this, function(_projects){
             if(!_projects)
             {
                 return;
@@ -519,8 +495,7 @@ const ScrollBox = new Lang.Class({
         }));
     },
 
-    reloadTaskData : function(refreshCache, afterReloadCallback)
-    {
+    reloadTaskData  : function(refreshCache, afterReloadCallback){
         let now = new Date().getTime() / 1000;
         if(refreshCache || !_cacheExpirationTime || _cacheExpirationTime < now)
         {
@@ -528,35 +503,28 @@ const ScrollBox = new Lang.Class({
 
             if(this.menu._enable_taskd_sync)
             {
-                this.menu.service.syncTasksAsync(Lang.bind(this, function(data)
-                {
+                this.menu.service.syncTasksAsync(Lang.bind(this, function(data){
                     log("TaskWhisperer Sync: " + data);
-                    this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, Lang.bind(this, function(data)
-                    {
+                    this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, Lang.bind(this, function(data){
                         this.processTaskData(afterReloadCallback, data);
-                    }), Lang.bind(this, function(errorMessage)
-                    {
+                    }), Lang.bind(this, function(errorMessage){
                         this.showServiceError(errorMessage);
                     }));
-                }), Lang.bind(this, function(errorMessage)
-                {
+                }), Lang.bind(this, function(errorMessage){
                     this.showServiceError(errorMessage);
                 }));
             }
             else
             {
-                this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, Lang.bind(this, function(data)
-                {
+                this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, Lang.bind(this, function(data){
                     this.processTaskData(afterReloadCallback, data);
-                }), Lang.bind(this, function(errorMessage)
-                {
+                }), Lang.bind(this, function(errorMessage){
                     this.showServiceError(errorMessage);
                 }));
             }
         }
     },
-    processTaskData: function(afterReloadCallback, data)
-    {
+    processTaskData : function(afterReloadCallback, data){
         let sortFunction = this.menu._sortByDue;
 
         switch(this.menu._sort_order)
@@ -591,8 +559,7 @@ const ScrollBox = new Lang.Class({
             afterReloadCallback.call(this);
         }
     },
-    showServiceError: function(processErrorMessage)
-    {
+    showServiceError: function(processErrorMessage){
         let errorMessage = _('There was an error executing TaskWarrior: \n\n') + processErrorMessage || "---";
         let errorMessageAppendix = _("You can find some troubleshoot information on TaskWhisperer Github page!");
         UiHelper.showNotification(_('TaskWhisperer Service Error'), errorMessage);
@@ -600,8 +567,7 @@ const ScrollBox = new Lang.Class({
         this.menu._panelButtonLabel.text = _("Error!");
         this.showTextBox(errorMessage + "\n\n" + errorMessageAppendix);
     },
-    showTextBox: function(message, classes)
-    {
+    showTextBox     : function(message, classes){
         this._destroyItems();
 
         let placeholderLabel = new St.Label({
@@ -613,7 +579,13 @@ const ScrollBox = new Lang.Class({
         placeholderLabel.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
         placeholderLabel.clutter_text.line_wrap = true;
 
-        this.box.add(placeholderLabel, {expand: true, x_fill: true, y_fill: true, y_align: St.Align.MIDDLE, x_align: St.Align.MIDDLE});
+        this.box.add(placeholderLabel, {
+            expand : true,
+            x_fill : true,
+            y_fill : true,
+            y_align: St.Align.MIDDLE,
+            x_align: St.Align.MIDDLE
+        });
     }
 });
 
@@ -622,8 +594,7 @@ const HeaderBar = new Lang.Class({
     Name   : 'HeaderBar',
     Extends: PopupMenu.PopupBaseMenuItem,
 
-    _init: function(menu)
-    {
+    _init: function(menu){
         this.menu = menu;
         this.actor = new St.BoxLayout({
             style_class: this.menu._use_alternative_theme ? "headerBar dark" : "headerBar",
@@ -635,24 +606,20 @@ const HeaderBar = new Lang.Class({
         this.actor.add(this._createRightBoxMenu(), {expand: false, x_fill: true, x_align: St.Align.END});
     },
 
-    _createLeftBoxMenu: function()
-    {
+    _createLeftBoxMenu: function(){
         let leftBox = new St.BoxLayout({
             style_class: "leftBox"
         });
 
-        leftBox.add(UiHelper.createActionButton("create", "hatt", null, Lang.bind(this.menu, function()
-        {
+        leftBox.add(UiHelper.createActionButton("create", "hatt", null, Lang.bind(this.menu, function(){
             this._openTaskCreationDialog();
         })));
 
-        leftBox.add(UiHelper.createActionButton("refresh", "hatt2", null, Lang.bind(this.menu, function()
-        {
+        leftBox.add(UiHelper.createActionButton("refresh", "hatt2", null, Lang.bind(this.menu, function(){
             this.taskBox.reloadTaskData(true);
         })));
 
-        leftBox.add(UiHelper.createActionButton("settings", "hatt2", "last", Lang.bind(this.menu, function()
-        {
+        leftBox.add(UiHelper.createActionButton("settings", "hatt2", "last", Lang.bind(this.menu, function(){
             this.menu.actor.hide();
             this.actor.hide();
             this.actor.show();
@@ -662,8 +629,7 @@ const HeaderBar = new Lang.Class({
         return leftBox;
     },
 
-    _createMiddleBoxMenu: function()
-    {
+    _createMiddleBoxMenu: function(){
         let middleBox = new St.BoxLayout({
             style_class: "middleBox"
         });
@@ -682,8 +648,7 @@ const HeaderBar = new Lang.Class({
         return middleBox;
     },
 
-    _createRightBoxMenu: function()
-    {
+    _createRightBoxMenu: function(){
         let rightBox = new St.BoxLayout({style_class: "rightBox"});
 
         let activeClass = taskService.SortOrder.DUE == this.menu._sort_order ? "active" : "";
@@ -699,8 +664,7 @@ const HeaderBar = new Lang.Class({
         return rightBox;
     },
 
-    _toggleSortIcon: function(button)
-    {
+    _toggleSortIcon: function(button){
         // skip because it is already active
         if(this.menu._sort_order == button.SortID)
         {
@@ -724,8 +688,7 @@ const HeaderBar = new Lang.Class({
         this.menu.taskBox.reloadTaskData(true);
     },
 
-    _toggleTaskType: function(button)
-    {
+    _toggleTaskType: function(button){
         // skip because it is already active
         if(_currentTaskType == button.TypeID)
         {
@@ -759,54 +722,44 @@ const TaskWhispererMenuButton = new Lang.Class({
 
     Extends: PanelMenu.Button,
 
-    get _position_in_panel()
-    {
+    get _position_in_panel(){
         return this.Settings.get_enum(Prefs.TASKWHISPERER_POSITION_IN_PANEL_KEY);
     },
 
-    get _show_no_dates_at_end()
-    {
+    get _show_no_dates_at_end(){
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_SHOW_NO_DATES_AT_END);
     },
 
-    get _dateformat()
-    {
+    get _dateformat(){
         return this.Settings.get_string(Prefs.TASKWHISPERER_DATEFORMAT);
     },
 
-    get _enable_taskd_sync()
-    {
+    get _enable_taskd_sync(){
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_ENABLE_TASKD_SYNC);
     },
 
-    get _show_panel_icon()
-    {
+    get _show_panel_icon(){
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_SHOW_PANEL_ICON);
     },
 
-    get _show_panel_label()
-    {
+    get _show_panel_label(){
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_SHOW_PANEL_LABEL);
     },
 
-    get _use_alternative_theme()
-    {
+    get _use_alternative_theme(){
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_USE_ALTERNATIVE_THEME);
     },
 
-    get _sort_order()
-    {
+    get _sort_order(){
         return this.Settings.get_enum(Prefs.TASKWHISPERER_SORT_ORDER);
     },
 
-    set _sort_order(value)
-    {
+    set _sort_order(value){
         return this.Settings.set_enum(Prefs.TASKWHISPERER_SORT_ORDER, value);
     },
 
-    get Settings()
-    {
-        if (!this._settings)
+    get Settings(){
+        if(!this._settings)
         {
             this.loadSettings();
         }
@@ -814,10 +767,9 @@ const TaskWhispererMenuButton = new Lang.Class({
         return this._settings;
     },
 
-    _init: function()
-    {
+    _init: function(){
         this._icon = new St.Icon({
-            icon_name: 'taskwarrior_head',
+            icon_name  : 'taskwarrior_head',
             style_class: 'system-status-icon'
         });
 
@@ -886,47 +838,39 @@ const TaskWhispererMenuButton = new Lang.Class({
         this._renderPanelMenuHeaderBox();
         this._renderPanelMenuProjectBox();
 
-        this.taskBox.connect('startStop', Lang.bind(this, function(that, task)
-        {
+        this.taskBox.connect('startStop', Lang.bind(this, function(that, task){
             // log("started: " + task.Started);
             if(!task.Started)
             {
-                this.service.startTask(task.ID, Lang.bind(this, function()
-                {
+                this.service.startTask(task.ID, Lang.bind(this, function(){
                     // log("startTask " + task.ID + "(" + task.Start + ")");
                     this.taskBox.reloadTaskData(true);
                 }));
             }
             else
             {
-                this.service.stopTask(task.ID, Lang.bind(this, function()
-                {
+                this.service.stopTask(task.ID, Lang.bind(this, function(){
                     // log("stopTask " + task.ID + "(" + task.Start + ")");
                     this.taskBox.reloadTaskData(true);
                 }));
             }
         }));
 
-        this.taskBox.connect("setDone", Lang.bind(this, function(that, task)
-        {
-            this.service.setTaskDone(task.ID, Lang.bind(this, function()
-            {
+        this.taskBox.connect("setDone", Lang.bind(this, function(that, task){
+            this.service.setTaskDone(task.ID, Lang.bind(this, function(){
                 this.taskBox.reloadTaskData(true);
             }));
         }));
 
-        this.taskBox.connect("setUndone", Lang.bind(this, function(that, task)
-        {
-            this.service.setTaskUndone(task.UUID, Lang.bind(this, function()
-            {
+        this.taskBox.connect("setUndone", Lang.bind(this, function(that, task){
+            this.service.setTaskUndone(task.UUID, Lang.bind(this, function(){
                 this.taskBox.reloadTaskData(true);
             }));
         }));
 
         this.taskBox.connect("modify", Lang.bind(this, this._openModificationDialog));
 
-        this.menu.connect('open-state-changed', Lang.bind(this, function(menu, isOpen)
-        {
+        this.menu.connect('open-state-changed', Lang.bind(this, function(menu, isOpen){
             _isOpen = isOpen;
 
             if(_isOpen)
@@ -946,8 +890,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         {
             this._needsColorUpdate = true;
             let context = St.ThemeContext.get_for_stage(global.stage);
-            this._globalThemeChangedId = context.connect('changed', Lang.bind(this, function()
-            {
+            this._globalThemeChangedId = context.connect('changed', Lang.bind(this, function(){
                 this._needsColorUpdate = true;
             }));
         }
@@ -955,8 +898,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         this.checkPanelControls();
     },
 
-    checkPanelControls: function()
-    {
+    checkPanelControls: function(){
         if(this._show_panel_icon)
         {
             this._icon.show();
@@ -978,8 +920,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         this.headerBar.actor.style_class = this._use_alternative_theme ? "headerBar dark" : "headerBar";
     },
 
-    checkPositionInPanel: function()
-    {
+    checkPositionInPanel: function(){
         if(this._oldPanelPosition != this._position_in_panel)
         {
             switch(this._oldPanelPosition)
@@ -1016,8 +957,7 @@ const TaskWhispererMenuButton = new Lang.Class({
 
     },
 
-    _sortByDue: function(a, b)
-    {
+    _sortByDue: function(a, b){
         let dueA;
         let dueB;
 
@@ -1038,8 +978,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         return dueA - dueB;
     },
 
-    _sortByModification: function(a, b)
-    {
+    _sortByModification: function(a, b){
         let valueA = a.Modified || "";
         let valueB = b.Modified || "";
 
@@ -1049,16 +988,14 @@ const TaskWhispererMenuButton = new Lang.Class({
         return valueB - valueA;
     },
 
-    _sortByUrgency: function(a, b)
-    {
+    _sortByUrgency: function(a, b){
         let valueA = a.Urgency || "";
         let valueB = b.Urgency || "";
 
         return valueB - valueA;
     },
 
-    _renderPanelMenuHeaderBox: function()
-    {
+    _renderPanelMenuHeaderBox: function(){
         this.headerBar = new HeaderBar(this);
         let section = new PopupMenu.PopupMenuSection();
         this.menu.addMenuItem(section);
@@ -1066,25 +1003,21 @@ const TaskWhispererMenuButton = new Lang.Class({
         section.actor.add_actor(this.headerBar.actor);
     },
 
-    _renderPanelMenuProjectBox: function()
-    {
+    _renderPanelMenuProjectBox: function(){
         this.projectHeaderBar = new ProjectHeaderBar(this);
         let section = new PopupMenu.PopupMenuSection();
         this.menu.addMenuItem(section);
 
         section.actor.add_actor(this.projectHeaderBar.actor);
 
-        this.projectHeaderBar.connect("setProject", Lang.bind(this, function(that, task)
-        {
-            this.service.setTaskDone(task.ID, Lang.bind(this, function()
-            {
+        this.projectHeaderBar.connect("setProject", Lang.bind(this, function(that, task){
+            this.service.setTaskDone(task.ID, Lang.bind(this, function(){
                 this.taskBox.reloadTaskData(true);
             }));
         }));
     },
 
-    _openModificationDialog: function(that, task)
-    {
+    _openModificationDialog: function(that, task){
         // FIXME: looks like a bug, if i remove actor.hide / show, i have to click twice on the dialog
         //        once to kill the (already hidden menu) twice to interact with the dialog.. dafuq?
         this.menu.actor.hide();
@@ -1094,10 +1027,8 @@ const TaskWhispererMenuButton = new Lang.Class({
         this._modifyTaskDialog = new Dialogs.ModifyTaskDialog(task, this._dateformat);
 
         this._modifyTaskDialog.connect('modify',
-            Lang.bind(this, function(dialog, modificationParameter)
-            {
-                this.service.modifyTask(task.ID, modificationParameter, Lang.bind(this, function(buffer, status)
-                {
+            Lang.bind(this, function(dialog, modificationParameter){
+                this.service.modifyTask(task.ID, modificationParameter, Lang.bind(this, function(buffer, status){
                     if(status != 0)
                     {
                         dialog._errorMessageLabel.text = _("Sorry, that didn\'t work. Please try again.") + "\r\n" + buffer;
@@ -1113,8 +1044,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         this._modifyTaskDialog.open(global.get_current_time());
     },
 
-    _openTaskCreationDialog: function()
-    {
+    _openTaskCreationDialog: function(){
         // FIXME: looks like a bug, if i remove actor.hide / show, i have to click twice on the dialog
         //        once to kill the (already hidden menu) twice to interact with the dialog.. dafuq?
         this.menu.actor.hide();
@@ -1124,10 +1054,8 @@ const TaskWhispererMenuButton = new Lang.Class({
         this._createTaskDialog = new Dialogs.CreateTaskDialog(this._dateformat);
 
         this._createTaskDialog.connect('create',
-            Lang.bind(this, function(dialog, parameterString)
-            {
-                this.service.createTask(parameterString, Lang.bind(this, function(buffer, status)
-                {
+            Lang.bind(this, function(dialog, parameterString){
+                this.service.createTask(parameterString, Lang.bind(this, function(buffer, status){
                     if(status != 0)
                     {
                         dialog._errorMessageLabel.text = _("Sorry, that didn\'t work. Please try again.") + "\r\n" + buffer;
@@ -1143,38 +1071,32 @@ const TaskWhispererMenuButton = new Lang.Class({
         this._createTaskDialog.open(global.get_current_time());
     },
 
-    loadSettings: function()
-    {
+    loadSettings: function(){
         this._settings = Convenience.getSettings(TASKWHISPERER_SETTINGS_SCHEMA);
 
-        this._settingsC = this._settings.connect("changed", Lang.bind(this, function()
-        {
+        this._settingsC = this._settings.connect("changed", Lang.bind(this, function(){
             this.checkPositionInPanel();
             this.checkPanelControls();
         }));
     },
 
-    switchProvider: function()
-    {
+    switchProvider: function(){
         // By now only direct export of taskwarrior is supported
         this.useTaskWarriorExport();
     },
 
-    useTaskWarriorExport: function()
-    {
+    useTaskWarriorExport: function(){
         this.service = new TaskService();
     },
 
-    setRefreshTaskDataTimeout: function()
-    {
+    setRefreshTaskDataTimeout: function(){
         if(this._refreshTaskDataTimeoutID)
         {
             Mainloop.source_remove(this._refreshTaskDataTimeoutID);
             this._refreshTaskDataTimeoutID = undefined;
         }
 
-        this._refreshTaskDataTimeoutID = Mainloop.timeout_add_seconds(150, Lang.bind(this, function()
-        {
+        this._refreshTaskDataTimeoutID = Mainloop.timeout_add_seconds(150, Lang.bind(this, function(){
             // Avoid intervention while user is doing something
             if(!_isOpen)
             {
@@ -1186,8 +1108,7 @@ const TaskWhispererMenuButton = new Lang.Class({
         }));
     },
 
-    stop: function()
-    {
+    stop: function(){
         _currentItems = [];
         _cacheExpirationTime = undefined;
 
