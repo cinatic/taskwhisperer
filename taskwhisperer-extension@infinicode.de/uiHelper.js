@@ -26,10 +26,12 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+const ExtensionUtils = imports.misc.extensionUtils;
+const Me = ExtensionUtils.getCurrentExtension();
 const Gettext = imports.gettext;
 const Lang = imports.lang;
 
-const St = imports.gi.St;
+const {Gio, St} = imports.gi;
 
 const Main = imports.ui.main;
 const MessageTray = imports.ui.messageTray;
@@ -37,52 +39,56 @@ const MessageTray = imports.ui.messageTray;
 
 // extensionMeta is the object obtained from the metadata.json file, plus // the path property which is the path of the extension folder!
 function init(extensionMeta) {
-    let theme = imports.gi.Gtk.IconTheme.get_default(); theme.append_search_path(extensionMeta.path + "/icons");
+    let theme = imports.gi.Gtk.IconTheme.get_default();
+    theme.append_search_path(extensionMeta.path + "/icons");
 }
 
-function createActionButton(iconName, accessibleName, classes, onClick)
-{
+function createActionButton(iconName, accessibleName, classes, onClick) {
     classes = classes || "";
 
     let icon = new St.Button({
-        reactive       : true,
-        can_focus      : true,
-        track_hover    : true,
+        reactive: true,
+        can_focus: true,
+        track_hover: true,
         accessible_name: accessibleName,
-        style_class    : 'system-menu-action ' + classes
+        style_class: 'system-menu-action ' + classes
     });
 
-    icon.child = new St.Icon({icon_name: iconName});
+    // icon.child = new St.Icon({icon_name: iconName});
 
-    if(onClick)
-    {
+    icon.child = getCustomIcon(iconName);
+
+    if (onClick) {
         icon.connect('clicked', Lang.bind(this, onClick));
     }
 
     return icon;
 }
 
-function createButton(text, accessibleName, classes, onClick)
-{
+function getCustomIcon(iconName) {
+    return new St.Icon({
+        gicon: Gio.icon_new_for_string(Me.dir.get_child('icons').get_path() + "/" + iconName + ".svg")
+    });
+}
+
+function createButton(text, accessibleName, classes, onClick) {
     let button = new St.Button({
-        reactive       : true,
-        can_focus      : true,
-        track_hover    : true,
-        label          : text,
+        reactive: true,
+        can_focus: true,
+        track_hover: true,
+        label: text,
         accessible_name: accessibleName,
-        style_class    : 'popup-menu-item button ' + classes
+        style_class: 'popup-menu-item button ' + classes
     });
 
-    if(onClick)
-    {
+    if (onClick) {
         button.connect('clicked', Lang.bind(this, onClick));
     }
 
     return button;
 }
 
-function showNotification(title, message, icon)
-{
+function showNotification(title, message, icon) {
     let source = new MessageTray.Source('TaskWhisperer', icon || "dialog-warning");
     let notification = new MessageTray.Notification(source, title, message);
     Main.messageTray.add(source);

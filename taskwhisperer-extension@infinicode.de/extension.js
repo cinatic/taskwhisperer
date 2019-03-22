@@ -35,15 +35,12 @@ const Prefs = Me.imports.prefs;
 const TaskService = taskService.TaskService;
 
 const Config = imports.misc.config;
-const Clutter = imports.gi.Clutter;
-const Gio = imports.gi.Gio;
-const Gtk = imports.gi.Gtk;
+const {Clutter, GObject, Gio, Gtk, Pango, St} = imports.gi;
+
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Shell = imports.gi.Shell;
 const ShellEntry = imports.ui.shellEntry;
-const Pango = imports.gi.Pango;
-const St = imports.gi.St;
 const Util = imports.misc.util;
 
 const Gettext = imports.gettext.domain('gnome-shell-extension-taskwhisperer');
@@ -65,8 +62,8 @@ const TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync';
 
 const MenuPosition = {
     CENTER: 0,
-    RIGHT : 1,
-    LEFT  : 2
+    RIGHT: 1,
+    LEFT: 2
 };
 
 
@@ -86,11 +83,13 @@ let _projects = {};
 let _currentPage = 0;
 
 
-const ProjectHeaderBar = new Lang.Class({
-    Name   : 'ProjectHeaderBar',
-    Extends: PopupMenu.PopupBaseMenuItem,
+const ProjectHeaderBar = class extends PopupMenu.PopupBaseMenuItem {
+    constructor(menu) {
+        super();
+        this._init(menu)
+    }
 
-    _init         : function(menu){
+    _init(menu) {
         this.menu = menu;
 
         //this.actor.add(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
@@ -99,7 +98,7 @@ const ProjectHeaderBar = new Lang.Class({
 
         this.box = new St.BoxLayout({
             style_class: 'projectHeaderBarBox',
-            vertical   : false
+            vertical: false
         });
 
         this.actor = new St.ScrollView({
@@ -107,8 +106,9 @@ const ProjectHeaderBar = new Lang.Class({
         });
 
         this.actor.add_actor(this.box, {expand: false, x_fill: false, x_align: St.Align.LEFT});
-    },
-    addItem       : function(projectName, projectValue, taskCount, isLast){
+    }
+
+    addItem(projectName, projectValue, taskCount, isLast) {
         let last = isLast ? " last" : "";
         let active = _currentProjectName === projectValue ? " active" : "";
         let cssClass = "projectButton" + last + active;
@@ -117,11 +117,11 @@ const ProjectHeaderBar = new Lang.Class({
         _projectButton.ProjectValue = projectValue;
 
         this.box.add(_projectButton, {expand: false, x_fill: false, x_align: St.Align.MIDDLE});
-    },
-    _selectProject: function(button){
+    }
+
+    _selectProject(button) {
         // skip because it is already active
-        if(_currentProjectName === button.ProjectValue)
-        {
+        if (_currentProjectName === button.ProjectValue) {
             return;
         }
 
@@ -129,8 +129,7 @@ const ProjectHeaderBar = new Lang.Class({
         let tabBox = button.get_parent();
         let tabBoxChildren = tabBox.get_children();
 
-        for(let i = 0; i < tabBoxChildren.length; i++)
-        {
+        for (let i = 0; i < tabBoxChildren.length; i++) {
             let tabButton = tabBoxChildren[i];
             tabButton.remove_style_class_name("active");
         }
@@ -140,39 +139,39 @@ const ProjectHeaderBar = new Lang.Class({
 
         // clear box and fetch new data
         this.menu.taskBox.reloadTaskData(true);
-    },
-    destroyItems  : function(){
+    }
+
+    destroyItems() {
         let items = this.box.get_children();
-        for(let i = 0; i < items.length; i++)
-        {
+        for (let i = 0; i < items.length; i++) {
             let boxItem = items[i];
             boxItem.destroy();
         }
-    },
-    hide          : function(){
+    }
+
+    hide() {
         this.actor.hide();
-    },
-    show          : function(){
+    }
+
+    show() {
         this.actor.show();
     }
-});
+};
 
-const ScrollBox = new Lang.Class({
-    Name   : 'ScrollBox',
-    Extends: PopupMenu.PopupMenuBase,
-
-    _init: function(menu, styleClass){
+const ScrollBox = class extends PopupMenu.PopupMenuBase {
+    constructor(menu, styleClass) {
+        super(menu);
         this.menu = menu;
 
         this.box = new St.BoxLayout({
             style_class: styleClass,
-            vertical   : true
+            vertical: true
         });
 
         this.actor = new St.ScrollView({
-            style_class       : 'scrollBox',
-            hscrollbar_policy : Gtk.PolicyType.NEVER,
-            vscrollbar_policy : Gtk.PolicyType.NEVER,
+            style_class: 'scrollBox',
+            hscrollbar_policy: Gtk.PolicyType.NEVER,
+            vscrollbar_policy: Gtk.PolicyType.NEVER,
             overlay_scrollbars: true
         });
 
@@ -184,135 +183,116 @@ const ScrollBox = new Lang.Class({
         let scrollBar = this.actor.get_vscroll_bar();
         let appsScrollBoxAdj = scrollBar.get_adjustment();
 
-        this.actor.connect('scroll-event', Lang.bind(this, function(){
-            if(_hitScrollEvent)
-            {
+        this.actor.connect('scroll-event', () => {
+            if (_hitScrollEvent) {
                 return;
             }
 
             let currentPosition = appsScrollBoxAdj.value + this.actor.height;
 
-            if((currentPosition + 400) >= appsScrollBoxAdj.upper)
-            {
+            if ((currentPosition + 400) >= appsScrollBoxAdj.upper) {
                 this.loadNextItems();
             }
-        }));
+        });
 
-        this.reloadTaskData(true, Lang.bind(this, function(){
+        this.reloadTaskData(true, () => {
             this.loadNextItems();
-        }));
-    },
+        });
+    }
 
-    addGridItem       : function(task){
+    addGridItem(task) {
+        log("whaat 5")
         let dueDateAbbreviation = task.DueDateAbbreviation;
 
         let description = (dueDateAbbreviation ? dueDateAbbreviation + "  " : "") + task.Description;
 
         let gridMenu = new PopupMenu.PopupSubMenuMenuItem(description, true);
 
-        if(!task.IsCompleted)
-        {
+        if (!task.IsCompleted) {
             let iconName = this.menu._use_alternative_theme ? "task_done_dark" : "task_done_white";
-            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", Lang.bind(this, function(){
+            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", () => {
                 this.emit('setDone', task);
-            }));
+            });
+
             gridMenu.actor.insert_child_at_index(changeButton, 4);
-        }
-        else
-        {
+        } else {
             let iconName = this.menu._use_alternative_theme ? "in_progress_dark" : "in_progress";
-            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", Lang.bind(this, function(){
+            let changeButton = UiHelper.createActionButton(iconName, "hatt2", "rowMenuIconButton", () => {
                 this.emit('setUndone', task);
-            }));
+            });
             gridMenu.actor.insert_child_at_index(changeButton, 4);
         }
 
-        if(task.Started)
-        {
+        if (task.Started) {
             gridMenu.actor.add_style_class_name("activeTask");
-            let icon = new St.Icon();
-            icon.icon_name = 'in_progress';
+            const icon = UiHelper.getCustomIcon('in_progress');
             icon.add_style_class_name("progressIcon");
             icon.set_icon_size(19);
             gridMenu.actor.insert_child_at_index(icon, 1);
-        }
-        else
-        {
+        } else {
             gridMenu.actor.add_style_class_name("taskGrid");
         }
 
         gridMenu.menu.box.add_style_class_name("taskGridInner");
-        gridMenu.menu._needsScrollbar = function(){
+        gridMenu.menu._needsScrollbar = function () {
             return false;
         };
 
-        if(task.IsCompleted)
-        {
-            gridMenu.icon.icon_name = 'done';
-            gridMenu.icon.add_style_class_name("completed");
-        }
-        else if(!dueDateAbbreviation)
-        {
-            gridMenu.icon.icon_name = 'warning';
-            gridMenu.icon.add_style_class_name("warning");
-        }
-        else if(task.Priority == taskService.TaskPriority.LOW)
-        {
-            gridMenu.icon.icon_name = 'priority_low';
-            gridMenu.icon.add_style_class_name("minor");
-        }
-        else if(task.Priority == taskService.TaskPriority.MEDIUM)
-        {
-            gridMenu.icon.icon_name = 'priority_medium';
-            gridMenu.icon.add_style_class_name("medium");
-        }
-        else if(task.Priority == taskService.TaskPriority.HIGH)
-        {
-            gridMenu.icon.icon_name = 'priority_high';
-            gridMenu.icon.add_style_class_name("urgent");
-        }
-        else
-        {
-            gridMenu.icon.icon_name = 'list-remove-symbolic';
-            gridMenu.icon.add_style_class_name("hidden");
+        let leftIcon;
+        let leftIconClass;
+
+        if (task.IsCompleted) {
+            leftIcon = UiHelper.getCustomIcon('done');
+            leftIconClass = "completed";
+        } else if (!dueDateAbbreviation) {
+            leftIcon = UiHelper.getCustomIcon('warning');
+            leftIconClass = "warning";
+        } else if (task.Priority == taskService.TaskPriority.LOW) {
+            leftIcon = UiHelper.getCustomIcon('priority_low');
+            leftIconClass = "minor"
+        } else if (task.Priority == taskService.TaskPriority.MEDIUM) {
+            leftIcon = UiHelper.getCustomIcon('priority_medium');
+            leftIconClass = "medium"
+        } else if (task.Priority == taskService.TaskPriority.HIGH) {
+            leftIcon = UiHelper.getCustomIcon('priority_high');
+            leftIconClass = "urgent";
+        } else {
+            leftIcon = new St.Icon({style_class: 'popup-menu-icon'});
+            leftIcon.icon_name = 'list-remove-symbolic';
+            leftIconClass = "hidden";
         }
 
-        if(task.ID)
-        {
+        leftIcon.add_style_class_name(`${leftIconClass} popup-menu-icon`);
+        gridMenu.actor.insert_child_at_index(leftIcon, 1);
+
+        if (task.ID) {
             this._appendDataRow(gridMenu, _("Identifier:"), task.ID + " (" + task.UUID + ")");
-        }
-        else
-        {
+        } else if (task.UUID) {
             this._appendDataRow(gridMenu, _("Identifier:"), task.UUID);
         }
 
         this._appendDataRow(gridMenu, _("Description:"), task.Description);
         this._appendDataRow(gridMenu, _("Status:"), task.Status);
 
-        if(task.Project)
-        {
+        if (task.Project) {
             this._appendDataRow(gridMenu, _("Project:"), task.Project);
         }
 
-        if(task.Annotations)
-        {
+        if (task.Annotations) {
             this._appendDataRow(gridMenu, _("Annotations:"), task.AnnotationsAsString);
         }
 
-        if(task.Tags)
-        {
+        if (task.Tags) {
             this._appendDataRow(gridMenu, _("Tags:"), task.TagsAsString);
         }
 
-        if(task.Priority)
-        {
+        if (task.Priority) {
             this._appendDataRow(gridMenu, _("Priority:"), task.Priority);
         }
 
-        this._appendDataRow(gridMenu, _("Urgency:"), task.Urgency.toString());
+        this._appendDataRow(gridMenu, _("Urgency:"), (task.Urgency || '').toString());
 
-        if(task.Due)
-        {
+        if (task.Due) {
             let dateFormat = Shell.util_translate_time_string(N_("%H:%M %A %d. %b. %Y"));
             let formattedText = task.DueDate.toLocaleFormat(dateFormat);
             this._appendDataRow(gridMenu, _("Due:"), formattedText);
@@ -323,39 +303,33 @@ const ScrollBox = new Lang.Class({
         });
 
         let _buttonMenu = new PopupMenu.PopupBaseMenuItem({
-            reactive   : false,
+            reactive: false,
             style_class: 'button-container'
         });
 
-        if(task.IsCompleted)
-        {
-            let _markUndoneButton = UiHelper.createButton(_("Set Task Undone"), "doneTask", "doneTask", Lang.bind(this, function(){
+        if (task.IsCompleted) {
+            let _markUndoneButton = UiHelper.createButton(_("Set Task Undone"), "doneTask", "doneTask", Lang.bind(this, function () {
                 this.emit('setUndone', task);
             }));
 
             buttonBox.add(_markUndoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-        }
-        else
-        {
+        } else {
             let _markStartStopButton;
-            if(task.Started)
-            {
-                _markStartStopButton = UiHelper.createButton(_("Stop task"), "stopTask", "stopTask", Lang.bind(this, function(){
+            if (task.Started) {
+                _markStartStopButton = UiHelper.createButton(_("Stop task"), "stopTask", "stopTask", Lang.bind(this, function () {
                     this.emit('startStop', task);
                 }));
-            }
-            else
-            {
-                _markStartStopButton = UiHelper.createButton(_("Start task"), "startTask", "startTask", Lang.bind(this, function(){
+            } else {
+                _markStartStopButton = UiHelper.createButton(_("Start task"), "startTask", "startTask", Lang.bind(this, function () {
                     this.emit('startStop', task);
                 }));
             }
 
-            let _markDoneButton = UiHelper.createButton(_("Set Task Done"), "doneTask", "doneTask", Lang.bind(this, function(){
+            let _markDoneButton = UiHelper.createButton(_("Set Task Done"), "doneTask", "doneTask", Lang.bind(this, function () {
                 this.emit('setDone', task);
             }));
 
-            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", Lang.bind(this, function(){
+            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", Lang.bind(this, function () {
                 this.emit('modify', task);
             }));
 
@@ -364,31 +338,32 @@ const ScrollBox = new Lang.Class({
             buttonBox.add(_modifyButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
         }
 
-        if(ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION))
-        {
+        if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
             _buttonMenu.add_actor(buttonBox);
-        }
-        else
-        {
+        } else {
             _buttonMenu.actor.add_actor(buttonBox);
         }
 
         gridMenu.menu.addMenuItem(_buttonMenu);
         this.addMenuItem(gridMenu);
 
-        _gridItems[task.ID] = gridMenu;
-    },
-    removeTaskFromGrid: function(taskID){
-        let gridMenuItem = _gridItems[task.ID];
-        if(gridMenuItem)
-        {
+        this._gridItems[task.ID] = gridMenu;
+    }
+
+    removeTaskFromGrid(taskID) {
+        let gridMenuItem = this._gridItems[task.ID];
+        if (gridMenuItem) {
             gridMenuItem.destroy();
         }
-    },
+    }
 
-    _appendDataRow: function(gridMenu, title, value){
+    _appendDataRow(gridMenu, title, value) {
+        if (!value) {
+            value = '-';
+        }
+
         let rowMenuItem = new PopupMenu.PopupBaseMenuItem({
-            reactive   : false,
+            reactive: false,
             style_class: 'taskDataRowMenuItem'
         });
 
@@ -397,51 +372,46 @@ const ScrollBox = new Lang.Class({
         });
 
         let titleLabel = new St.Label({
-            text       : title,
+            text: title,
             style_class: 'rowTitle'
         });
 
         let valueLabel = new St.Label({
-            text       : value,
+            text: value,
             style_class: 'rowValue'
         });
 
         taskDataRow.add(titleLabel, {expand: true, x_fill: false, x_align: St.Align.START});
         taskDataRow.add(valueLabel, {expand: true, x_fill: false, x_align: St.Align.END});
 
-        if(ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION))
-        {
+        if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
             rowMenuItem.add_actor(taskDataRow);
-        }
-        else
-        {
+        } else {
             rowMenuItem.actor.add_actor(taskDataRow);
         }
 
         gridMenu.menu.addMenuItem(rowMenuItem);
-    },
+    }
 
-    _destroyItems: function(){
+    _destroyItems() {
         let items = this.box.get_children();
-        for(let i = 0; i < items.length; i++)
-        {
+        for (let i = 0; i < items.length; i++) {
             let boxItem = items[i];
             boxItem.destroy();
         }
-    },
+    }
 
-    loadNextItems: function(cleanItemBox){
+    loadNextItems(cleanItemBox) {
         _hitScrollEvent = true;
 
-        if(cleanItemBox)
-        {
+        if (cleanItemBox) {
             let scrollBar = this.actor.get_vscroll_bar();
             let appsScrollBoxAdj = scrollBar.get_adjustment();
             appsScrollBoxAdj.value = 0;
             scrollBar.set_adjustment(appsScrollBoxAdj);
 
             _currentPage = 0;
-            _gridItems = {};
+            this._gridItems = {};
             this._destroyItems();
         }
 
@@ -449,24 +419,21 @@ const ScrollBox = new Lang.Class({
 
         let data = _currentItems.slice(showAmount, showAmount + 25);
 
-        for(let i = 0; i < data.length; i++)
-        {
+        for (let i = 0; i < data.length; i++) {
             this.addGridItem(data[i]);
         }
 
         _currentPage++;
         _hitScrollEvent = false;
 
-        if(!this.box.get_children().length)
-        {
+        if (!this.box.get_children().length) {
             this.showTextBox(_("No Tasks to show! \n\n Add some more tasks or change filter settings."), "noTasks");
         }
-    },
+    }
 
-    createProjectData: function(){
-        this.menu.service.loadProjectsDataAsync(_currentTaskType, Lang.bind(this, function(_projects){
-            if(!_projects)
-            {
+    createProjectData() {
+        this.menu.service.loadProjectsDataAsync(_currentTaskType, (_projects) => {
+            if (!_projects) {
                 return;
             }
 
@@ -479,63 +446,51 @@ const ScrollBox = new Lang.Class({
 
             this.menu.projectHeaderBar.addItem(_("All"), undefined, allCount);
 
-            if(!keys || !keys.length)
-            {
+            if (!keys || !keys.length) {
                 this.menu.projectHeaderBar.hide();
-            }
-            else
-            {
+            } else {
                 this.menu.projectHeaderBar.show();
-                for(let i = 0; i < keys.length; i++)
-                {
+                for (let i = 0; i < keys.length; i++) {
                     let key = keys[i];
                     this.menu.projectHeaderBar.addItem(key, key, _projects[key], i == keys.length - 1);
                 }
             }
-        }));
-    },
+        });
+    }
 
-    reloadTaskData  : function(refreshCache, afterReloadCallback){
+    reloadTaskData(refreshCache, afterReloadCallback) {
         let now = new Date().getTime() / 1000;
-        if(refreshCache || !_cacheExpirationTime || _cacheExpirationTime < now)
-        {
+        if (refreshCache || !_cacheExpirationTime || _cacheExpirationTime < now) {
             _cacheExpirationTime = now + _cacheDurationInSeconds;
 
-            if(this.menu._enable_taskd_sync)
-            {
-                this.menu.service.syncTasksAsync(Lang.bind(this, function(data){
-                    log("TaskWhisperer Sync: " + data);
-                    this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, Lang.bind(this, function(data){
+            if (this.menu._enable_taskd_sync) {
+                this.menu.service.syncTasksAsync((data) => {
+                    this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, (data) => {
                         this.processTaskData(afterReloadCallback, data);
-                    }), Lang.bind(this, function(errorMessage){
+                    }, (errorMessage) => {
                         this.showServiceError(errorMessage);
-                    }));
-                }), Lang.bind(this, function(errorMessage){
+                    });
+                }, (errorMessage) => {
                     this.showServiceError(errorMessage);
-                }));
-            }
-            else
-            {
-                this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, Lang.bind(this, function(data){
+                });
+            } else {
+                this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, (data) => {
                     this.processTaskData(afterReloadCallback, data);
-                }), Lang.bind(this, function(errorMessage){
+                }, (errorMessage) => {
                     this.showServiceError(errorMessage);
-                }));
+                });
             }
         }
-    },
-    processTaskData : function(afterReloadCallback, data){
+    }
+
+    processTaskData(afterReloadCallback, data) {
         let sortFunction = this.menu._sortByDue;
 
-        switch(this.menu._sort_order)
-        {
+        switch (this.menu._sort_order) {
             case taskService.SortOrder.DUE:
-                if(_currentTaskType == taskService.TaskType.COMPLETED)
-                {
+                if (_currentTaskType == taskService.TaskType.COMPLETED) {
                     sortFunction = this.menu._sortByModification;
-                }
-                else
-                {
+                } else {
                     sortFunction = this.menu._sortByDue;
                 }
                 break;
@@ -554,24 +509,25 @@ const ScrollBox = new Lang.Class({
 
         this.menu._panelButtonLabel.text = ngettext("%d Task", "%d Tasks", data.length).format(data.length);
 
-        if(afterReloadCallback)
-        {
+        if (afterReloadCallback) {
             afterReloadCallback.call(this);
         }
-    },
-    showServiceError: function(processErrorMessage){
+    }
+
+    showServiceError(processErrorMessage) {
         let errorMessage = _('There was an error executing TaskWarrior: \n\n') + processErrorMessage || "---";
         let errorMessageAppendix = _("You can find some troubleshoot information on TaskWhisperer Github page!");
         UiHelper.showNotification(_('TaskWhisperer Service Error'), errorMessage);
 
         this.menu._panelButtonLabel.text = _("Error!");
         this.showTextBox(errorMessage + "\n\n" + errorMessageAppendix);
-    },
-    showTextBox     : function(message, classes){
+    }
+
+    showTextBox(message, classes) {
         this._destroyItems();
 
         let placeholderLabel = new St.Label({
-            text       : message,
+            text: message,
             style_class: 'messageBox ' + classes || ""
         });
 
@@ -580,94 +536,95 @@ const ScrollBox = new Lang.Class({
         placeholderLabel.clutter_text.line_wrap = true;
 
         this.box.add(placeholderLabel, {
-            expand : true,
-            x_fill : true,
-            y_fill : true,
+            expand: true,
+            x_fill: true,
+            y_fill: true,
             y_align: St.Align.MIDDLE,
             x_align: St.Align.MIDDLE
         });
     }
-});
+};
 
+var HeaderBar = class extends PopupMenu.PopupBaseMenuItem {
+    constructor(menu) {
+        super();
+        this._init(menu)
+    }
 
-const HeaderBar = new Lang.Class({
-    Name   : 'HeaderBar',
-    Extends: PopupMenu.PopupBaseMenuItem,
-
-    _init: function(menu){
+    _init(menu) {
         this.menu = menu;
+
         this.actor = new St.BoxLayout({
             style_class: this.menu._use_alternative_theme ? "headerBar dark" : "headerBar",
-            vertical   : false
+            vertical: false
         });
 
         this.actor.add(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
         this.actor.add(this._createMiddleBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
         this.actor.add(this._createRightBoxMenu(), {expand: false, x_fill: true, x_align: St.Align.END});
-    },
+    }
 
-    _createLeftBoxMenu: function(){
+    _createLeftBoxMenu() {
         let leftBox = new St.BoxLayout({
             style_class: "leftBox"
         });
 
-        leftBox.add(UiHelper.createActionButton("create", "hatt", null, Lang.bind(this.menu, function(){
-            this._openTaskCreationDialog();
-        })));
+        leftBox.add(UiHelper.createActionButton("create", "hatt", null, () => {
+            this.menu._openTaskCreationDialog();
+        }));
 
-        leftBox.add(UiHelper.createActionButton("refresh", "hatt2", null, Lang.bind(this.menu, function(){
-            this.taskBox.reloadTaskData(true);
-        })));
+        leftBox.add(UiHelper.createActionButton("refresh", "hatt2", null, () => {
+            this.menu.taskBox.reloadTaskData(true);
+        }));
 
-        leftBox.add(UiHelper.createActionButton("settings", "hatt2", "last", Lang.bind(this.menu, function(){
+        leftBox.add(UiHelper.createActionButton("settings", "hatt2", "last", () => {
+            this.menu.menu.actor.hide();
             this.menu.actor.hide();
-            this.actor.hide();
-            this.actor.show();
+            this.menu.actor.show();
             Util.spawn(["gnome-shell-extension-prefs", "taskwhisperer-extension@infinicode.de"]);
-        })));
+        }));
 
         return leftBox;
-    },
+    }
 
-    _createMiddleBoxMenu: function(){
+    _createMiddleBoxMenu() {
         let middleBox = new St.BoxLayout({
             style_class: "middleBox"
         });
 
         let activeClass = taskService.TaskType.ACTIVE == _currentTaskType ? "active" : "";
-        var activeButton = UiHelper.createActionButton("task_open", "hatt3", "activeButton " + activeClass, Lang.bind(this, this._toggleTaskType));
+        var activeButton = UiHelper.createActionButton("task_open", "hatt3", "activeButton " + activeClass, this._toggleTaskType.bind(this));
         activeButton.TypeID = taskService.TaskType.ACTIVE;
 
         activeClass = taskService.TaskType.COMPLETED == _currentTaskType ? "active" : "";
-        var closedButton = UiHelper.createActionButton("task_done", "hatt3", "completedButton last " + activeClass, Lang.bind(this, this._toggleTaskType));
+        var closedButton = UiHelper.createActionButton("task_done", "hatt3", "completedButton last " + activeClass, this._toggleTaskType.bind(this));
         closedButton.TypeID = taskService.TaskType.COMPLETED;
 
         middleBox.add(activeButton);
         middleBox.add(closedButton);
 
         return middleBox;
-    },
+    }
 
-    _createRightBoxMenu: function(){
+    _createRightBoxMenu() {
         let rightBox = new St.BoxLayout({style_class: "rightBox"});
 
         let activeClass = taskService.SortOrder.DUE == this.menu._sort_order ? "active" : "";
-        let addIcon = UiHelper.createActionButton("sort_time", "hatt3", activeClass, Lang.bind(this, this._toggleSortIcon));
+        let addIcon = UiHelper.createActionButton("sort_time", "hatt3", activeClass, this._toggleSortIcon.bind(this));
         addIcon.SortID = taskService.SortOrder.DUE;
         rightBox.add(addIcon, {expand: false, x_fill: false, x_align: St.Align.END});
 
         activeClass = taskService.SortOrder.URGENCY == this.menu._sort_order ? "active" : "";
-        let reloadIcon = UiHelper.createActionButton("sort_priority", "hatt4", "last " + activeClass, Lang.bind(this, this._toggleSortIcon));
+        let reloadIcon = UiHelper.createActionButton("sort_priority", "hatt4", "last " + activeClass, this._toggleSortIcon.bind(this));
         reloadIcon.SortID = taskService.SortOrder.URGENCY;
         rightBox.add(reloadIcon, {expand: false, x_fill: false, x_align: St.Align.END});
 
         return rightBox;
-    },
+    }
 
-    _toggleSortIcon: function(button){
+    _toggleSortIcon(button) {
         // skip because it is already active
-        if(this.menu._sort_order == button.SortID)
-        {
+        if (this.menu._sort_order == button.SortID) {
             return;
         }
 
@@ -675,8 +632,7 @@ const HeaderBar = new Lang.Class({
         let tabBox = button.get_parent();
         let tabBoxChildren = tabBox.get_children();
 
-        for(let i = 0; i < tabBoxChildren.length; i++)
-        {
+        for (let i = 0; i < tabBoxChildren.length; i++) {
             let tabButton = tabBoxChildren[i];
             tabButton.remove_style_class_name("active");
         }
@@ -686,12 +642,11 @@ const HeaderBar = new Lang.Class({
 
         // clear box and fetch new data
         this.menu.taskBox.reloadTaskData(true);
-    },
+    }
 
-    _toggleTaskType: function(button){
+    _toggleTaskType(button) {
         // skip because it is already active
-        if(_currentTaskType == button.TypeID)
-        {
+        if (_currentTaskType == button.TypeID) {
             return;
         }
 
@@ -699,8 +654,7 @@ const HeaderBar = new Lang.Class({
         let tabBox = button.get_parent();
         let tabBoxChildren = tabBox.get_children();
 
-        for(let i = 0; i < tabBoxChildren.length; i++)
-        {
+        for (let i = 0; i < tabBoxChildren.length; i++) {
             let tabButton = tabBoxChildren[i];
             tabButton.remove_style_class_name("active");
         }
@@ -714,62 +668,57 @@ const HeaderBar = new Lang.Class({
         // clear box and fetch new data
         this.menu.taskBox.reloadTaskData(true);
     }
-});
+};
 
+class TaskWhispererMenuButton extends PanelMenu.Button {
 
-const TaskWhispererMenuButton = new Lang.Class({
-    Name: 'TaskWhispererMenuButton',
-
-    Extends: PanelMenu.Button,
-
-    get _position_in_panel(){
+    get _position_in_panel() {
         return this.Settings.get_enum(Prefs.TASKWHISPERER_POSITION_IN_PANEL_KEY);
-    },
+    }
 
-    get _show_no_dates_at_end(){
+    get _show_no_dates_at_end() {
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_SHOW_NO_DATES_AT_END);
-    },
+    }
 
-    get _dateformat(){
+    get _dateformat() {
         return this.Settings.get_string(Prefs.TASKWHISPERER_DATEFORMAT);
-    },
+    }
 
-    get _enable_taskd_sync(){
+    get _enable_taskd_sync() {
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_ENABLE_TASKD_SYNC);
-    },
+    }
 
-    get _show_panel_icon(){
+    get _show_panel_icon() {
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_SHOW_PANEL_ICON);
-    },
+    }
 
-    get _show_panel_label(){
+    get _show_panel_label() {
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_SHOW_PANEL_LABEL);
-    },
+    }
 
-    get _use_alternative_theme(){
+    get _use_alternative_theme() {
         return this.Settings.get_boolean(Prefs.TASKWHISPERER_USE_ALTERNATIVE_THEME);
-    },
+    }
 
-    get _sort_order(){
+    get _sort_order() {
         return this.Settings.get_enum(Prefs.TASKWHISPERER_SORT_ORDER);
-    },
+    }
 
-    set _sort_order(value){
+    set _sort_order(value) {
         return this.Settings.set_enum(Prefs.TASKWHISPERER_SORT_ORDER, value);
-    },
+    }
 
-    get Settings(){
-        if(!this._settings)
-        {
+    get Settings() {
+        if (!this._settings) {
             this.loadSettings();
         }
 
         return this._settings;
-    },
+    }
 
-    _init: function(){
+    _init() {
         this._icon = new St.Icon({
-            icon_name  : 'taskwarrior_head',
+            icon_name: 'taskwarrior_head',
             style_class: 'system-status-icon'
         });
 
@@ -781,18 +730,17 @@ const TaskWhispererMenuButton = new Lang.Class({
         // Label
         this._panelButtonLabel = new St.Label({
             y_align: Clutter.ActorAlign.CENTER,
-            text   : _('…')
+            text: _('…')
         });
 
         // Panel menu item - the current class
         let menuAlignment = 0.25;
 
-        if(Clutter.get_default_text_direction() == Clutter.TextDirection.RTL)
-        {
+        if (Clutter.get_default_text_direction() == Clutter.TextDirection.RTL) {
             menuAlignment = 1.0 - menuAlignment;
         }
 
-        this.parent(menuAlignment);
+        super._init(menuAlignment, _('taskwarrior'));
 
         // Putting the panel item together
         let topBox = new St.BoxLayout();
@@ -809,8 +757,7 @@ const TaskWhispererMenuButton = new Lang.Class({
 
         let children = null;
         this._oldPanelPosition = this._position_in_panel;
-        switch(this._position_in_panel)
-        {
+        switch (this._position_in_panel) {
             case MenuPosition.LEFT:
                 children = Main.panel._leftBox.get_children();
                 Main.panel._leftBox.insert_child_at_index(this.actor, children.length);
@@ -825,56 +772,50 @@ const TaskWhispererMenuButton = new Lang.Class({
                 break;
         }
 
-        if(Main.panel._menus === undefined)
-        {
+        if (Main.panel._menus === undefined) {
             Main.panel.menuManager.addMenu(this.menu);
-        }
-        else
-        {
+        } else {
             Main.panel._menus.addMenu(this.menu);
         }
 
         this.taskBox = new ScrollBox(this, "");
+
         this._renderPanelMenuHeaderBox();
         this._renderPanelMenuProjectBox();
 
-        this.taskBox.connect('startStop', Lang.bind(this, function(that, task){
+        this.taskBox.connect('startStop', Lang.bind(this, function (that, task) {
             // log("started: " + task.Started);
-            if(!task.Started)
-            {
-                this.service.startTask(task.ID, Lang.bind(this, function(){
+            if (!task.Started) {
+                this.service.startTask(task.ID, Lang.bind(this, function () {
                     // log("startTask " + task.ID + "(" + task.Start + ")");
                     this.taskBox.reloadTaskData(true);
                 }));
-            }
-            else
-            {
-                this.service.stopTask(task.ID, Lang.bind(this, function(){
+            } else {
+                this.service.stopTask(task.ID, Lang.bind(this, function () {
                     // log("stopTask " + task.ID + "(" + task.Start + ")");
                     this.taskBox.reloadTaskData(true);
                 }));
             }
         }));
 
-        this.taskBox.connect("setDone", Lang.bind(this, function(that, task){
-            this.service.setTaskDone(task.ID, Lang.bind(this, function(){
+        this.taskBox.connect("setDone", Lang.bind(this, function (that, task) {
+            this.service.setTaskDone(task.ID, Lang.bind(this, function () {
                 this.taskBox.reloadTaskData(true);
             }));
         }));
 
-        this.taskBox.connect("setUndone", Lang.bind(this, function(that, task){
-            this.service.setTaskUndone(task.UUID, Lang.bind(this, function(){
+        this.taskBox.connect("setUndone", Lang.bind(this, function (that, task) {
+            this.service.setTaskUndone(task.UUID, Lang.bind(this, function () {
                 this.taskBox.reloadTaskData(true);
             }));
         }));
 
         this.taskBox.connect("modify", Lang.bind(this, this._openModificationDialog));
 
-        this.menu.connect('open-state-changed', Lang.bind(this, function(menu, isOpen){
+        this.menu.connect('open-state-changed', Lang.bind(this, function (menu, isOpen) {
             _isOpen = isOpen;
 
-            if(_isOpen)
-            {
+            if (_isOpen) {
                 this.taskBox.reloadTaskData(true);
             }
         }));
@@ -886,45 +827,36 @@ const TaskWhispererMenuButton = new Lang.Class({
 
         // this.setRefreshTaskDataTimeout();
 
-        if(ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION))
-        {
+        if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
             this._needsColorUpdate = true;
             let context = St.ThemeContext.get_for_stage(global.stage);
-            this._globalThemeChangedId = context.connect('changed', Lang.bind(this, function(){
+            this._globalThemeChangedId = context.connect('changed', Lang.bind(this, function () {
                 this._needsColorUpdate = true;
             }));
         }
 
         this.checkPanelControls();
-    },
+    }
 
-    checkPanelControls: function(){
-        if(this._show_panel_icon)
-        {
+    checkPanelControls() {
+        if (this._show_panel_icon) {
             this._icon.show();
-        }
-        else
-        {
+        } else {
             this._icon.hide();
         }
 
-        if(this._show_panel_label)
-        {
+        if (this._show_panel_label) {
             this._panelButtonLabel.show();
-        }
-        else
-        {
+        } else {
             this._panelButtonLabel.hide();
         }
 
         this.headerBar.actor.style_class = this._use_alternative_theme ? "headerBar dark" : "headerBar";
-    },
+    }
 
-    checkPositionInPanel: function(){
-        if(this._oldPanelPosition != this._position_in_panel)
-        {
-            switch(this._oldPanelPosition)
-            {
+    checkPositionInPanel() {
+        if (this._oldPanelPosition != this._position_in_panel) {
+            switch (this._oldPanelPosition) {
                 case MenuPosition.LEFT:
                     Main.panel._leftBox.remove_actor(this.actor);
                     break;
@@ -937,8 +869,7 @@ const TaskWhispererMenuButton = new Lang.Class({
             }
 
             let children = null;
-            switch(this._position_in_panel)
-            {
+            switch (this._position_in_panel) {
                 case MenuPosition.LEFT:
                     children = Main.panel._leftBox.get_children();
                     Main.panel._leftBox.insert_child_at_index(this.actor, children.length);
@@ -955,19 +886,16 @@ const TaskWhispererMenuButton = new Lang.Class({
             this._oldPanelPosition = this._position_in_panel;
         }
 
-    },
+    }
 
-    _sortByDue: function(a, b){
+    _sortByDue(a, b) {
         let dueA;
         let dueB;
 
-        if(this._show_no_dates_at_end)
-        {
+        if (this._show_no_dates_at_end) {
             dueA = a.Due || "999999999999999";
             dueB = b.Due || "999999999999999";
-        }
-        else
-        {
+        } else {
             dueA = a.Due || "";
             dueB = b.Due || "";
         }
@@ -976,9 +904,9 @@ const TaskWhispererMenuButton = new Lang.Class({
         dueB = dueB.replace("T", "").replace("Z", "");
 
         return dueA - dueB;
-    },
+    }
 
-    _sortByModification: function(a, b){
+    _sortByModification(a, b) {
         let valueA = a.Modified || "";
         let valueB = b.Modified || "";
 
@@ -986,38 +914,38 @@ const TaskWhispererMenuButton = new Lang.Class({
         valueB = valueB.replace("T", "").replace("Z", "");
 
         return valueB - valueA;
-    },
+    }
 
-    _sortByUrgency: function(a, b){
+    _sortByUrgency(a, b) {
         let valueA = a.Urgency || "";
         let valueB = b.Urgency || "";
 
         return valueB - valueA;
-    },
+    }
 
-    _renderPanelMenuHeaderBox: function(){
+    _renderPanelMenuHeaderBox() {
         this.headerBar = new HeaderBar(this);
         let section = new PopupMenu.PopupMenuSection();
         this.menu.addMenuItem(section);
 
         section.actor.add_actor(this.headerBar.actor);
-    },
+    }
 
-    _renderPanelMenuProjectBox: function(){
+    _renderPanelMenuProjectBox() {
         this.projectHeaderBar = new ProjectHeaderBar(this);
         let section = new PopupMenu.PopupMenuSection();
         this.menu.addMenuItem(section);
 
         section.actor.add_actor(this.projectHeaderBar.actor);
 
-        this.projectHeaderBar.connect("setProject", Lang.bind(this, function(that, task){
-            this.service.setTaskDone(task.ID, Lang.bind(this, function(){
+        this.projectHeaderBar.connect("setProject", Lang.bind(this, function (that, task) {
+            this.service.setTaskDone(task.ID, Lang.bind(this, function () {
                 this.taskBox.reloadTaskData(true);
             }));
         }));
-    },
+    }
 
-    _openModificationDialog: function(that, task){
+    _openModificationDialog(that, task) {
         // FIXME: looks like a bug, if i remove actor.hide / show, i have to click twice on the dialog
         //        once to kill the (already hidden menu) twice to interact with the dialog.. dafuq?
         this.menu.actor.hide();
@@ -1026,25 +954,23 @@ const TaskWhispererMenuButton = new Lang.Class({
 
         this._modifyTaskDialog = new Dialogs.ModifyTaskDialog(task, this._dateformat);
 
-        this._modifyTaskDialog.connect('modify',
-            Lang.bind(this, function(dialog, modificationParameter){
-                this.service.modifyTask(task.ID, modificationParameter, Lang.bind(this, function(buffer, status){
-                    if(status != 0)
-                    {
-                        dialog._errorMessageLabel.text = _("Sorry, that didn\'t work. Please try again.") + "\r\n" + buffer;
-                        dialog._errorMessageLabel.show();
-                        return;
-                    }
+        this._modifyTaskDialog.connect('modify', (dialog, modificationParameter) => {
+            this.service.modifyTask(task.ID, modificationParameter, (buffer, status) => {
+                if (status != 0) {
+                    dialog._errorMessageLabel.text = _("Sorry, that didn\'t work. Please try again.") + "\r\n" + buffer;
+                    dialog._errorMessageLabel.show();
+                    return;
+                }
 
-                    this.taskBox.reloadTaskData(true);
-                    dialog.close();
-                }));
-            }));
+                this.taskBox.reloadTaskData(true);
+                dialog.close();
+            });
+        });
 
         this._modifyTaskDialog.open(global.get_current_time());
-    },
+    }
 
-    _openTaskCreationDialog: function(){
+    _openTaskCreationDialog() {
         // FIXME: looks like a bug, if i remove actor.hide / show, i have to click twice on the dialog
         //        once to kill the (already hidden menu) twice to interact with the dialog.. dafuq?
         this.menu.actor.hide();
@@ -1054,10 +980,9 @@ const TaskWhispererMenuButton = new Lang.Class({
         this._createTaskDialog = new Dialogs.CreateTaskDialog(this._dateformat);
 
         this._createTaskDialog.connect('create',
-            Lang.bind(this, function(dialog, parameterString){
-                this.service.createTask(parameterString, Lang.bind(this, function(buffer, status){
-                    if(status != 0)
-                    {
+            Lang.bind(this, function (dialog, parameterString) {
+                this.service.createTask(parameterString, (buffer, status) => {
+                    if (status != 0) {
                         dialog._errorMessageLabel.text = _("Sorry, that didn\'t work. Please try again.") + "\r\n" + buffer;
                         dialog._errorMessageLabel.show();
                         return;
@@ -1065,78 +990,72 @@ const TaskWhispererMenuButton = new Lang.Class({
 
                     this.taskBox.reloadTaskData(true);
                     dialog.close();
-                }));
+                });
             }));
 
         this._createTaskDialog.open(global.get_current_time());
-    },
+    }
 
-    loadSettings: function(){
+    loadSettings() {
         this._settings = Convenience.getSettings(TASKWHISPERER_SETTINGS_SCHEMA);
 
-        this._settingsC = this._settings.connect("changed", Lang.bind(this, function(){
+        this._settingsC = this._settings.connect("changed", () => {
             this.checkPositionInPanel();
             this.checkPanelControls();
-        }));
-    },
+        });
+    }
 
-    switchProvider: function(){
+    switchProvider() {
         // By now only direct export of taskwarrior is supported
         this.useTaskWarriorExport();
-    },
+    }
 
-    useTaskWarriorExport: function(){
+    useTaskWarriorExport() {
         this.service = new TaskService();
-    },
+    }
 
-    setRefreshTaskDataTimeout: function(){
-        if(this._refreshTaskDataTimeoutID)
-        {
+    setRefreshTaskDataTimeout() {
+        if (this._refreshTaskDataTimeoutID) {
             Mainloop.source_remove(this._refreshTaskDataTimeoutID);
             this._refreshTaskDataTimeoutID = undefined;
         }
 
-        this._refreshTaskDataTimeoutID = Mainloop.timeout_add_seconds(150, Lang.bind(this, function(){
+        this._refreshTaskDataTimeoutID = Mainloop.timeout_add_seconds(150, () => {
             // Avoid intervention while user is doing something
-            if(!_isOpen)
-            {
+            if (!_isOpen) {
                 this.taskBox.reloadTaskData(true);
             }
 
             this.setRefreshTaskDataTimeout();
             return true;
-        }));
-    },
+        });
+    }
 
-    stop: function(){
+    stop() {
         _currentItems = [];
         _cacheExpirationTime = undefined;
 
-        if(this._refreshTaskDataTimeoutID)
-        {
+        if (this._refreshTaskDataTimeoutID) {
             Mainloop.source_remove(this._refreshTaskDataTimeoutID);
             this._refreshTaskDataTimeoutID = undefined;
         }
     }
-});
-
-let taskWhispererMenu;
-
-function init(extensionMeta)
-{
-    Convenience.initTranslations('gnome-shell-extension-taskwhisperer');
-    let theme = imports.gi.Gtk.IconTheme.get_default();
-    theme.append_search_path(extensionMeta.path + "/icons");
 }
 
-function enable()
-{
-    taskWhispererMenu = new TaskWhispererMenuButton();
+var taskWhispererMenu;
+
+function init(extensionMeta) {
+    Convenience.initTranslations('gnome-shell-extension-taskwhisperer');
+    // let theme = imports.gi.Gtk.IconTheme.get_default();
+    // theme.append_search_path(extensionMeta.path + "/icons");
+}
+
+function enable() {
+    taskWhispererMenu = Convenience.getAsGObject(TaskWhispererMenuButton);
     Main.panel.addToStatusArea('taskWhispererMenu', taskWhispererMenu);
 }
 
-function disable()
-{
+function disable() {
     taskWhispererMenu.stop();
     taskWhispererMenu.destroy();
 }

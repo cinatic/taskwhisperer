@@ -29,7 +29,7 @@
 const Gettext = imports.gettext;
 const Lang = imports.lang;
 
-const Gio = imports.gi.Gio;
+const {GObject, Gio} = imports.gi;
 
 const Config = imports.misc.config;
 const ExtensionUtils = imports.misc.extensionUtils;
@@ -38,11 +38,12 @@ const _MS_PER_MINUTE = 1000 * 60;
 const _MS_PER_HOUR = 1000 * 60 * 60;
 const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-const ALPHABET_DICT = {"a":"a","b":"b","c":"c","d":"d","e":"e","f":"f","g":"g","h":"h","i":"i","j":"j","k":"k","l":"l","m":"m","n":"n","o":"o","p":"p","q":"q","r":"r","s":"s","t":"t","u":"u","v":"v","w":"w","x":"x","y":"y","z":"z"};
+const ALPHABET_DICT = {"a": "a", "b": "b", "c": "c", "d": "d", "e": "e", "f": "f", "g": "g", "h": "h", "i": "i", "j": "j", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "q", "r": "r", "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "x", "y": "y", "z": "z"};
 
 // extensionMeta is the object obtained from the metadata.json file, plus // the path property which is the path of the extension folder!
 function init(extensionMeta) {
-    let theme = imports.gi.Gtk.IconTheme.get_default(); theme.append_search_path(extensionMeta.path + "/icons");
+    let theme = imports.gi.Gtk.IconTheme.get_default();
+    theme.append_search_path(extensionMeta.path + "/icons");
 }
 
 /**
@@ -52,24 +53,24 @@ function init(extensionMeta) {
  * Initialize Gettext to load translations from extensionsdir/locale.
  * If @domain is not provided, it will be taken from metadata['gettext-domain']
  */
-function initTranslations(domain)
-{
-    let extension = ExtensionUtils.getCurrentExtension();
+function initTranslations(domain) {
+    if (ExtensionUtils.versionCheck(['3.32'], Config.PACKAGE_VERSION)) {
+        ExtensionUtils.initTranslations('gnome-shell-extension-taskwhisperer');
+    } else {
+        let extension = ExtensionUtils.getCurrentExtension();
 
-    domain = domain || extension.metadata['gettext-domain'];
+        domain = domain || extension.metadata['gettext-domain'];
 
-    // check if this extension was built with "make zip-file", and thus
-    // has the locale files in a subfolder
-    // otherwise assume that extension has been installed in the
-    // same prefix as gnome-shell
-    let localeDir = extension.dir.get_child('locale');
-    if(localeDir.query_exists(null))
-    {
-        Gettext.bindtextdomain(domain, localeDir.get_path());
-    }
-    else
-    {
-        Gettext.bindtextdomain(domain, Config.LOCALEDIR);
+        // check if this extension was built with "make zip-file", and thus
+        // has the locale files in a subfolder
+        // otherwise assume that extension has been installed in the
+        // same prefix as gnome-shell
+        let localeDir = extension.dir.get_child('locale');
+        if (localeDir.query_exists(null)) {
+            Gettext.bindtextdomain(domain, localeDir.get_path());
+        } else {
+            Gettext.bindtextdomain(domain, Config.LOCALEDIR);
+        }
     }
 }
 
@@ -81,8 +82,7 @@ function initTranslations(domain)
  * in extensionsdir/schemas. If @schema is not provided, it is taken from
  * metadata['settings-schema'].
  */
-function getSettings(schema)
-{
+function getSettings(schema) {
     let extension = ExtensionUtils.getCurrentExtension();
 
     schema = schema || extension.metadata['settings-schema'];
@@ -96,20 +96,16 @@ function getSettings(schema)
     // in the standard folders)
     let schemaDir = extension.dir.get_child('schemas');
     let schemaSource;
-    if(schemaDir.query_exists(null))
-    {
+    if (schemaDir.query_exists(null)) {
         schemaSource = GioSSS.new_from_directory(schemaDir.get_path(),
             GioSSS.get_default(),
             false);
-    }
-    else
-    {
+    } else {
         schemaSource = GioSSS.get_default();
     }
 
     let schemaObj = schemaSource.lookup(schema, true);
-    if(!schemaObj)
-    {
+    if (!schemaObj) {
         throw new Error('Schema ' + schema + ' could not be found for extension ' + extension.metadata.uuid + '. Please check your installation.');
     }
 
@@ -118,10 +114,8 @@ function getSettings(schema)
     });
 }
 
-function isoToDate(input)
-{
-    if(!input)
-    {
+function isoToDate(input) {
+    if (!input) {
         return;
     }
 
@@ -131,21 +125,17 @@ function isoToDate(input)
     return isNaN(a) ? null : new Date(a);
 }
 
-function taskDateFormatToStringDateFormat(date, format)
-{
-    if(!format)
-    {
+function taskDateFormatToStringDateFormat(date, format) {
+    if (!format) {
         return;
     }
 
     let stringDateFormat = "";
 
-    for(let i = 0; i<format.length; i++)
-    {
+    for (let i = 0; i < format.length; i++) {
         let char = format[i];
 
-        switch(char)
-        {
+        switch (char) {
             case "H":
                 let hours = date.getHours();
                 stringDateFormat += hours > 9 ? hours : '0' + hours;
@@ -173,10 +163,8 @@ function taskDateFormatToStringDateFormat(date, format)
     return stringDateFormat;
 }
 
-function getBestTimeAbbreviation(a, b)
-{
-    if(!a || !b)
-    {
+function getBestTimeAbbreviation(a, b) {
+    if (!a || !b) {
         return;
     }
 
@@ -187,24 +175,26 @@ function getBestTimeAbbreviation(a, b)
     let minutes = Math.floor(diffTime / _MS_PER_MINUTE);
     let hours = Math.floor(diffTime / _MS_PER_HOUR);
 
-    if(minutes < 0)
-    {
+    if (minutes < 0) {
         result = undefined;
-    }
-    else if(minutes <= 60)
-    {
+    } else if (minutes <= 60) {
         result = minutes + "m";
-    }
-    else if(hours <= 24)
-    {
+    } else if (hours <= 24) {
         result = hours + "h";
-    }
-    else
-    {
+    } else {
         let utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
         let utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
         result = Math.floor((utc2 - utc1) / _MS_PER_DAY) + "d";
     }
 
     return result;
+}
+
+function getAsGObject(classObject) {
+    if (ExtensionUtils.versionCheck(['3.32'], Config.PACKAGE_VERSION)) {
+        classObject = GObject.registerClass(classObject);
+        return new classObject();
+    } else {
+        return new classObject();
+    }
 }

@@ -42,13 +42,15 @@ const Main = imports.ui.main;
 const ModalDialog = imports.ui.modalDialog;
 
 
-const ModifyTaskDialog = new Lang.Class({
-    Name   : 'ModifyTaskDialog',
-    Extends: ModalDialog.ModalDialog,
+var ModifyTaskDialog = class extends ModalDialog.ModalDialog{
 
-    _init: function(task, dateFormat)
+    constructor(task, dateFormat){
+        super({styleClass: 'taskModificationDialog'});
+        this._init(task, dateFormat)
+    }
+
+    _init(task, dateFormat)
     {
-        this.parent({styleClass: 'taskModificationDialog'});
         this._dateFormat = dateFormat;
 
         let mainContentBox = new St.BoxLayout({
@@ -134,9 +136,9 @@ const ModifyTaskDialog = new Lang.Class({
             }];
 
         this.setButtons(buttons);
-    },
+    }
 
-    _renderTaskDataRow: function(boxItem, title, value)
+    _renderTaskDataRow(boxItem, title, value)
     {
         let rowItem = new St.BoxLayout({
             style_class: 'taskDataRow'
@@ -156,14 +158,14 @@ const ModifyTaskDialog = new Lang.Class({
         rowItem.add(valueLabel, {expand: true, x_fill: false, x_align: St.Align.END});
 
         boxItem.add(rowItem);
-    },
+    }
 
-    _onCancelButton: function()
+    _onCancelButton()
     {
         this.close();
-    },
+    }
 
-    _onModifyTaskButton: function()
+    _onModifyTaskButton()
     {
         if(!this._descriptionInputBox.text)
         {
@@ -181,16 +183,18 @@ const ModifyTaskDialog = new Lang.Class({
 
         this.emit('modify', params);
     }
-});
+};
 
 
-const CreateTaskDialog = new Lang.Class({
-    Name   : 'CreateTaskDialog',
-    Extends: ModalDialog.ModalDialog,
+var CreateTaskDialog = class extends ModalDialog.ModalDialog{
 
-    _init: function(dateFormat)
+    constructor(dateFormat){
+        super({styleClass: 'createTaskDialog'});
+        this._init(dateFormat)
+    }
+
+    _init(dateFormat)
     {
-        this.parent({styleClass: 'createTaskDialog'});
         this._dateFormat = dateFormat;
 
         let mainContentBox = new St.BoxLayout({
@@ -281,14 +285,14 @@ const CreateTaskDialog = new Lang.Class({
             }];
 
         this.setButtons(buttons);
-    },
+    }
 
-    _onCancelButton: function()
+    _onCancelButton()
     {
         this.close();
-    },
+    }
 
-    _onAddTaskButton: function()
+    _onAddTaskButton()
     {
         if(!this._descriptionInputBox.text || this._descriptionInputBox.text == this._descriptionInputBox.hint_text)
         {
@@ -316,4 +320,4 @@ const CreateTaskDialog = new Lang.Class({
 
         this.emit('create', argumentsString);
     }
-});
+};
