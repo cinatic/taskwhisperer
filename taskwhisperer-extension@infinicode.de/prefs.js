@@ -31,7 +31,7 @@ var PrefsWidget = GObject.registerClass({
     GTypeName: 'TaskWhispererExtensionPrefsWidget',
 }, class Widget extends Gtk.Box {
 
-    _init(params) {
+    _init(params={}) {
         super._init(Object.assign(params, {
             orientation: Gtk.Orientation.VERTICAL,
             spacing: 0
