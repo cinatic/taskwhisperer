@@ -3,20 +3,9 @@
   "localedir": "/usr/local/share/locale", 
   "name": "TaskWhisperer",
   "shell-version": [
-    "3.8", 
-    "3.10", 
-    "3.12", 
-    "3.14", 
-    "3.16", 
-    "3.18", 
-    "3.19.1", 
-    "3.19.2", 
-    "3.19.3", 
-    "3.19.4",
-    "3.22",
-    "3.24"
+    "3.32"
   ], 
   "url": "https://github.com/cinatic/taskwhisperer",
   "uuid": "taskwhisperer-extension@infinicode.de",
-  "version": 11
+  "version": 12
 }
