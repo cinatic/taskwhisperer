@@ -189,12 +189,3 @@ function getBestTimeAbbreviation(a, b) {
 
     return result;
 }
-
-function getAsGObject(classObject) {
-    if (ExtensionUtils.versionCheck(['3.32'], Config.PACKAGE_VERSION)) {
-        classObject = GObject.registerClass(classObject);
-        return new classObject();
-    } else {
-        return new classObject();
-    }
-}

@@ -670,7 +670,7 @@ var HeaderBar = class extends PopupMenu.PopupBaseMenuItem {
     }
 };
 
-class TaskWhispererMenuButton extends PanelMenu.Button {
+let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButton extends PanelMenu.Button {
 
     get _position_in_panel() {
         return this.Settings.get_enum(Prefs.TASKWHISPERER_POSITION_IN_PANEL_KEY);
@@ -1040,7 +1040,7 @@ class TaskWhispererMenuButton extends PanelMenu.Button {
             this._refreshTaskDataTimeoutID = undefined;
         }
     }
-}
+});
 
 var taskWhispererMenu;
 
@@ -1051,7 +1051,7 @@ function init(extensionMeta) {
 }
 
 function enable() {
-    taskWhispererMenu = Convenience.getAsGObject(TaskWhispererMenuButton);
+    taskWhispererMenu = new TaskWhispererMenuButton();
     Main.panel.addToStatusArea('taskWhispererMenu', taskWhispererMenu);
 }
 
