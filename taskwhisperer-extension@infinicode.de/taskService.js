@@ -182,7 +182,8 @@ const TaskService = class TaskService {
 
         let project = projectName ? "project:" + projectName : "";
 
-        let command = ['task', 'rc.json.array=on', status, project, 'export'];
+        //let command = ['task', 'rc.json.array=on', status, project, 'export'];
+	let command = ['printenv'];
         let reader = new SpawnReader.SpawnReader();
 
         let buffer = "";
@@ -194,6 +195,7 @@ const TaskService = class TaskService {
                 //onComplete
                 let taskListData;
                 try {
+			log(buffer)
                     taskListData = JSON.parse(buffer);
                 } catch (err) {
                     onError(err);
