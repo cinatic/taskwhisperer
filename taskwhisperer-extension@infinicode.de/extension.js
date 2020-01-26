@@ -708,7 +708,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
 
     _init() {
         this._icon = new St.Icon({
-            icon_name: 'taskwarrior_head',
+            gicon: Gio.icon_new_for_string(Me.dir.get_child('icons').get_path() + "/taskwarrior_head.svg"),
             style_class: 'system-status-icon'
         });
 
