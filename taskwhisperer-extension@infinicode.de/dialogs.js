@@ -29,6 +29,7 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 
+const GObject = imports.gi.GObject;
 const Clutter = imports.gi.Clutter;
 const Lang = imports.lang;
 const Shell = imports.gi.Shell;
@@ -41,16 +42,15 @@ const ngettext = Gettext.ngettext;
 const Main = imports.ui.main;
 const ModalDialog = imports.ui.modalDialog;
 
-
-var ModifyTaskDialog = class extends ModalDialog.ModalDialog{
-
-    constructor(task, dateFormat){
-        super({styleClass: 'taskModificationDialog'});
-        this._init(task, dateFormat)
-    }
+var ModifyTaskDialog = GObject.registerClass({
+        Signals: { 'modify': {
+            param_types: [ GObject.TYPE_STRING ]
+        } },
+    }, class ModifyTaskDialog extends ModalDialog.ModalDialog {
 
     _init(task, dateFormat)
     {
+        super._init({styleClass: 'taskModificationDialog'});
         this._dateFormat = dateFormat;
 
         let mainContentBox = new St.BoxLayout({
@@ -183,18 +183,18 @@ var ModifyTaskDialog = class extends ModalDialog.ModalDialog{
 
         this.emit('modify', params);
     }
-};
+});
 
 
-var CreateTaskDialog = class extends ModalDialog.ModalDialog{
-
-    constructor(dateFormat){
-        super({styleClass: 'createTaskDialog'});
-        this._init(dateFormat)
-    }
+var CreateTaskDialog = GObject.registerClass({
+        Signals: { 'create': {
+            param_types: [ GObject.TYPE_STRING ]
+        } },
+    }, class CreateTaskDialog extends ModalDialog.ModalDialog {
 
     _init(dateFormat)
     {
+        super._init({styleClass: 'createTaskDialog'});
         this._dateFormat = dateFormat;
 
         let mainContentBox = new St.BoxLayout({
@@ -320,4 +320,4 @@ var CreateTaskDialog = class extends ModalDialog.ModalDialog{
 
         this.emit('create', argumentsString);
     }
-};
+});
