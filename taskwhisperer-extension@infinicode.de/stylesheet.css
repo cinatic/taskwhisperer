@@ -53,6 +53,11 @@
 	background-color: #077391;
 }
 
+.headerBar StIcon {
+	width: 20px;
+	height: 20px;
+}
+
 .projectScrollBox {
 	width: 300px;
 	margin-left: 20px;
@@ -217,19 +222,18 @@
 }
 
 .system-status-icon,
-.whispererIcon{
+.whispererIcon {
 	display: none;
-		visibility: hidden;
+	visibility: hidden;
 }
 
-.rowMenuIconButton
-{
+.rowMenuIconButton {
 	height: 15px;
 	width: 20px;
 	padding: 0;
 	margin: 0;
 }
 
-.headerBar.dark .system-menu-action{
+.headerBar.dark .system-menu-action {
 	background: rgba(0, 33, 115, 0.71);
 }
