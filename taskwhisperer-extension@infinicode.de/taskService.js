@@ -167,7 +167,6 @@ var Task = class Task {
 
 
 var TaskService = class TaskService {
-
     loadTaskDataAsync(taskType, projectName, onDataLoaded, onError) {
         let status = "Pending";
 
@@ -182,8 +181,7 @@ var TaskService = class TaskService {
 
         let project = projectName ? "project:" + projectName : "";
 
-        //let command = ['task', 'rc.json.array=on', status, project, 'export'];
-	let command = ['printenv'];
+        let command = ['task', 'rc.json.array=on', status, project, 'export'];
         let reader = new SpawnReader.SpawnReader();
 
         let buffer = "";
@@ -195,7 +193,6 @@ var TaskService = class TaskService {
                 //onComplete
                 let taskListData;
                 try {
-			log(buffer)
                     taskListData = JSON.parse(buffer);
                 } catch (err) {
                     onError(err);

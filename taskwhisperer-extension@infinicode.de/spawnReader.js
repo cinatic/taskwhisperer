@@ -5,8 +5,7 @@ var SpawnReader = function () {};
 
 SpawnReader.prototype.spawn = function(path, command, func, finishedFunc) {
 
-    const [res, pid, stdin, stdout, stderr] = GLib.spawn_async_with_pipes(
-        path, command, null, GLib.SpawnFlags.SEARCH_PATH, null);
+    const [res, pid, stdin, stdout, stderr] = GLib.spawn_async_with_pipes(path, command, null, GLib.SpawnFlags.SEARCH_PATH, null);
 
     const stream = new Gio.DataInputStream({base_stream: new Gio.UnixInputStream({fd: stdout})});
 
