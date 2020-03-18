@@ -65,6 +65,9 @@ $(POT_FILE): $(PO_DIR)
 build: $(BUILD_DIR) $(COMPILED_SCHEMAS) $(MO_FILES)
 	cp -r $(FILES) $<
 
+package: $(BUILD_DIR)
+	cd $(BUILD_DIR) && zip -r taskwhisperer.zip *
+
 install: build
 	rm -rf $(INSTALL_DIR)
 	mkdir -p $(INSTALL_DIR)

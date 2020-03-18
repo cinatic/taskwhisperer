@@ -13,5 +13,12 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    - name: make
+    - name: build extension
       run: make
+    - name: create zip package
+      run: make package
+    - name: store zip package artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: extension package
+        path: _build/taskwhisperer.zip
