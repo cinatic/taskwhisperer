@@ -166,7 +166,7 @@ var Task = class Task {
 };
 
 
-const TaskService = class TaskService {
+var TaskService = class TaskService {
 
     loadTaskDataAsync(taskType, projectName, onDataLoaded, onError) {
         let status = "Pending";

@@ -35,7 +35,7 @@ const Prefs = Me.imports.prefs;
 const TaskService = taskService.TaskService;
 
 const Config = imports.misc.config;
-const {Clutter, GObject, Gio, Gtk, Pango, St} = imports.gi;
+const {Atk, Clutter, GObject, Gio, Gtk, Pango, St} = imports.gi;
 
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
@@ -82,6 +82,28 @@ let _currentItems = [];
 let _projects = {};
 let _currentPage = 0;
 
+
+const OwnSubMenuMenuItem = GObject.registerClass(
+    class OwnSubMenuMenuItem extends PopupMenu.PopupSubMenuMenuItem {
+        _init (text, wantIcon) {
+            super._init(text, wantIcon);
+        }
+
+        _subMenuOpenStateChanged(menu, open) {
+            if (open) {
+                this.add_style_pseudo_class('open');
+                //this._getTopMenu()._setOpenedSubMenu(this.menu);
+                this.add_accessible_state(Atk.StateType.EXPANDED);
+                this.add_style_pseudo_class('checked');
+            } else {
+                this.remove_style_pseudo_class('open');
+                //this._getTopMenu()._setOpenedSubMenu(null);
+                this.remove_accessible_state (Atk.StateType.EXPANDED);
+                this.remove_style_pseudo_class('checked');
+            }
+        }
+    }
+)
 
 const ProjectHeaderBar = class extends PopupMenu.PopupBaseMenuItem {
     constructor(menu) {
@@ -717,7 +739,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
     }
 
     _init() {
-        this._icon = new St.Icon({
+        const what = new St.Icon({
             icon_name: 'taskwarrior_head',
             style_class: 'system-status-icon'
         });
@@ -744,16 +766,16 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
 
         // Putting the panel item together
         let topBox = new St.BoxLayout();
-        topBox.add_actor(this._icon);
+        topBox.add_actor(what);
         topBox.add_actor(this._panelButtonLabel);
-        this.actor.add_actor(topBox);
+        this.add_actor(topBox);
 
-        let dummyBox = new St.BoxLayout();
-        this.actor.reparent(dummyBox);
-        dummyBox.remove_actor(this.actor);
-        dummyBox.destroy();
+        // let dummyBox = new St.BoxLayout();
+        // this.actor.reparent(dummyBox);
+        // dummyBox.remove_actor(this.actor);
+        // dummyBox.destroy();
 
-        this.actor.add_style_class_name('task-whisperer');
+        this.add_style_class_name('task-whisperer');
 
         let children = null;
         this._oldPanelPosition = this._position_in_panel;
