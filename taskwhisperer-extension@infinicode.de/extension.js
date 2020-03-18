@@ -35,7 +35,7 @@ const Prefs = Me.imports.prefs;
 const TaskService = taskService.TaskService;
 
 const Config = imports.misc.config;
-const {Atk, Clutter, GObject, Gio, Gtk, Pango, St} = imports.gi;
+const {Clutter, GObject, Gio, Gtk, Pango, St} = imports.gi;
 
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
@@ -83,33 +83,7 @@ let _projects = {};
 let _currentPage = 0;
 
 
-const OwnSubMenuMenuItem = GObject.registerClass(
-    class OwnSubMenuMenuItem extends PopupMenu.PopupSubMenuMenuItem {
-        _init (text, wantIcon) {
-            super._init(text, wantIcon);
-        }
-
-        _subMenuOpenStateChanged(menu, open) {
-            if (open) {
-                this.add_style_pseudo_class('open');
-                //this._getTopMenu()._setOpenedSubMenu(this.menu);
-                this.add_accessible_state(Atk.StateType.EXPANDED);
-                this.add_style_pseudo_class('checked');
-            } else {
-                this.remove_style_pseudo_class('open');
-                //this._getTopMenu()._setOpenedSubMenu(null);
-                this.remove_accessible_state (Atk.StateType.EXPANDED);
-                this.remove_style_pseudo_class('checked');
-            }
-        }
-    }
-)
-
-const ProjectHeaderBar = class extends PopupMenu.PopupBaseMenuItem {
-    constructor(menu) {
-        super();
-        this._init(menu)
-    }
+const ProjectHeaderBar = GObject.registerClass(class ProjectHeaderBar extends PopupMenu.PopupBaseMenuItem {
 
     _init(menu) {
         this.menu = menu;
@@ -123,11 +97,11 @@ const ProjectHeaderBar = class extends PopupMenu.PopupBaseMenuItem {
             vertical: false
         });
 
-        this.actor = new St.ScrollView({
+        this.scroll = new St.ScrollView({
             style_class: 'projectScrollBox'
         });
 
-        this.actor.add_actor(this.box, {expand: false, x_fill: false, x_align: St.Align.LEFT});
+        this.scroll.add_actor(this.box, {expand: false, x_fill: false, x_align: St.Align.LEFT});
     }
 
     addItem(projectName, projectValue, taskCount, isLast) {
@@ -172,13 +146,13 @@ const ProjectHeaderBar = class extends PopupMenu.PopupBaseMenuItem {
     }
 
     hide() {
-        this.actor.hide();
+        this.scroll.hide();
     }
 
     show() {
-        this.actor.show();
+        this.scroll.show();
     }
-};
+});
 
 const ScrollBox = class extends PopupMenu.PopupMenuBase {
     constructor(menu, styleClass) {
@@ -204,6 +178,7 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
 
         let scrollBar = this.actor.get_vscroll_bar();
         let appsScrollBoxAdj = scrollBar.get_adjustment();
+        this._gridItems = {};
 
         this.actor.connect('scroll-event', () => {
             if (_hitScrollEvent) {
@@ -223,7 +198,6 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
     }
 
     addGridItem(task) {
-        log("whaat 5")
         let dueDateAbbreviation = task.DueDateAbbreviation;
 
         let description = (dueDateAbbreviation ? dueDateAbbreviation + "  " : "") + task.Description;
@@ -369,11 +343,12 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         gridMenu.menu.addMenuItem(_buttonMenu);
         this.addMenuItem(gridMenu);
 
-        this._gridItems[task.ID] = gridMenu;
+        this._gridItems[task.UUID] = gridMenu;
     }
 
     removeTaskFromGrid(taskID) {
-        let gridMenuItem = this._gridItems[task.ID];
+        // never used
+        let gridMenuItem = this._gridItems[taskID];
         if (gridMenuItem) {
             gridMenuItem.destroy();
         }
@@ -416,11 +391,9 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
     }
 
     _destroyItems() {
-        let items = this.box.get_children();
-        for (let i = 0; i < items.length; i++) {
-            let boxItem = items[i];
-            boxItem.destroy();
-        }
+        // Using _gridItems instead of .get_children because destroying grid will
+        Object.values(this._gridItems).forEach(c => { c.destroy() });
+        this._gridItems = {};
     }
 
     loadNextItems(cleanItemBox) {
@@ -433,7 +406,6 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
             scrollBar.set_adjustment(appsScrollBoxAdj);
 
             _currentPage = 0;
-            this._gridItems = {};
             this._destroyItems();
         }
 
@@ -567,23 +539,18 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
     }
 };
 
-var HeaderBar = class extends PopupMenu.PopupBaseMenuItem {
-    constructor(menu) {
-        super();
-        this._init(menu)
-    }
-
+var HeaderBar = GObject.registerClass(class HeaderBar extends PopupMenu.PopupBaseMenuItem {
     _init(menu) {
-        this.menu = menu;
+       this.menu = menu;
 
-        this.actor = new St.BoxLayout({
+        this.box = new St.BoxLayout({
             style_class: this.menu._use_alternative_theme ? "headerBar dark" : "headerBar",
             vertical: false
         });
 
-        this.actor.add(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
-        this.actor.add(this._createMiddleBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-        this.actor.add(this._createRightBoxMenu(), {expand: false, x_fill: true, x_align: St.Align.END});
+       this.box.add(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
+       this.box.add(this._createMiddleBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+       this.box.add(this._createRightBoxMenu(), {expand: false, x_fill: true, x_align: St.Align.END});
     }
 
     _createLeftBoxMenu() {
@@ -690,7 +657,7 @@ var HeaderBar = class extends PopupMenu.PopupBaseMenuItem {
         // clear box and fetch new data
         this.menu.taskBox.reloadTaskData(true);
     }
-};
+});
 
 let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButton extends PanelMenu.Button {
 
@@ -739,8 +706,8 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
     }
 
     _init() {
-        const what = new St.Icon({
-            icon_name: 'taskwarrior_head',
+        this._icon = new St.Icon({
+            gicon: Gio.icon_new_for_string(Me.dir.get_child('icons').get_path() + "/taskwarrior_head.svg"),
             style_class: 'system-status-icon'
         });
 
@@ -766,16 +733,11 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
 
         // Putting the panel item together
         let topBox = new St.BoxLayout();
-        topBox.add_actor(what);
+        topBox.add_actor(this._icon);
         topBox.add_actor(this._panelButtonLabel);
-        this.add_actor(topBox);
+        this.actor.add_actor(topBox);
 
-        // let dummyBox = new St.BoxLayout();
-        // this.actor.reparent(dummyBox);
-        // dummyBox.remove_actor(this.actor);
-        // dummyBox.destroy();
-
-        this.add_style_class_name('task-whisperer');
+        this.actor.add_style_class_name('task-whisperer');
 
         let children = null;
         this._oldPanelPosition = this._position_in_panel;
@@ -800,10 +762,9 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
             Main.panel._menus.addMenu(this.menu);
         }
 
-        this.taskBox = new ScrollBox(this, "");
-
         this._renderPanelMenuHeaderBox();
         this._renderPanelMenuProjectBox();
+        this.taskBox = new ScrollBox(this, "");
 
         this.taskBox.connect('startStop', Lang.bind(this, function (that, task) {
             // log("started: " + task.Started);
@@ -873,7 +834,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
             this._panelButtonLabel.hide();
         }
 
-        this.headerBar.actor.style_class = this._use_alternative_theme ? "headerBar dark" : "headerBar";
+        this.headerBar.box.style_class = this._use_alternative_theme ? "headerBar dark" : "headerBar";
     }
 
     checkPositionInPanel() {
@@ -950,7 +911,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         let section = new PopupMenu.PopupMenuSection();
         this.menu.addMenuItem(section);
 
-        section.actor.add_actor(this.headerBar.actor);
+        section.actor.add_actor(this.headerBar.box);
     }
 
     _renderPanelMenuProjectBox() {
@@ -958,13 +919,13 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         let section = new PopupMenu.PopupMenuSection();
         this.menu.addMenuItem(section);
 
-        section.actor.add_actor(this.projectHeaderBar.actor);
-
-        this.projectHeaderBar.connect("setProject", Lang.bind(this, function (that, task) {
-            this.service.setTaskDone(task.ID, Lang.bind(this, function () {
-                this.taskBox.reloadTaskData(true);
-            }));
-        }));
+        section.actor.add_actor(this.projectHeaderBar.scroll);
+        // never used
+        // this.projectHeaderBar.scroll.connect("setProject", Lang.bind(this, function (that, task) {
+        //     this.service.setTaskDone(task.ID, Lang.bind(this, function () {
+        //         this.taskBox.reloadTaskData(true);
+        //     }));
+        // }));
     }
 
     _openModificationDialog(that, task) {
