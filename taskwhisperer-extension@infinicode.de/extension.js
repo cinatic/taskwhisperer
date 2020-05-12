@@ -570,7 +570,7 @@ var HeaderBar = GObject.registerClass(class HeaderBar extends PopupMenu.PopupBas
             this.menu.menu.actor.hide();
             this.menu.actor.hide();
             this.menu.actor.show();
-            Util.spawn(["gnome-shell-extension-prefs", "taskwhisperer-extension@infinicode.de"]);
+            Util.spawn(["gnome-extensions", "prefs", `${Me.metadata['uuid']}`]);
         }));
 
         return leftBox;
