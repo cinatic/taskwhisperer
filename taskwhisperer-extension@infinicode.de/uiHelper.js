@@ -29,7 +29,6 @@
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const Gettext = imports.gettext;
-const Lang = imports.lang;
 
 const {Gio, St} = imports.gi;
 
@@ -59,7 +58,7 @@ function createActionButton(iconName, accessibleName, classes, onClick) {
     icon.child = getCustomIcon(iconName);
 
     if (onClick) {
-        icon.connect('clicked', Lang.bind(this, onClick));
+        icon.connect("clicked", onClick.bind(this));
     }
 
     return icon;
@@ -82,7 +81,7 @@ function createButton(text, accessibleName, classes, onClick) {
     });
 
     if (onClick) {
-        button.connect('clicked', Lang.bind(this, onClick));
+        button.connect("clicked", onClick.bind(this));
     }
 
     return button;

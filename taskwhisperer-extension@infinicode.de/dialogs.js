@@ -31,7 +31,6 @@ const Convenience = Me.imports.convenience;
 
 const GObject = imports.gi.GObject;
 const Clutter = imports.gi.Clutter;
-const Lang = imports.lang;
 const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 
@@ -104,10 +103,8 @@ var ModifyTaskDialog = GObject.registerClass({
             this._descriptionInputBox.text = "due:'" + formattedText + "' " + this._descriptionInputBox.text;
         }
 
-        this._descriptionInputBox.clutter_text.connect('activate', Lang.bind(this, function()
-        {
-            this._onModifyTaskButton.call(this, dateFormat);
-        }));
+        this._descriptionInputBox.clutter_text.connect('activate', () => 
+            this._onModifyTaskButton.call(this, dateFormat));
 
         this._messageBox.add(this._descriptionInputBox, {expand: true});
         this.setInitialKeyFocus(this._descriptionInputBox);
@@ -121,19 +118,19 @@ var ModifyTaskDialog = GObject.registerClass({
         this._errorMessageLabel.hide();
         this._messageBox.add(this._errorMessageLabel);
 
-        let buttons = [{
-            label : _("Cancel"),
-            action: Lang.bind(this, this._onCancelButton),
-            key   : Clutter.Escape
-        },
+        let buttons = [
             {
-                label  : _("Modify"),
-                action : Lang.bind(this, function()
-                        {
-                            this._onModifyTaskButton.call(this, dateFormat);
-                        }),
-                default: true
-            }];
+                label: _("Cancel"),
+                action: this._onCancelButton.bind(this),
+                key: Clutter.Escape,
+            },
+            {
+                label: _("Modify"),
+                action: () => this._onModifyTaskButton.call(this, dateFormat)
+                ,
+                default: true,
+            },
+        ];
 
         this.setButtons(buttons);
     }
@@ -250,39 +247,35 @@ var CreateTaskDialog = GObject.registerClass({
         this._errorMessageLabel.hide();
 
         this.setInitialKeyFocus(this._descriptionInputBox);
-        this._descriptionInputBox.clutter_text.connect('activate', Lang.bind(this, function()
-        {
-            this._onAddTaskButton.call(this, dateFormat);
-        }));
+        this._descriptionInputBox.clutter_text.connect('activate', () =>
+            this._onAddTaskButton.call(this, dateFormat)
+        );
 
-        this._dueDateInputBox.clutter_text.connect('activate', Lang.bind(this, function()
-        {
-            this._onAddTaskButton.call(this, dateFormat);
-        }));
+        this._dueDateInputBox.clutter_text.connect('activate', () =>
+            this._onAddTaskButton.call(this, dateFormat)
+        );
 
-        this._additionalArgumentsInputBox.clutter_text.connect('activate', Lang.bind(this, function()
-        {
-            this._onAddTaskButton.call(this, dateFormat);
-        }));
+        this._additionalArgumentsInputBox.clutter_text.connect('activate', () =>
+            this._onAddTaskButton.call(this, dateFormat)
+        );
 
         this._messageBox.add(this._descriptionInputBox, {expand: true});
         this._messageBox.add(this._dueDateInputBox, {expand: true});
         this._messageBox.add(this._additionalArgumentsInputBox, {expand: true});
         this._messageBox.add(this._errorMessageLabel);
 
-        let buttons = [{
-            label : _("Cancel"),
-            action: Lang.bind(this, this._onCancelButton),
-            key   : Clutter.Escape
-        },
+        let buttons = [
             {
-                label  : _("Create"),
-                action : Lang.bind(this, function()
-                        {
-                            this._onAddTaskButton.call(this, dateFormat);
-                        }),
-                default: true
-            }];
+                label: _("Cancel"),
+                action: this._onCancelButton.bind(this),
+                key: Clutter.Escape,
+            },
+            {
+                label: _("Create"),
+                action: () => this._onAddTaskButton.call(this, dateFormat),
+                default: true,
+            },
+        ];
 
         this.setButtons(buttons);
     }
