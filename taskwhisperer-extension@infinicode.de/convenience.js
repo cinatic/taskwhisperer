@@ -27,8 +27,6 @@
  */
 
 const Gettext = imports.gettext;
-const Lang = imports.lang;
-
 const {GObject, Gio} = imports.gi;
 
 const Config = imports.misc.config;

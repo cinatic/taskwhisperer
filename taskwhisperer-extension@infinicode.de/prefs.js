@@ -4,7 +4,6 @@ const Gettext = imports.gettext.domain('gnome-shell-extension-taskwhisperer');
 const _ = Gettext.gettext;
 const Soup = imports.gi.Soup;
 
-const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
@@ -56,14 +55,14 @@ var PrefsWidget = GObject.registerClass({
         this.add(this.MainWidget);
 
 
-        this.MainWidget.connect('realize', Lang.bind(this, function () {
+        this.MainWidget.connect('realize', () => {
             if (inRealize)
                 return;
             inRealize = true;
 
             this.MainWidget.get_toplevel().resize(defaultSize[0], defaultSize[1]);
             inRealize = false;
-        }));
+        });
     }
 
     initWindow() {
@@ -105,48 +104,48 @@ var PrefsWidget = GObject.registerClass({
         if (this[name].length != 32)
             theEntry.set_icon_from_icon_name(Gtk.PositionType.LEFT, 'dialog-warning');
 
-        theEntry.connect("notify::text", Lang.bind(this, function () {
+        theEntry.connect("notify::text", () => {
             let key = arguments[0].text;
             this[name] = key;
             if (key.length == 32)
                 theEntry.set_icon_from_icon_name(Gtk.PositionType.LEFT, '');
             else
                 theEntry.set_icon_from_icon_name(Gtk.PositionType.LEFT, 'dialog-warning');
-        }));
+        });
     }
 
     initComboBox(theComboBox) {
         let name = theComboBox.get_name();
-        theComboBox.connect("changed", Lang.bind(this, function () {
-            this[name] = arguments[0].active;
-        }));
+        theComboBox.connect("changed", () =>
+            this[name] = arguments[0].active
+        );
     }
 
     initSwitch(theSwitch) {
         let name = theSwitch.get_name();
 
-        theSwitch.connect("notify::active", Lang.bind(this, function () {
-            this[name] = arguments[0].active;
-        }));
+        theSwitch.connect("notify::active", () =>
+            this[name] = arguments[0].active
+        );
     }
 
     initScale(theScale) {
         let name = theScale.get_name();
         theScale.set_value(this[name]);
         this[name + 'Timeout'] = undefined;
-        theScale.connect("value-changed", Lang.bind(this, function (slider) {
+        theScale.connect("value-changed", (slider) => {
             if (this[name + 'Timeout'] !== undefined)
                 Mainloop.source_remove(this[name + 'Timeout']);
-            this[name + 'Timeout'] = Mainloop.timeout_add(250, Lang.bind(this, function () {
+            this[name + 'Timeout'] = Mainloop.timeout_add(250, () => {
                 this[name] = slider.get_value();
                 return false;
-            }));
-        }));
+            });
+        });
     }
 
     loadConfig() {
         this.Settings = Convenience.getSettings(TASKWHISPERER_SETTINGS_SCHEMA);
-        this.Settings.connect("changed", Lang.bind(this, this.evaluateValues));
+        this.Settings.connect("changed", this.evaluateValues.bind(this));
     }
 
     evaluateValues() {
