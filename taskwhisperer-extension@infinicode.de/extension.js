@@ -195,7 +195,7 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
             }
         });
 
-        this.reloadTaskData(true, () => {
+        this.reloadTaskData(true, true, () => {
             this.loadNextItems();
         });
     }
@@ -455,12 +455,12 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         });
     }
 
-    reloadTaskData(refreshCache, afterReloadCallback) {
+    reloadTaskData(refreshCache, performSync, afterReloadCallback) {
         let now = new Date().getTime() / 1000;
         if (refreshCache || !_cacheExpirationTime || _cacheExpirationTime < now) {
             _cacheExpirationTime = now + _cacheDurationInSeconds;
 
-            if (this.menu._enable_taskd_sync) {
+            if (this.menu._enable_taskd_sync && performSync) {
                 this.menu.service.syncTasksAsync((data) => {
                     this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, (data) => {
                         this.processTaskData(afterReloadCallback, data);
@@ -566,7 +566,7 @@ var HeaderBar = GObject.registerClass(class HeaderBar extends PopupMenu.PopupBas
         }));
 
         leftBox.add(UiHelper.createActionButton("refresh", "hatt2", null, () => {
-            this.menu.taskBox.reloadTaskData(true);
+            this.menu.taskBox.reloadTaskData(true, true);
         }));
 
         leftBox.add(UiHelper.createActionButton("settings", "hatt2", "last", () => {
@@ -758,13 +758,11 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
             // log("started: " + task.Started);
             if (!task.Started) {
                 this.service.startTask(task.ID, () =>
-                    // log("startTask " + task.ID + "(" + task.Start + ")");
-                    this.taskBox.reloadTaskData(true)
+                    this.taskBox.reloadTaskData(true, true)
                 );
             } else {
                 this.service.stopTask(task.ID, () =>
-                    // log("stopTask " + task.ID + "(" + task.Start + ")");
-                    this.taskBox.reloadTaskData(true)
+                    this.taskBox.reloadTaskData(true, true)
                 );
             }
         });
@@ -777,7 +775,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
 
         this.taskBox.connect("setUndone", (that, task) => {
             this.service.setTaskUndone(task.UUID, () => 
-                this.taskBox.reloadTaskData(true)
+                this.taskBox.reloadTaskData(true, true)
             );
         });
 
@@ -787,7 +785,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
             _isOpen = isOpen;
 
             if (_isOpen) {
-                this.taskBox.reloadTaskData(true);
+                this.taskBox.reloadTaskData(true, true);
             }
         });
 
@@ -929,7 +927,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
                     return;
                 }
 
-                this.taskBox.reloadTaskData(true);
+                this.taskBox.reloadTaskData(true, true);
                 dialog.close();
             });
         });
@@ -955,7 +953,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
                         return;
                     }
 
-                    this.taskBox.reloadTaskData(true);
+                    this.taskBox.reloadTaskData(true, true);
                     dialog.close();
                 });
             });
@@ -990,7 +988,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         this._refreshTaskDataTimeoutID = Mainloop.timeout_add_seconds(150, () => {
             // Avoid intervention while user is doing something
             if (!_isOpen) {
-                this.taskBox.reloadTaskData(true);
+                this.taskBox.reloadTaskData(true, true);
             }
 
             this.setRefreshTaskDataTimeout();
