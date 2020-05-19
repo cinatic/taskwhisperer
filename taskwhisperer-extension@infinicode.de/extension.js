@@ -37,7 +37,6 @@ const TaskService = taskService.TaskService;
 const Config = imports.misc.config;
 const {Clutter, GObject, Gio, Gtk, Pango, St} = imports.gi;
 
-const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Shell = imports.gi.Shell;
 const ShellEntry = imports.ui.shellEntry;
@@ -109,7 +108,12 @@ const ProjectHeaderBar = GObject.registerClass(class ProjectHeaderBar extends Po
         let active = _currentProjectName === projectValue ? " active" : "";
         let cssClass = "projectButton" + last + active;
 
-        let _projectButton = UiHelper.createButton(projectName + " (" + taskCount + ")", "projectButton", cssClass, Lang.bind(this, this._selectProject));
+        let _projectButton = UiHelper.createButton(
+            projectName + " (" + taskCount + ")",
+            "projectButton",
+            cssClass,
+            this._selectProject.bind(this)
+        );
         _projectButton.ProjectValue = projectValue;
 
         this.box.add(_projectButton, {expand: false, x_fill: false, x_align: St.Align.MIDDLE});
@@ -174,7 +178,6 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         this.actor.add_actor(this.box);
         //this.actor._delegate = this;
         //this.actor.clip_to_allocation = true;
-        //this.actor.connect('key-press-event', Lang.bind(this, this._onKeyPressEvent));
 
         let scrollBar = this.actor.get_vscroll_bar();
         let appsScrollBoxAdj = scrollBar.get_adjustment();
@@ -304,30 +307,30 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         });
 
         if (task.IsCompleted) {
-            let _markUndoneButton = UiHelper.createButton(_("Set Task Undone"), "doneTask", "doneTask", Lang.bind(this, function () {
-                this.emit('setUndone', task);
-            }));
+            let _markUndoneButton = UiHelper.createButton(_("Set Task Undone"), "doneTask", "doneTask", () =>
+                this.emit('setUndone', task)
+            );
 
             buttonBox.add(_markUndoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
         } else {
             let _markStartStopButton;
             if (task.Started) {
-                _markStartStopButton = UiHelper.createButton(_("Stop task"), "stopTask", "stopTask", Lang.bind(this, function () {
-                    this.emit('startStop', task);
-                }));
+                _markStartStopButton = UiHelper.createButton(_("Stop task"), "stopTask", "stopTask", () =>
+                    this.emit('startStop', task)
+                );
             } else {
-                _markStartStopButton = UiHelper.createButton(_("Start task"), "startTask", "startTask", Lang.bind(this, function () {
-                    this.emit('startStop', task);
-                }));
+                _markStartStopButton = UiHelper.createButton(_("Start task"), "startTask", "startTask", () =>
+                    this.emit('startStop', task)
+                );
             }
 
-            let _markDoneButton = UiHelper.createButton(_("Set Task Done"), "doneTask", "doneTask", Lang.bind(this, function () {
-                this.emit('setDone', task);
-            }));
+            let _markDoneButton = UiHelper.createButton(_("Set Task Done"), "doneTask", "doneTask", () =>
+                this.emit('setDone', task)
+            );
 
-            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", Lang.bind(this, function () {
-                this.emit('modify', task);
-            }));
+            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", () =>
+                this.emit('modify', task)
+            );
 
             buttonBox.add(_markStartStopButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
             buttonBox.add(_markDoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
@@ -493,7 +496,7 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
                 break;
         }
 
-        data.sort(Lang.bind(this.menu, sortFunction));
+        data.sort(sortFunction.bind(this.menu));
 
         _currentItems = data;
 
@@ -751,42 +754,42 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         this._renderPanelMenuProjectBox();
         this.taskBox = new ScrollBox(this, "");
 
-        this.taskBox.connect('startStop', Lang.bind(this, function (that, task) {
+        this.taskBox.connect('startStop', (that, task) => {
             // log("started: " + task.Started);
             if (!task.Started) {
-                this.service.startTask(task.ID, Lang.bind(this, function () {
+                this.service.startTask(task.ID, () =>
                     // log("startTask " + task.ID + "(" + task.Start + ")");
-                    this.taskBox.reloadTaskData(true);
-                }));
+                    this.taskBox.reloadTaskData(true)
+                );
             } else {
-                this.service.stopTask(task.ID, Lang.bind(this, function () {
+                this.service.stopTask(task.ID, () =>
                     // log("stopTask " + task.ID + "(" + task.Start + ")");
-                    this.taskBox.reloadTaskData(true);
-                }));
+                    this.taskBox.reloadTaskData(true)
+                );
             }
-        }));
+        });
 
-        this.taskBox.connect("setDone", Lang.bind(this, function (that, task) {
-            this.service.setTaskDone(task.ID, Lang.bind(this, function () {
-                this.taskBox.reloadTaskData(true);
-            }));
-        }));
+        this.taskBox.connect("setDone", (that, task) => {
+            this.service.setTaskDone(task.ID, () => 
+                this.taskBox.reloadTaskData(true)
+            );
+        });
 
-        this.taskBox.connect("setUndone", Lang.bind(this, function (that, task) {
-            this.service.setTaskUndone(task.UUID, Lang.bind(this, function () {
-                this.taskBox.reloadTaskData(true);
-            }));
-        }));
+        this.taskBox.connect("setUndone", (that, task) => {
+            this.service.setTaskUndone(task.UUID, () => 
+                this.taskBox.reloadTaskData(true)
+            );
+        });
 
-        this.taskBox.connect("modify", Lang.bind(this, this._openModificationDialog));
+        this.taskBox.connect("modify", this._openModificationDialog.bind(this));
 
-        this.menu.connect('open-state-changed', Lang.bind(this, function (menu, isOpen) {
+        this.menu.connect('open-state-changed', (menu, isOpen) => {
             _isOpen = isOpen;
 
             if (_isOpen) {
                 this.taskBox.reloadTaskData(true);
             }
-        }));
+        });
 
         let section = new PopupMenu.PopupMenuSection();
         this.menu.addMenuItem(section);
@@ -798,9 +801,9 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
             this._needsColorUpdate = true;
             let context = St.ThemeContext.get_for_stage(global.stage);
-            this._globalThemeChangedId = context.connect('changed', Lang.bind(this, function () {
-                this._needsColorUpdate = true;
-            }));
+            this._globalThemeChangedId = context.connect('changed', () =>
+                this._needsColorUpdate = true
+            );
         }
 
         this.checkPanelControls();
@@ -907,12 +910,6 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         this.menu.addMenuItem(section);
 
         section.actor.add_actor(this.projectHeaderBar.scroll);
-        // never used
-        // this.projectHeaderBar.scroll.connect("setProject", Lang.bind(this, function (that, task) {
-        //     this.service.setTaskDone(task.ID, Lang.bind(this, function () {
-        //         this.taskBox.reloadTaskData(true);
-        //     }));
-        // }));
     }
 
     _openModificationDialog(that, task) {
@@ -950,7 +947,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         this._createTaskDialog = new Dialogs.CreateTaskDialog(this._dateformat);
 
         this._createTaskDialog.connect('create',
-            Lang.bind(this, function (dialog, parameterString) {
+            (dialog, parameterString) => {
                 this.service.createTask(parameterString, (buffer, status) => {
                     if (status != 0) {
                         dialog._errorMessageLabel.text = _("Sorry, that didn\'t work. Please try again.") + "\r\n" + buffer;
@@ -961,7 +958,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
                     this.taskBox.reloadTaskData(true);
                     dialog.close();
                 });
-            }));
+            });
 
         this._createTaskDialog.open(global.get_current_time());
     }
