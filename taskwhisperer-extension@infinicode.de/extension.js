@@ -758,13 +758,11 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
             // log("started: " + task.Started);
             if (!task.Started) {
                 this.service.startTask(task.ID, () =>
-                    // log("startTask " + task.ID + "(" + task.Start + ")");
-                    this.taskBox.reloadTaskData(true, true);
+                    this.taskBox.reloadTaskData(true, true)
                 );
             } else {
                 this.service.stopTask(task.ID, () =>
-                    // log("stopTask " + task.ID + "(" + task.Start + ")");
-                    this.taskBox.reloadTaskData(true, true);
+                    this.taskBox.reloadTaskData(true, true)
                 );
             }
         });
