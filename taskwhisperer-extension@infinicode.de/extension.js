@@ -87,10 +87,6 @@ const ProjectHeaderBar = GObject.registerClass(class ProjectHeaderBar extends Po
     _init(menu) {
         this.menu = menu;
 
-        //this.actor.add(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
-        //this.actor.add(this._createMiddleBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-        //this.actor.add(this._createRightBoxMenu(), {expand: false, x_fill: true, x_align: St.Align.END});
-
         this.box = new St.BoxLayout({
             style_class: 'projectHeaderBarBox',
             vertical: false
@@ -116,7 +112,7 @@ const ProjectHeaderBar = GObject.registerClass(class ProjectHeaderBar extends Po
         );
         _projectButton.ProjectValue = projectValue;
 
-        this.box.add(_projectButton, {expand: false, x_fill: false, x_align: St.Align.MIDDLE});
+        this.box.add_actor(_projectButton, {expand: false, x_fill: false, x_align: St.Align.MIDDLE});
     }
 
     _selectProject(button) {
@@ -311,7 +307,7 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
                 this.emit('setUndone', task)
             );
 
-            buttonBox.add(_markUndoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+            buttonBox.add_actor(_markUndoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
         } else {
             let _markStartStopButton;
             if (task.Started) {
@@ -332,9 +328,9 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
                 this.emit('modify', task)
             );
 
-            buttonBox.add(_markStartStopButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-            buttonBox.add(_markDoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-            buttonBox.add(_modifyButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+            buttonBox.add_actor(_markStartStopButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+            buttonBox.add_actor(_markDoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+            buttonBox.add_actor(_modifyButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
         }
 
         if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
@@ -381,8 +377,8 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
             style_class: 'rowValue'
         });
 
-        taskDataRow.add(titleLabel, {expand: true, x_fill: false, x_align: St.Align.START});
-        taskDataRow.add(valueLabel, {expand: true, x_fill: false, x_align: St.Align.END});
+        taskDataRow.add_actor(titleLabel, {expand: true, x_fill: false, x_align: St.Align.START});
+        taskDataRow.add_actor(valueLabel, {expand: true, x_fill: false, x_align: St.Align.END});
 
         if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
             rowMenuItem.add_actor(taskDataRow);
@@ -532,7 +528,7 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         placeholderLabel.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
         placeholderLabel.clutter_text.line_wrap = true;
 
-        this.box.add(placeholderLabel, {
+        this.box.add_actor(placeholderLabel, {
             expand: true,
             x_fill: true,
             y_fill: true,
@@ -551,9 +547,9 @@ var HeaderBar = GObject.registerClass(class HeaderBar extends PopupMenu.PopupBas
             vertical: false
         });
 
-        this.box.add(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
-        this.box.add(this._createMiddleBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-        this.box.add(this._createRightBoxMenu(), {expand: false, x_fill: true, x_align: St.Align.END});
+        this.box.add_actor(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
+        this.box.add_actor(this._createMiddleBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+        this.box.add_actor(this._createRightBoxMenu(), {expand: false, x_fill: true, x_align: St.Align.END});
     }
 
     _createLeftBoxMenu() {
@@ -561,15 +557,15 @@ var HeaderBar = GObject.registerClass(class HeaderBar extends PopupMenu.PopupBas
             style_class: "leftBox"
         });
 
-        leftBox.add(UiHelper.createActionButton("create", "hatt", null, () => {
+        leftBox.add_actor(UiHelper.createActionButton("create", "hatt", null, () => {
             this.menu._openTaskCreationDialog();
         }));
 
-        leftBox.add(UiHelper.createActionButton("refresh", "hatt2", null, () => {
+        leftBox.add_actor(UiHelper.createActionButton("refresh", "hatt2", null, () => {
             this.menu.taskBox.reloadTaskData(true, true);
         }));
 
-        leftBox.add(UiHelper.createActionButton("settings", "hatt2", "last", () => {
+        leftBox.add_actor(UiHelper.createActionButton("settings", "hatt2", "last", () => {
             this.menu.menu.actor.hide();
             this.menu.actor.hide();
             this.menu.actor.show();
@@ -592,8 +588,8 @@ var HeaderBar = GObject.registerClass(class HeaderBar extends PopupMenu.PopupBas
         var closedButton = UiHelper.createActionButton("task_done", "hatt3", "completedButton last " + activeClass, this._toggleTaskType.bind(this));
         closedButton.TypeID = taskService.TaskType.COMPLETED;
 
-        middleBox.add(activeButton);
-        middleBox.add(closedButton);
+        middleBox.add_actor(activeButton);
+        middleBox.add_actor(closedButton);
 
         return middleBox;
     }
@@ -604,12 +600,12 @@ var HeaderBar = GObject.registerClass(class HeaderBar extends PopupMenu.PopupBas
         let activeClass = taskService.SortOrder.DUE == this.menu._sort_order ? "active" : "";
         let addIcon = UiHelper.createActionButton("sort_time", "hatt3", activeClass, this._toggleSortIcon.bind(this));
         addIcon.SortID = taskService.SortOrder.DUE;
-        rightBox.add(addIcon, {expand: false, x_fill: false, x_align: St.Align.END});
+        rightBox.add_actor(addIcon, {expand: false, x_fill: false, x_align: St.Align.END});
 
         activeClass = taskService.SortOrder.URGENCY == this.menu._sort_order ? "active" : "";
         let reloadIcon = UiHelper.createActionButton("sort_priority", "hatt4", "last " + activeClass, this._toggleSortIcon.bind(this));
         reloadIcon.SortID = taskService.SortOrder.URGENCY;
-        rightBox.add(reloadIcon, {expand: false, x_fill: false, x_align: St.Align.END});
+        rightBox.add_actor(reloadIcon, {expand: false, x_fill: false, x_align: St.Align.END});
 
         return rightBox;
     }
