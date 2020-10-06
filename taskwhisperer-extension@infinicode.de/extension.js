@@ -37,6 +37,7 @@ const TaskService = taskService.TaskService;
 const Config = imports.misc.config;
 const {Clutter, GObject, Gio, Gtk, Pango, St} = imports.gi;
 
+const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Shell = imports.gi.Shell;
 const ShellEntry = imports.ui.shellEntry;
@@ -87,20 +88,17 @@ const ProjectHeaderBar = GObject.registerClass(class ProjectHeaderBar extends Po
     _init(menu) {
         this.menu = menu;
 
-        //this.actor.add(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
-        //this.actor.add(this._createMiddleBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-        //this.actor.add(this._createRightBoxMenu(), {expand: false, x_fill: true, x_align: St.Align.END});
-
         this.box = new St.BoxLayout({
             style_class: 'projectHeaderBarBox',
-            vertical: false
+            vertical: false,
+            x_align: Clutter.ActorAlign.START
         });
 
         this.scroll = new St.ScrollView({
             style_class: 'projectScrollBox'
         });
 
-        this.scroll.add_actor(this.box, {expand: false, x_fill: false, x_align: St.Align.LEFT});
+        this.scroll.add_actor(this.box);
     }
 
     addItem(projectName, projectValue, taskCount, isLast) {
@@ -108,15 +106,13 @@ const ProjectHeaderBar = GObject.registerClass(class ProjectHeaderBar extends Po
         let active = _currentProjectName === projectValue ? " active" : "";
         let cssClass = "projectButton" + last + active;
 
-        let _projectButton = UiHelper.createButton(
-            projectName + " (" + taskCount + ")",
-            "projectButton",
-            cssClass,
-            this._selectProject.bind(this)
-        );
+        let _projectButton = UiHelper.createButton(projectName + " (" + taskCount + ")", "projectButton", cssClass, Lang.bind(this, this._selectProject));
         _projectButton.ProjectValue = projectValue;
+        _projectButton.expand = false
+        _projectButton.x_fill = false
+        _projectButton.x_align = Clutter.ActorAlign.CENTER
 
-        this.box.add(_projectButton, {expand: false, x_fill: false, x_align: St.Align.MIDDLE});
+        this.box.add_actor(_projectButton);
     }
 
     _selectProject(button) {
@@ -178,6 +174,7 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         this.actor.add_actor(this.box);
         //this.actor._delegate = this;
         //this.actor.clip_to_allocation = true;
+        //this.actor.connect('key-press-event', Lang.bind(this, this._onKeyPressEvent));
 
         let scrollBar = this.actor.get_vscroll_bar();
         let appsScrollBoxAdj = scrollBar.get_adjustment();
@@ -195,7 +192,7 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
             }
         });
 
-        this.reloadTaskData(true, true, () => {
+        this.reloadTaskData(true, () => {
             this.loadNextItems();
         });
     }
@@ -307,34 +304,34 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         });
 
         if (task.IsCompleted) {
-            let _markUndoneButton = UiHelper.createButton(_("Set Task Undone"), "doneTask", "doneTask", () =>
-                this.emit('setUndone', task)
-            );
+            let _markUndoneButton = UiHelper.createButton(_("Set Task Undone"), "doneTask", "doneTask", Lang.bind(this, function () {
+                this.emit('setUndone', task);
+            }));
 
-            buttonBox.add(_markUndoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+            buttonBox.add_actor(_markUndoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
         } else {
             let _markStartStopButton;
             if (task.Started) {
-                _markStartStopButton = UiHelper.createButton(_("Stop task"), "stopTask", "stopTask", () =>
-                    this.emit('startStop', task)
-                );
+                _markStartStopButton = UiHelper.createButton(_("Stop task"), "stopTask", "stopTask", Lang.bind(this, function () {
+                    this.emit('startStop', task);
+                }));
             } else {
-                _markStartStopButton = UiHelper.createButton(_("Start task"), "startTask", "startTask", () =>
-                    this.emit('startStop', task)
-                );
+                _markStartStopButton = UiHelper.createButton(_("Start task"), "startTask", "startTask", Lang.bind(this, function () {
+                    this.emit('startStop', task);
+                }));
             }
 
-            let _markDoneButton = UiHelper.createButton(_("Set Task Done"), "doneTask", "doneTask", () =>
-                this.emit('setDone', task)
-            );
+            let _markDoneButton = UiHelper.createButton(_("Set Task Done"), "doneTask", "doneTask", Lang.bind(this, function () {
+                this.emit('setDone', task);
+            }));
 
-            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", () =>
-                this.emit('modify', task)
-            );
+            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", Lang.bind(this, function () {
+                this.emit('modify', task);
+            }));
 
-            buttonBox.add(_markStartStopButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-            buttonBox.add(_markDoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-            buttonBox.add(_modifyButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+            buttonBox.add_actor(_markStartStopButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+            buttonBox.add_actor(_markDoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+            buttonBox.add_actor(_modifyButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
         }
 
         if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
@@ -368,21 +365,26 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         });
 
         let taskDataRow = new St.BoxLayout({
-            style_class: 'taskDataRow'
+            style_class: 'taskDataRow',
+            x_expand: true
         });
 
         let titleLabel = new St.Label({
             text: title,
-            style_class: 'rowTitle'
+            style_class: 'rowTitle',
+            x_expand: true,
+            x_align: Clutter.ActorAlign.START
         });
 
         let valueLabel = new St.Label({
             text: value,
-            style_class: 'rowValue'
+            style_class: 'rowValue',
+            x_expand: true,
+            x_align: Clutter.ActorAlign.END
         });
 
-        taskDataRow.add(titleLabel, {expand: true, x_fill: false, x_align: St.Align.START});
-        taskDataRow.add(valueLabel, {expand: true, x_fill: false, x_align: St.Align.END});
+        taskDataRow.add_actor(titleLabel);
+        taskDataRow.add_actor(valueLabel);
 
         if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
             rowMenuItem.add_actor(taskDataRow);
@@ -455,12 +457,12 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         });
     }
 
-    reloadTaskData(refreshCache, performSync, afterReloadCallback) {
+    reloadTaskData(refreshCache, afterReloadCallback) {
         let now = new Date().getTime() / 1000;
         if (refreshCache || !_cacheExpirationTime || _cacheExpirationTime < now) {
             _cacheExpirationTime = now + _cacheDurationInSeconds;
 
-            if (this.menu._enable_taskd_sync && performSync) {
+            if (this.menu._enable_taskd_sync) {
                 this.menu.service.syncTasksAsync((data) => {
                     this.menu.service.loadTaskDataAsync(_currentTaskType, _currentProjectName, (data) => {
                         this.processTaskData(afterReloadCallback, data);
@@ -496,7 +498,7 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
                 break;
         }
 
-        data.sort(sortFunction.bind(this.menu));
+        data.sort(Lang.bind(this.menu, sortFunction));
 
         _currentItems = data;
 
@@ -532,7 +534,7 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         placeholderLabel.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
         placeholderLabel.clutter_text.line_wrap = true;
 
-        this.box.add(placeholderLabel, {
+        this.box.add_actor(placeholderLabel, {
             expand: true,
             x_fill: true,
             y_fill: true,
@@ -551,65 +553,76 @@ var HeaderBar = GObject.registerClass(class HeaderBar extends PopupMenu.PopupBas
             vertical: false
         });
 
-        this.box.add(this._createLeftBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.START});
-        this.box.add(this._createMiddleBoxMenu(), {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-        this.box.add(this._createRightBoxMenu(), {expand: false, x_fill: true, x_align: St.Align.END});
+        this.box.add_actor(this._createLeftBoxMenu());
+        this.box.add_actor(this._createMiddleBoxMenu());
+        this.box.add_actor(this._createRightBoxMenu());
     }
 
     _createLeftBoxMenu() {
+        // vertical: false,
+        //     x_align: Clutter.ActorAlign.START
         let leftBox = new St.BoxLayout({
-            style_class: "leftBox"
+            style_class: "leftBox",
+            x_expand: true,
+            x_align: Clutter.ActorAlign.START
         });
 
-        leftBox.add(UiHelper.createActionButton("create", "hatt", null, () => {
+        leftBox.add_actor(UiHelper.createActionButton("create", "hatt", null, () => {
             this.menu._openTaskCreationDialog();
         }));
 
-        leftBox.add(UiHelper.createActionButton("refresh", "hatt2", null, () => {
-            this.menu.taskBox.reloadTaskData(true, true);
+        leftBox.add_actor(UiHelper.createActionButton("refresh", "hatt2", null, () => {
+            this.menu.taskBox.reloadTaskData(true);
         }));
 
-        leftBox.add(UiHelper.createActionButton("settings", "hatt2", "last", () => {
+        leftBox.add_actor(UiHelper.createActionButton("settings", "hatt2", "last", () => {
             this.menu.menu.actor.hide();
             this.menu.actor.hide();
             this.menu.actor.show();
-            Util.spawn(["gnome-extensions", "prefs", `${Me.metadata['uuid']}`]);
+            Util.spawn(["gnome-shell-extension-prefs", "taskwhisperer-extension@infinicode.de"]);
         }));
 
         return leftBox;
     }
 
     _createMiddleBoxMenu() {
-        let middleBox = new St.BoxLayout({
-            style_class: "middleBox"
+        const middleBox = new St.BoxLayout({
+            style_class: "middleBox",
+            x_expand: true,
+            x_align: Clutter.ActorAlign.CENTER
         });
 
         let activeClass = taskService.TaskType.ACTIVE == _currentTaskType ? "active" : "";
-        var activeButton = UiHelper.createActionButton("task_open", "hatt3", "activeButton " + activeClass, this._toggleTaskType.bind(this));
+        const activeButton = UiHelper.createActionButton("task_open", "hatt3", "activeButton " + activeClass, this._toggleTaskType.bind(this));
         activeButton.TypeID = taskService.TaskType.ACTIVE;
 
         activeClass = taskService.TaskType.COMPLETED == _currentTaskType ? "active" : "";
-        var closedButton = UiHelper.createActionButton("task_done", "hatt3", "completedButton last " + activeClass, this._toggleTaskType.bind(this));
+        const closedButton = UiHelper.createActionButton("task_done", "hatt3", "completedButton last " + activeClass, this._toggleTaskType.bind(this));
         closedButton.TypeID = taskService.TaskType.COMPLETED;
 
-        middleBox.add(activeButton);
-        middleBox.add(closedButton);
+        middleBox.add_actor(activeButton);
+        middleBox.add_actor(closedButton);
 
         return middleBox;
     }
 
     _createRightBoxMenu() {
-        let rightBox = new St.BoxLayout({style_class: "rightBox"});
+        const rightBox = new St.BoxLayout({
+            style_class: "rightBox",
+            x_expand: false,
+            x_align: Clutter.ActorAlign.END
+        });
 
         let activeClass = taskService.SortOrder.DUE == this.menu._sort_order ? "active" : "";
-        let addIcon = UiHelper.createActionButton("sort_time", "hatt3", activeClass, this._toggleSortIcon.bind(this));
+        const addIcon = UiHelper.createActionButton("sort_time", "hatt3", activeClass, this._toggleSortIcon.bind(this));
         addIcon.SortID = taskService.SortOrder.DUE;
-        rightBox.add(addIcon, {expand: false, x_fill: false, x_align: St.Align.END});
+        rightBox.add_actor(addIcon, {expand: false, x_fill: false, x_align: St.Align.END});
 
         activeClass = taskService.SortOrder.URGENCY == this.menu._sort_order ? "active" : "";
-        let reloadIcon = UiHelper.createActionButton("sort_priority", "hatt4", "last " + activeClass, this._toggleSortIcon.bind(this));
+
+        const reloadIcon = UiHelper.createActionButton("sort_priority", "hatt4", "last " + activeClass, this._toggleSortIcon.bind(this));
         reloadIcon.SortID = taskService.SortOrder.URGENCY;
-        rightBox.add(reloadIcon, {expand: false, x_fill: false, x_align: St.Align.END});
+        rightBox.add_actor(reloadIcon, {expand: false, x_fill: false, x_align: St.Align.END});
 
         return rightBox;
     }
@@ -754,40 +767,42 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         this._renderPanelMenuProjectBox();
         this.taskBox = new ScrollBox(this, "");
 
-        this.taskBox.connect('startStop', (that, task) => {
+        this.taskBox.connect('startStop', Lang.bind(this, function (that, task) {
             // log("started: " + task.Started);
             if (!task.Started) {
-                this.service.startTask(task.ID, () =>
-                    this.taskBox.reloadTaskData(true, true)
-                );
+                this.service.startTask(task.ID, Lang.bind(this, function () {
+                    // log("startTask " + task.ID + "(" + task.Start + ")");
+                    this.taskBox.reloadTaskData(true);
+                }));
             } else {
-                this.service.stopTask(task.ID, () =>
-                    this.taskBox.reloadTaskData(true, true)
-                );
+                this.service.stopTask(task.ID, Lang.bind(this, function () {
+                    // log("stopTask " + task.ID + "(" + task.Start + ")");
+                    this.taskBox.reloadTaskData(true);
+                }));
             }
-        });
+        }));
 
-        this.taskBox.connect("setDone", (that, task) => {
-            this.service.setTaskDone(task.ID, () => 
-                this.taskBox.reloadTaskData(true)
-            );
-        });
+        this.taskBox.connect("setDone", Lang.bind(this, function (that, task) {
+            this.service.setTaskDone(task.ID, Lang.bind(this, function () {
+                this.taskBox.reloadTaskData(true);
+            }));
+        }));
 
-        this.taskBox.connect("setUndone", (that, task) => {
-            this.service.setTaskUndone(task.UUID, () => 
-                this.taskBox.reloadTaskData(true, true)
-            );
-        });
+        this.taskBox.connect("setUndone", Lang.bind(this, function (that, task) {
+            this.service.setTaskUndone(task.UUID, Lang.bind(this, function () {
+                this.taskBox.reloadTaskData(true);
+            }));
+        }));
 
-        this.taskBox.connect("modify", this._openModificationDialog.bind(this));
+        this.taskBox.connect("modify", Lang.bind(this, this._openModificationDialog));
 
-        this.menu.connect('open-state-changed', (menu, isOpen) => {
+        this.menu.connect('open-state-changed', Lang.bind(this, function (menu, isOpen) {
             _isOpen = isOpen;
 
             if (_isOpen) {
-                this.taskBox.reloadTaskData(true, true);
+                this.taskBox.reloadTaskData(true);
             }
-        });
+        }));
 
         let section = new PopupMenu.PopupMenuSection();
         this.menu.addMenuItem(section);
@@ -799,9 +814,9 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
             this._needsColorUpdate = true;
             let context = St.ThemeContext.get_for_stage(global.stage);
-            this._globalThemeChangedId = context.connect('changed', () =>
-                this._needsColorUpdate = true
-            );
+            this._globalThemeChangedId = context.connect('changed', Lang.bind(this, function () {
+                this._needsColorUpdate = true;
+            }));
         }
 
         this.checkPanelControls();
@@ -824,34 +839,23 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
     }
 
     checkPositionInPanel() {
-        if (this._oldPanelPosition != this._position_in_panel) {
-            this.actor.get_parent().remove_actor(this.actor);
-
-            switch (this._oldPanelPosition) {
-                case MenuPosition.LEFT:
-                    Main.panel._leftBox.remove_actor(this.actor);
-                    break;
-                case MenuPosition.CENTER:
-                    Main.panel._centerBox.remove_actor(this.actor);
-                    break;
-                case MenuPosition.RIGHT:
-                    Main.panel._rightBox.remove_actor(this.actor);
-                    break;
-            }
+        if (this._oldPanelPosition == undefined ||
+            this._oldPanelPosition != this._position_in_panel) {
+            this.get_parent().remove_actor(this);
 
             let children = null;
             switch (this._position_in_panel) {
                 case MenuPosition.LEFT:
                     children = Main.panel._leftBox.get_children();
-                    Main.panel._leftBox.insert_child_at_index(this.actor, children.length);
+                    Main.panel._leftBox.insert_child_at_index(this, children.length);
                     break;
                 case MenuPosition.CENTER:
                     children = Main.panel._centerBox.get_children();
-                    Main.panel._centerBox.insert_child_at_index(this.actor, children.length);
+                    Main.panel._centerBox.insert_child_at_index(this, children.length);
                     break;
                 case MenuPosition.RIGHT:
                     children = Main.panel._rightBox.get_children();
-                    Main.panel._rightBox.insert_child_at_index(this.actor, 0);
+                    Main.panel._rightBox.insert_child_at_index(this, 0);
                     break;
             }
             this._oldPanelPosition = this._position_in_panel;
@@ -908,6 +912,12 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         this.menu.addMenuItem(section);
 
         section.actor.add_actor(this.projectHeaderBar.scroll);
+        // never used
+        // this.projectHeaderBar.scroll.connect("setProject", Lang.bind(this, function (that, task) {
+        //     this.service.setTaskDone(task.ID, Lang.bind(this, function () {
+        //         this.taskBox.reloadTaskData(true);
+        //     }));
+        // }));
     }
 
     _openModificationDialog(that, task) {
@@ -927,7 +937,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
                     return;
                 }
 
-                this.taskBox.reloadTaskData(true, true);
+                this.taskBox.reloadTaskData(true);
                 dialog.close();
             });
         });
@@ -945,7 +955,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         this._createTaskDialog = new Dialogs.CreateTaskDialog(this._dateformat);
 
         this._createTaskDialog.connect('create',
-            (dialog, parameterString) => {
+            Lang.bind(this, function (dialog, parameterString) {
                 this.service.createTask(parameterString, (buffer, status) => {
                     if (status != 0) {
                         dialog._errorMessageLabel.text = _("Sorry, that didn\'t work. Please try again.") + "\r\n" + buffer;
@@ -953,10 +963,10 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
                         return;
                     }
 
-                    this.taskBox.reloadTaskData(true, true);
+                    this.taskBox.reloadTaskData(true);
                     dialog.close();
                 });
-            });
+            }));
 
         this._createTaskDialog.open(global.get_current_time());
     }
@@ -988,7 +998,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         this._refreshTaskDataTimeoutID = Mainloop.timeout_add_seconds(150, () => {
             // Avoid intervention while user is doing something
             if (!_isOpen) {
-                this.taskBox.reloadTaskData(true, true);
+                this.taskBox.reloadTaskData(true);
             }
 
             this.setRefreshTaskDataTimeout();
