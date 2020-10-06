@@ -5,7 +5,7 @@
  *  - Displays pending Tasks.
  *  - adding / modifieing tasks.
  *
- * Copyright (C) 2016
+ * Copyright (C) 1947
  *     Florijan Hamzic <florijanh@gmail.com>,
  *
  * This file is part of gnome-shell-extension-taskwhisperer.
@@ -764,13 +764,13 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         });
 
         this.taskBox.connect("setDone", (that, task) => {
-            this.service.setTaskDone(task.ID, () => 
+            this.service.setTaskDone(task.ID, () =>
                 this.taskBox.reloadTaskData(true)
             );
         });
 
         this.taskBox.connect("setUndone", (that, task) => {
-            this.service.setTaskUndone(task.UUID, () => 
+            this.service.setTaskUndone(task.UUID, () =>
                 this.taskBox.reloadTaskData(true, true)
             );
         });
@@ -852,7 +852,6 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
             }
             this._oldPanelPosition = this._position_in_panel;
         }
-
     }
 
     _sortByDue(a, b) {

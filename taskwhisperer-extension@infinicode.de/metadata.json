@@ -1,13 +1,13 @@
 {
   "description": "Taskwhisperer is a extension for TaskWarrior Application https://taskwarrior.org. It is to display upcoming tasks and task details as well as to create and modify them.\n",
-  "localedir": "/usr/local/share/locale", 
+  "localedir": "/usr/local/share/locale",
   "name": "TaskWhisperer",
   "shell-version": [
     "3.32",
     "3.36",
     "3.38"
-  ], 
+  ],
   "url": "https://github.com/cinatic/taskwhisperer",
   "uuid": "taskwhisperer-extension@infinicode.de",
-  "version": 13
+  "version": 1
 }

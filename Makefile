@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-# Copyright (C) 2018 Florijan Hamzic <fh[at]infinicode.de>
+# Copyright (C) 2020 Florijan Hamzic <fh[at]infinicode.de>
 # This file is distributed under the same license as the stocks-extension package.
 
 .PHONY: clean mrproper
@@ -8,7 +8,6 @@
 EXTENSION_NAME := taskwhisperer-extension
 UUID := $(EXTENSION_NAME)@infinicode.de
 AUTHOR_MAIL := fh@infinicode.de
-VERSION := 12
 
 BUILD_DIR := _build
 
@@ -60,13 +59,13 @@ $(LOCALE_DIR)/%/LC_MESSAGES/$(UUID).mo: $(PO_DIR)/%.po $(MO_DIR)
 	msgfmt -c $< -o $@
 
 $(POT_FILE): $(PO_DIR)
-	cd $(SRC_DIR) && xgettext --from-code=UTF-8 --package-name "gnome-shell-extension-$(EXTENSION_NAME)" --package-version=$(VERSION) --msgid-bugs-address=$(AUTHOR_MAIL) -k_ -kN_ -o po/$(UUID).pot $(TOLOCALIZE) && cd -
+	cd $(SRC_DIR) && xgettext --from-code=UTF-8 --package-name "gnome-shell-extension-$(EXTENSION_NAME)" --msgid-bugs-address=$(AUTHOR_MAIL) -k_ -kN_ -o po/$(UUID).pot $(TOLOCALIZE) && cd -
 
 build: $(BUILD_DIR) $(COMPILED_SCHEMAS) $(MO_FILES)
 	cp -r $(FILES) $<
 
 package: $(BUILD_DIR)
-	cd $(BUILD_DIR) && zip -r taskwhisperer.zip *
+	cd $(BUILD_DIR) && zip -r $(EXTENSION_NAME).zip *
 
 install: build
 	rm -rf $(INSTALL_DIR)
