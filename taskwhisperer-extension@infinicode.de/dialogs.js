@@ -203,17 +203,18 @@ var CreateTaskDialog = GObject.registerClass({
 
         this._messageBox = new St.BoxLayout({
             style_class: 'message-box',
-            vertical   : true
+            vertical: true,
+            y_align: St.Align.START,
+            x_expand: true,
+            y_expand: true,
         });
+        mainContentBox.add_child(this._messageBox);
 
-        mainContentBox.add(this._messageBox, {y_align: St.Align.START, expand: true, x_fill: true, y_fill: true});
-
-        let subject = new St.Label({style_class: 'headline'});
-        this._messageBox.add(subject,
-            {
-                y_fill : false,
-                y_align: St.Align.START
-            });
+        let subject = new St.Label({
+            style_class: 'headline',
+            y_align: St.Align.START
+        });
+        this._messageBox.add_child(subject);
 
         subject.set_text(_("Create New Task"));
 
@@ -221,21 +222,27 @@ var CreateTaskDialog = GObject.registerClass({
             style_class: 'descriptionInputBox',
             text       : "",
             hint_text  : _("Enter Description"),
-            can_focus  : true
+            can_focus  : true,
+            x_expand   : true,
+            y_expand   : true
         });
 
         this._dueDateInputBox = new St.Entry({
             style_class: 'dueDateInputBox',
             text       : "",
             hint_text  : _("Enter DueDate"),
-            can_focus  : true
+            can_focus  : true,
+            x_expand   : true,
+            y_expand   : true
         });
 
         this._additionalArgumentsInputBox = new St.Entry({
             style_class: 'additionalArgumentsInputBox',
             text       : "",
             hint_text  : _("Additional Arguments"),
-            can_focus  : true
+            can_focus  : true,
+            x_expand   : true,
+            y_expand   : true
         });
 
         this._errorMessageLabel = new St.Label({
@@ -259,10 +266,10 @@ var CreateTaskDialog = GObject.registerClass({
             this._onAddTaskButton.call(this, dateFormat)
         );
 
-        this._messageBox.add(this._descriptionInputBox, {expand: true});
-        this._messageBox.add(this._dueDateInputBox, {expand: true});
-        this._messageBox.add(this._additionalArgumentsInputBox, {expand: true});
-        this._messageBox.add(this._errorMessageLabel);
+        this._messageBox.add_child(this._descriptionInputBox);
+        this._messageBox.add_child(this._dueDateInputBox);
+        this._messageBox.add_child(this._additionalArgumentsInputBox);
+        this._messageBox.add_child(this._errorMessageLabel);
 
         let buttons = [
             {
