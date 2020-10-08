@@ -56,22 +56,22 @@ var ModifyTaskDialog = GObject.registerClass({
             style_class: 'prompt-dialog-main-layout',
             vertical   : false
         });
-
-        this.contentLayout.add(mainContentBox);
+        this.contentLayout.add_child(mainContentBox);
 
         this._messageBox = new St.BoxLayout({
             style_class: 'message-box',
-            vertical   : true
+            vertical   : true,
+            y_align    : St.Align.START,
+            x_expand   : true,
+            y_expand   : true,
         });
+        mainContentBox.add_child(this._messageBox);
 
-        mainContentBox.add(this._messageBox, {y_align: St.Align.START, expand: true, x_fill: true, y_fill: true});
-
-        let subject = new St.Label({style_class: 'headline'});
-        this._messageBox.add(subject,
-            {
-                y_fill : false,
-                y_align: St.Align.START
-            });
+        let subject = new St.Label({
+            style_class: 'headline',
+            y_align: St.Align.START
+        });
+        this._messageBox.add_child(subject);
 
         subject.set_text(_("Modify:") + "  " + task.Description);
 
@@ -87,7 +87,9 @@ var ModifyTaskDialog = GObject.registerClass({
         this._descriptionInputBox = new St.Entry({
             style_class: 'modificationInputBox',
             text       : "description:'" + task.Description + "'",
-            can_focus  : true
+            can_focus  : true,
+            x_expand   : true,
+            y_expand   : true
         });
 
         if(task.Due)
@@ -103,10 +105,10 @@ var ModifyTaskDialog = GObject.registerClass({
             this._descriptionInputBox.text = "due:'" + formattedText + "' " + this._descriptionInputBox.text;
         }
 
-        this._descriptionInputBox.clutter_text.connect('activate', () => 
+        this._descriptionInputBox.clutter_text.connect('activate', () =>
             this._onModifyTaskButton.call(this, dateFormat));
 
-        this._messageBox.add(this._descriptionInputBox, {expand: true});
+        this._messageBox.add_child(this._descriptionInputBox);
         this.setInitialKeyFocus(this._descriptionInputBox);
 
         this._errorMessageLabel = new St.Label({
@@ -116,7 +118,7 @@ var ModifyTaskDialog = GObject.registerClass({
 
         this._errorMessageLabel.clutter_text.line_wrap = true;
         this._errorMessageLabel.hide();
-        this._messageBox.add(this._errorMessageLabel);
+        this._messageBox.add_child(this._errorMessageLabel);
 
         let buttons = [
             {
@@ -143,18 +145,24 @@ var ModifyTaskDialog = GObject.registerClass({
 
         let titleLabel = new St.Label({
             text       : title,
-            style_class: 'rowTitle'
+            style_class: 'rowTitle',
+            x_expand     : true,
+            y_expand     : true,
+            x_align      : St.Align.START
         });
 
         let valueLabel = new St.Label({
             text       : value,
-            style_class: 'rowValue'
+            style_class: 'rowValue',
+            x_expand     : true,
+            y_expand     : true,
+            x_align      : St.Align.END
         });
 
-        rowItem.add(titleLabel, {expand: true, x_fill: false, x_align: St.Align.START});
-        rowItem.add(valueLabel, {expand: true, x_fill: false, x_align: St.Align.END});
+        rowItem.add_child(titleLabel);
+        rowItem.add_child(valueLabel);
 
-        boxItem.add(rowItem);
+        boxItem.add_child(rowItem);
     }
 
     _onCancelButton()
@@ -198,8 +206,7 @@ var CreateTaskDialog = GObject.registerClass({
             style_class: 'prompt-dialog-main-layout',
             vertical   : false
         });
-
-        this.contentLayout.add(mainContentBox);
+        this.contentLayout.add_child(mainContentBox);
 
         this._messageBox = new St.BoxLayout({
             style_class: 'message-box',
