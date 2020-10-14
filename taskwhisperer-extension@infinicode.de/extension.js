@@ -320,18 +320,28 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
                     this.emit('startStop', task);
                 }));
             }
+            _markStartStopButton.x_expand = true;
+            _markStartStopButton.y_expand = true;
+            _markStartStopButton.x_fill = true;
+            _markStartStopButton.x_align = St.Align.MIDDLE;
 
             let _markDoneButton = UiHelper.createButton(_("Set Task Done"), "doneTask", "doneTask", Lang.bind(this, function () {
                 this.emit('setDone', task);
             }));
+            _markDoneButton.x_expand = true;
+            _markDoneButton.y_expand = true;
+            _markDoneButton.x_fill = true;
+            _markDoneButton.x_align = St.Align.MIDDLE;
 
-            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", Lang.bind(this, function () {
-                this.emit('modify', task);
-            }));
+            let _modifyButton = UiHelper.createButton(_("Modify Task"), "modifyTask", "modifyTask", Lang.bind(this, function () { this.emit('modify', task); }));
+            _modifyButton.x_expand = true;
+            _modifyButton.y_expand = true;
+            _modifyButton.x_fill = true;
+            _modifyButton.x_align = St.Align.MIDDLE;
 
-            buttonBox.add_actor(_markStartStopButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-            buttonBox.add_actor(_markDoneButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
-            buttonBox.add_actor(_modifyButton, {expand: true, x_fill: true, x_align: St.Align.MIDDLE});
+            buttonBox.add_actor(_markStartStopButton);
+            buttonBox.add_actor(_markDoneButton);
+            buttonBox.add_actor(_modifyButton);
         }
 
         if (ExtensionUtils.versionCheck(['3.8'], Config.PACKAGE_VERSION)) {
@@ -616,13 +626,21 @@ var HeaderBar = GObject.registerClass(class HeaderBar extends PopupMenu.PopupBas
         let activeClass = taskService.SortOrder.DUE == this.menu._sort_order ? "active" : "";
         const addIcon = UiHelper.createActionButton("sort_time", "hatt3", activeClass, this._toggleSortIcon.bind(this));
         addIcon.SortID = taskService.SortOrder.DUE;
-        rightBox.add_actor(addIcon, {expand: false, x_fill: false, x_align: St.Align.END});
+        addIcon.x_expand = false;
+        addIcon.y_expand = false;
+        addIcon.x_fill = false;
+        addIcon.x_align = St.Align.END;
+        rightBox.add_actor(addIcon);
 
         activeClass = taskService.SortOrder.URGENCY == this.menu._sort_order ? "active" : "";
 
         const reloadIcon = UiHelper.createActionButton("sort_priority", "hatt4", "last " + activeClass, this._toggleSortIcon.bind(this));
         reloadIcon.SortID = taskService.SortOrder.URGENCY;
-        rightBox.add_actor(reloadIcon, {expand: false, x_fill: false, x_align: St.Align.END});
+        reloadIcon.x_expand = false;
+        reloadIcon.y_expand = false;
+        reloadIcon.x_fill = false;
+        reloadIcon.x_align = St.Align.END;
+        rightBox.add_actor(reloadIcon);
 
         return rightBox;
     }
