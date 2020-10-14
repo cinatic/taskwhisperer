@@ -197,6 +197,12 @@ const ScrollBox = class extends PopupMenu.PopupMenuBase {
         });
     }
 
+    // Override PopupMenu._setOpenedSubMenu to save the persistent state of
+    // opened submenu.
+    _setOpenedSubMenu(submenu) {
+      this._openedSubMenu = submenu;
+    }
+
     addGridItem(task) {
         let dueDateAbbreviation = task.DueDateAbbreviation;
 
