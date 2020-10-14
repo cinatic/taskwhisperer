@@ -775,9 +775,9 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         let topBox = new St.BoxLayout();
         topBox.add_actor(this._icon);
         topBox.add_actor(this._panelButtonLabel);
-        this.actor.add_actor(topBox);
+        this.add_actor(topBox);
 
-        this.actor.add_style_class_name('task-whisperer');
+        this.add_style_class_name('task-whisperer');
 
         this.checkPositionInPanel()
 
