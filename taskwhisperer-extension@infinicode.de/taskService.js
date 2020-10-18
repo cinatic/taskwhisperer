@@ -401,7 +401,7 @@ var TaskService = class TaskService {
         // FIXME: Gio.Subprocess: due to only passing string vector is allowed, it's not possible to directly pass the
         //        input of the user to subprocess (why & how, if you can answer then please send msg to fh@infinicode.de)
         //        bypassing problem with own shell script
-        let shellProc = Gio.Subprocess.new(['/bin/sh', EXTENSIONDIR + '/extra/create.sh', params], Gio.SubprocessFlags.STDOUT_PIPE + Gio.SubprocessFlags.STDERR_MERGE);
+        let shellProc = Gio.Subprocess.new(['/usr/bin/env', 'bash', EXTENSIONDIR + '/extra/create.sh', params], Gio.SubprocessFlags.STDOUT_PIPE + Gio.SubprocessFlags.STDERR_MERGE);
 
         shellProc.wait_async(null, function (obj, result) {
             let shellProcExited = true;
