@@ -5,9 +5,13 @@
     <value value="1" nick="right"/>
     <value value="2" nick="left"/>
   </enum>
-  <enum id="org.gnome.shell.extensions.taskwhisperer.sortorder">
-    <value value="0" nick="due"/>
-    <value value="1" nick="urgency"/>
+  <enum id="org.gnome.shell.extensions.taskwhisperer.order">
+    <value value="0" nick="DUE"/>
+    <value value="1" nick="URGENCY"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.taskwhisperer.status">
+    <value value="0" nick="PENDING"/>
+    <value value="1" nick="COMPLETED"/>
   </enum>
   <schema path="/org/gnome/shell/extensions/taskwhisperer/" id="org.gnome.shell.extensions.taskwhisperer">
     <key name="position-in-panel" enum="org.gnome.shell.extensions.taskwhisperer.position">
@@ -38,9 +42,17 @@
       <default>'test'</default>
       <summary>Date &amp; Time Format</summary>
     </key>
-    <key name="sort-order" enum="org.gnome.shell.extensions.taskwhisperer.sortorder">
+    <key name="task-order" enum="org.gnome.shell.extensions.taskwhisperer.order">
       <default>'due'</default>
-      <summary>Order to sort by</summary>
+      <summary>Order to sort tasks by</summary>
+    </key>
+    <key name="task-status" enum="org.gnome.shell.extensions.taskwhisperer.status">
+      <default>'pending'</default>
+      <summary>Status to filter tasks by</summary>
+    </key>
+    <key name="project" type="s">
+      <default>'all'</default>
+      <summary>Selected project by user</summary>
     </key>
   </schema>
 </schemalist>
