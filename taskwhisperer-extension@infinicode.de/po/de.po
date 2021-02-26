@@ -131,7 +131,7 @@ msgstr "Alle"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:18
 msgid "Unassigned"
-msgstr ""
+msgstr "Projektlos"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:20
 msgid "↕ Due"

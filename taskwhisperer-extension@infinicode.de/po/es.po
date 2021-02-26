@@ -24,18 +24,18 @@ msgid "taskwarrior"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:46
-msgid "Enable Taskd Syncronization"
+msgid "Habilitar la sincronización de tareas"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:57
 msgid ""
 "Please make sure taskd is proper configured, otherwise you will get errors "
 "fetching data!"
-msgstr ""
+msgstr "Asegúrese de que taskd esté configurado correctamente; de lo contrario, obtendrá errores al obtener datos."
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:72
 msgid "Show Tasks w/ no due at end of list"
-msgstr ""
+msgstr "Mostrar tareas sin vencimiento al final de la lista"
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:100
 msgid "Taskwarrior"
@@ -43,27 +43,27 @@ msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:123
 msgid "Position in Panel"
-msgstr ""
+msgstr "Posición en el panel"
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:138
 msgid "Center"
-msgstr ""
+msgstr "Centrar"
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:139
 msgid "Right"
-msgstr ""
+msgstr "Derecha"
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:140
 msgid "Left"
-msgstr ""
+msgstr "Izquierda"
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:155
 msgid "Show TaskWarrior Icon in Panel"
-msgstr ""
+msgstr "Mostrar el icono de TaskWarrior en el panel"
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:181
 msgid "Show additional text next to task amount in Panel"
-msgstr ""
+msgstr "Mostrar texto adicional junto a la cantidad de la tarea en el Panel"
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:210
 msgid "Layout"
@@ -101,15 +101,15 @@ msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:12
 msgid "back"
-msgstr ""
+msgstr "espalda"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:13
 msgid "Filter Tasks"
-msgstr ""
+msgstr "Filtrar tareas"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:14
 msgid "Loading Data"
-msgstr ""
+msgstr "Cargando datos"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:15
 msgid "UNKNOWN"
@@ -124,11 +124,11 @@ msgstr[1] "%d tareas"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:17
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:18
 msgid "Unassigned"
-msgstr ""
+msgstr "Sin asignar"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:20
 msgid "↕ Due"
@@ -141,27 +141,27 @@ msgstr "↕ Urgencia"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:22
 msgid "Pending"
-msgstr ""
+msgstr "Pendiente"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:23
 msgid "Completed"
-msgstr ""
+msgstr "Terminada"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:25
 msgid "High"
-msgstr ""
+msgstr "Alto"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:26
 msgid "Medium"
-msgstr ""
+msgstr "Medio"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:27
 msgid "Low"
-msgstr ""
+msgstr "Bajo"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:30
 msgid "Project"
-msgstr ""
+msgstr "Proyecto"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:31
 #, fuzzy
@@ -185,12 +185,12 @@ msgstr "Prioridad"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:35
 msgid "Additional"
-msgstr ""
+msgstr "Adicional"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:36
 #, fuzzy
 msgid "Save Task"
-msgstr "Tarea completada"
+msgstr "Guardar Tarea"
 
 #: taskwhisperer-extension@infinicode.de/helpers/translations.js:40
 msgid "%H:%M:%S %d.%m.%Y"
