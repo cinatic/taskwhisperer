@@ -94,7 +94,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
         return
       }
 
-      const searchContent = `${data.Description} ${data.UUID} ${data.Status} ${data.TagsAsString}`.toUpperCase()
+      const searchContent = `${data.Description} ${data.UUID} ${data.Status} ${data.Project} ${data.TagsAsString}`.toUpperCase()
 
       item.visible = searchContent.includes(searchText.toUpperCase())
     })
