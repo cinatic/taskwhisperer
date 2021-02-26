@@ -1,4 +1,4 @@
-const { GObject, St, Clutter, Gtk } = imports.gi
+const { GObject, St, Clutter, Gtk, Pango } = imports.gi
 
 var ButtonGroup = GObject.registerClass({
   GTypeName: 'TaskWhisperer_ButtonGroup',
@@ -48,6 +48,9 @@ var ButtonGroup = GObject.registerClass({
         style_class: `button ${additionalStyleClasses}`,
         label: button.label
       })
+
+      const clutterText = stButton.get_first_child()
+      clutterText.ellipsize = Pango.EllipsizeMode.NONE
 
       stButton.buttonData = button
 
