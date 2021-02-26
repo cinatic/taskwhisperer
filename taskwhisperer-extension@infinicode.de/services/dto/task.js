@@ -4,7 +4,7 @@ const ExtensionUtils = imports.misc.extensionUtils
 const Me = ExtensionUtils.getCurrentExtension()
 
 const { getBestTimeAbbreviation, isoToDate } = Me.imports.helpers.data
-const { TaskStatus, TaskProperties } = Me.imports.services.meta.taskWarrior
+const { TaskProperties } = Me.imports.services.meta.taskWarrior
 
 var Task = class Task {
   get AnnotationsAsString () {
@@ -85,6 +85,6 @@ var Task = class Task {
     this.Priority = taskData[TaskProperties.PRIORITY]
     this.Start = taskData[TaskProperties.START]
 
-    this.IsCompleted = this.Status === TaskStatus.COMPLETED
+    this.IsCompleted = this.Status === 'completed'
   }
 }
