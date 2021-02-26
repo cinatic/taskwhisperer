@@ -61,6 +61,8 @@ var loadTaskData = async ({ taskStatus, project, taskOrder }) => {
     }
   }
 
+  await syncTasks()
+
   const command = ['task', 'rc.json.array=on', statusFilter, projectFilter, 'export'].join(' ')
 
   let { output, error } = await run({ command })
@@ -106,6 +108,8 @@ var loadProjectsData = async taskStatus => {
       break
   }
 
+  await syncTasks()
+
   const command = ['task', 'rc.json.array=on', statusFilter, 'export'].join(' ')
   const { output: allTheTasks } = await run({ command })
 
@@ -128,7 +132,11 @@ var setTaskDone = async taskID => {
   const command = ['task', taskID.toString(), 'done'].join(' ')
   const result = await run({ command, asJson: false })
 
-  _showProcessErrorNotificationIfError(result)
+  if (!result.error) {
+    await syncTasks()
+  }
+
+  _showProcessErrorNotificationIfError(result, 'Set Task Done')
 
   return result
 }
@@ -141,7 +149,11 @@ var setTaskUndone = async taskUUID => {
   const command = ['task', `uuid:${taskUUID}`, 'modify', 'status:pending'].join(' ')
   const result = await run({ command, asJson: false })
 
-  _showProcessErrorNotificationIfError(result)
+  if (!result.error) {
+    await syncTasks()
+  }
+
+  _showProcessErrorNotificationIfError(result, 'Set Task Undone')
 
   return result
 }
@@ -154,7 +166,11 @@ var startTask = async taskID => {
   const command = ['task', taskID.toString(), 'start'].join(' ')
   const result = await run({ command, asJson: false })
 
-  _showProcessErrorNotificationIfError(result)
+  if (!result.error) {
+    await syncTasks()
+  }
+
+  _showProcessErrorNotificationIfError(result, 'Start Task')
 
   return result
 }
@@ -167,7 +183,11 @@ var stopTask = async taskID => {
   const command = ['task', taskID.toString(), 'stop'].join(' ')
   const result = await run({ command, asJson: false })
 
-  _showProcessErrorNotificationIfError(result)
+  if (!result.error) {
+    await syncTasks()
+  }
+
+  _showProcessErrorNotificationIfError(result, 'Stop Task')
 
   return result
 }
@@ -177,6 +197,10 @@ var createTask = async task => {
 
   const command = ['task', 'add', ...params].join(' ')
   const result = await run({ command, asJson: false })
+
+  if (!result.error) {
+    await syncTasks()
+  }
 
   return result
 }
@@ -191,21 +215,29 @@ var modifyTask = async (taskUUID, task) => {
   const command = ['task', `uuid:${taskUUID}`, 'modify', ...params].join(' ')
   const result = await run({ command, asJson: false })
 
+  if (!result.error) {
+    await syncTasks()
+  }
+
   return result
 }
 
 var syncTasks = async () => {
+  if (!Settings.enable_taskd_sync) {
+    return
+  }
+
   const command = ['task', 'sync'].join(' ')
   const result = await run({ command, asJson: false })
 
-  _showProcessErrorNotificationIfError(result)
+  _showProcessErrorNotificationIfError(result, 'Sync Tasks')
 
   return result
 }
 
-const _showProcessErrorNotificationIfError = ({ error }) => {
+const _showProcessErrorNotificationIfError = ({ error }, task = 'TaskService') => {
   if (error) {
-    showNotification({ title: 'TaskWarrior Error', message: error })
+    showNotification({ title: `TaskWarrior Error ${task}`, message: error, dialogType: 'error' })
   }
 }
 
