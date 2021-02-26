@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TaskWhisperer\n"
 "Report-Msgid-Bugs-To: fh@infinicode.de\n"
-"POT-Creation-Date: 2021-02-26 10:05+0100\n"
+"POT-Creation-Date: 2021-02-26 14:00+0100\n"
 "PO-Revision-Date: 2017-03-31 13:38+0200\n"
 "Last-Translator: Francisco José Rodríguez Bogado <bogado@qinn.es>\n"
 "Language-Team: \n"
@@ -62,7 +62,7 @@ msgid "Show TaskWarrior Icon in Panel"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:181
-msgid "Show Task Amount in Panel"
+msgid "Show additional text next to task amount in Panel"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:210

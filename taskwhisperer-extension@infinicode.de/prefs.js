@@ -15,7 +15,7 @@ var TASKWHISPERER_POSITION_IN_PANEL_KEY = 'position-in-panel';
 var TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync';
 var TASKWHISPERER_SHOW_NO_DATES_AT_END = 'show-no-dates-at-end';
 var TASKWHISPERER_SHOW_PANEL_ICON = 'show-taskwarrior-icon';
-var TASKWHISPERER_SHOW_PANEL_LABEL = 'show-task-amount';
+var TASKWHISPERER_SHOW_PANEL_LABEL = 'show-task-text-in-panel';
 var TASKWHISPERER_TASK_ORDER = 'task-order';
 var TASKWHISPERER_TASK_STATUS = 'task-status';
 var TASKWHISPERER_PROJECT = 'project';
@@ -76,13 +76,13 @@ var PrefsWidget = GObject.registerClass({
         this.Settings.set_boolean(TASKWHISPERER_SHOW_PANEL_ICON, v);
     }
 
-    get show_task_amount() {
+    get show_task_text_in_panel() {
         if (!this.Settings)
             this.loadConfig();
         return this.Settings.get_boolean(TASKWHISPERER_SHOW_PANEL_LABEL);
     }
 
-    set show_task_amount(v) {
+    set show_task_text_in_panel(v) {
         if (!this.Settings)
             this.loadConfig();
         this.Settings.set_boolean(TASKWHISPERER_SHOW_PANEL_LABEL, v);

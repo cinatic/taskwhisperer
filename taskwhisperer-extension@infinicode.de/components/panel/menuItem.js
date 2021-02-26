@@ -65,21 +65,19 @@ var MenuItem = GObject.registerClass({}, class MenuItem extends St.BoxLayout {
       taskInformationBox.add_child(icon)
     }
 
-    if (Settings.show_task_amount) {
-      const label = new St.Label({
-        text: Translations.PANEL_TASK_INFO(this._taskCount)
-      })
+    let additionalTaskAmountInformationText
 
-      taskInformationBox.add_child(label)
+    if (Settings.show_task_text_in_panel) {
+      additionalTaskAmountInformationText = Translations.PANEL_TASK_INFO(this._taskCount)
+    } else {
+      additionalTaskAmountInformationText = Settings.show_taskwarrior_icon ? `${this._taskCount}` : `${this._taskCount} T`
     }
 
-    if (!Settings.show_task_amount && !Settings.show_taskwarrior_icon) {
-      const label = new St.Label({
-        text: 'T'
-      })
+    const label = new St.Label({
+      text: additionalTaskAmountInformationText
+    })
 
-      taskInformationBox.add_child(label)
-    }
+    taskInformationBox.add_child(label)
 
     this.add_child(taskInformationBox)
   }

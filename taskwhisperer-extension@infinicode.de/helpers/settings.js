@@ -9,7 +9,7 @@ var POSITION_IN_PANEL_KEY = 'position-in-panel'
 var TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync'
 var TASKWHISPERER_SHOW_NO_DATES_AT_END = 'show-no-dates-at-end'
 var TASKWHISPERER_SHOW_PANEL_ICON = 'show-taskwarrior-icon'
-var TASKWHISPERER_SHOW_PANEL_LABEL = 'show-task-amount'
+var TASKWHISPERER_SHOW_PANEL_LABEL = 'show-task-text-in-panel'
 var TASKWHISPERER_TASK_ORDER = 'task-order'
 var TASKWHISPERER_TASK_STATUS = 'task-status'
 var TASKWHISPERER_PROJECT = 'project'
@@ -80,7 +80,7 @@ const Handler = class {
     return this._settings.get_boolean(TASKWHISPERER_SHOW_PANEL_ICON)
   }
 
-  get show_task_amount () {
+  get show_task_text_in_panel () {
     return this._settings.get_boolean(TASKWHISPERER_SHOW_PANEL_LABEL)
   }
 

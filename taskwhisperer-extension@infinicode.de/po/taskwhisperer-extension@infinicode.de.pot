@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-shell-extension-taskwhisperer-extension\n"
 "Report-Msgid-Bugs-To: fh@infinicode.de\n"
-"POT-Creation-Date: 2021-02-26 13:20+0100\n"
+"POT-Creation-Date: 2021-02-26 14:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgid "Show TaskWarrior Icon in Panel"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:181
-msgid "Show Task Amount in Panel"
+msgid "Show additional text next to task amount in Panel"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:210

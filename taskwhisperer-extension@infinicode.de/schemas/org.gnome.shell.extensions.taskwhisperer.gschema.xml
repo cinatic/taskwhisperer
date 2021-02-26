@@ -30,9 +30,9 @@
       <default>true</default>
       <summary>Show TaskWarrior Icon in Panel</summary>
     </key>
-    <key name="show-task-amount" type="b">
+    <key name="show-task-text-in-panel" type="b">
       <default>true</default>
-      <summary>Show Task Amount in Panel</summary>
+      <summary>Show additional text next to task amount in Panel</summary>
     </key>
     <key name="task-order" enum="org.gnome.shell.extensions.taskwhisperer.order">
       <default>'DUE'</default>
