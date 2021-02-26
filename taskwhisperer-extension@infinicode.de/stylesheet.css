@@ -1,239 +1,99 @@
-.button {
-	border-radius: 2px;
-	padding: 5px;
+/**** some globals ****/
+
+.taskwhisperer-extension .p05 {
+    padding: 0 5px;
 }
 
-.headerBar {
-	padding: 0 5px 5px 5px;
+.taskwhisperer-extension .text-s {
+    font-size: .8em;
 }
 
-.headerBar .system-menu-action {
-	border: 1px solid #282c2c;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-	border-right: 0;
-	padding: 8px;
+.taskwhisperer-extension .fwb {
+    font-weight: bold;
 }
 
-.headerBar .system-menu-action:focus,
-.headerBar .system-menu-action:hover {
-	background: #07a0c6;
-	padding: 8px;
-	border-right: 0;
+.taskwhisperer-extension .tac {
+    text-align: center;
 }
 
-.headerBar .system-menu-action.last:focus,
-.headerBar .system-menu-action.last:hover,
-.headerBar .system-menu-action.last {
-	border-right: 1px;
+.taskwhisperer-extension .tar {
+    text-align: right;
 }
 
-.headerBar .system-menu-action.active:focus,
-.headerBar .system-menu-action.active:hover,
-.headerBar .system-menu-action.active {
-	background-color: #077391;
-	color: white;
+.button-group .button.selected {
+    text-decoration: underline;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
 }
 
-.headerBar .system-menu-action.active {
-	background-color: #077391;
+/*** main components ***/
+
+.taskwhisperer-extension .screen,
+.taskwhisperer-extension .screen-wrapper {
+    width: 550px;
+    max-width: 550px;
+    height: 630px;
+    max-height: 630px;
 }
 
-.headerBar .button {
-	width: 90px;
-	border-radius: 0;
+.taskwhisperer-extension .search-bar {
+    height: 40px;
+    padding: 5px 10px;
 }
 
-.headerBar .button.activeButton {
-	border-right: 0;
+.taskwhisperer-extension .search-bar .search-area-box .navigate-back-icon-button {
+    margin-right: 15px;
+    padding: 5px;
 }
 
-.headerBar .button.active {
-	background-color: #077391;
+.taskwhisperer-extension .search-bar .search-area-box .search-text-input .search-entry-icon {
+    width: 21px;
+    height: 21px;
 }
 
-.headerBar StIcon {
-	width: 20px;
-	height: 20px;
+.taskwhisperer-extension .search-bar .button-box {
+    height: 20px;
+    margin-left: 15px;
 }
 
-.projectScrollBox {
-	width: 300px;
-	margin-left: 20px;
+.taskwhisperer-extension .search-bar .button-box .icon-button {
+    margin: 0;
+    padding: 5px;
 }
 
-.projectScrollBox .projectButton {
-	width: 50px;
+/********** Cards ******************/
+
+.taskwhisperer-extension .card {
+    margin: 5px 15px;
+    padding: 5px 15px;
+    box-shadow: none;
 }
 
-.projectScrollBox .projectButton {
-	border: 1px solid #282c2c;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-	border-right: 0;
-	padding: 4px 8px;
+.taskwhisperer-extension .task-card .status-icon-bin {
+    width: 20px;
 }
 
-.projectScrollBox .projectButton:focus,
-.projectScrollBox .projectButton:hover {
-	background: #07a0c6;
-	padding: 4px 8px;
-	border-right: 0;
+.taskwhisperer-extension .task-card .description-box {
+    margin: 0 10px;
 }
 
-.projectScrollBox .projectButton.last:focus,
-.projectScrollBox .projectButton.last:hover,
-.projectScrollBox .projectButton.last {
-	border-right: 1px;
+.taskwhisperer-extension .task-card .quick-action {
+    margin: 0;
+    padding: 0 5px;
 }
 
-.projectScrollBox .projectButton.active:focus,
-.projectScrollBox .projectButton.active:hover,
-.projectScrollBox .projectButton.active {
-	background-color: #077391;
-	color: white;
+/********** Task Overview Screen ******************/
+.taskwhisperer-extension .task-overview-header-box {
+    padding: 5px;
 }
 
-.projectScrollBox .projectButton.active {
-	background-color: #077391;
+.taskwhisperer-extension .task-overview-header-box .button {
+    font-size: 0.7em;
+    margin: 1px !important;
+    padding: 0 5px !important;
 }
 
-.scrollBox {
-	margin-top: 5px;
-	height: 500px;
-	width: 550px;
-}
-
-.taskGridInner {
-	margin: 5px 0;
-}
-
-.taskGrid .hidden {
-	visibility: hidden;
-}
-
-.taskGrid .minor {
-	color: #00c6ff;
-}
-
-.taskGrid .medium {
-	color: #ffff00;
-}
-
-.taskGrid .warning,
-.taskGrid .urgent {
-	color: #ff5b00;
-}
-
-.taskGrid .completed {
-	color: #13d000;
-}
-
-.activeTask {
-	overflow: hidden;
-	border: 1px solid rgba(255, 128, 0, 0.5);
-	border-top: 0;
-	border-left: 0;
-	border-right: 0;
-	color: orange;
-}
-
-.button-container {
-	padding: 5px 0 0 0;
-}
-
-.taskDataRowMenuItem {
-	padding: 0;
-	margin: 0 0 0 20px;
-}
-
-.taskDataRow {
-	padding: 3px;
-	width: 450px;
-	/*height: 20px;*/
-}
-
-.taskDataRow .rowValue {
-	width: 330px;
-}
-
-.buttonBox {
-	width: 480px;
-	margin-bottom: 5px;
-}
-
-.buttonBox .button {
-	margin: 10px 3px;
-}
-
-.button:hover {
-	color: white;
-	background: rgba(144, 144, 148, 0.21);
-}
-
-.taskModificationDialog .headline {
-	margin-bottom: 10px;
-}
-
-.taskModificationDialog .modificationInputBox {
-	margin: 7px 0;
-}
-
-.createTaskDialog {
-	width: 450px;
-}
-
-.createTaskDialog .headline {
-	margin-bottom: 10px;
-}
-
-.createTaskDialog StEntry {
-	margin-bottom: 10px;
-}
-
-.createTaskDialog .additionalArgumentsInputBox {
-	margin-bottom: 0;
-}
-
-.prompt-dialog-error-label {
-	margin-top: 10px;
-	color: #ff2f31;
-}
-
-.stopTask {
-	background: #af0000;
-}
-
-.startTask {
-	background: green;
-}
-
-.messageBox {
-	width: 350px;
-	padding: 20px;
-	margin-top: 130px;
-}
-
-.messageBox.noTasks {
-	text-align: center;
-	margin-top: 180px;
-}
-
-.system-status-icon,
-.whispererIcon {
-	display: none;
-	visibility: hidden;
-}
-
-.rowMenuIconButton {
-	height: 15px;
-	width: 20px;
-	padding: 0;
-	margin: 0;
-}
-
-.headerBar.dark .system-menu-action {
-	background: rgba(0, 33, 115, 0.71);
+/********** Task Form Screen ******************/
+.taskwhisperer-extension .edit-task-screen .form-element-box {
+    margin: 10px 15px;
 }

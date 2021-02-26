@@ -1,7 +1,6 @@
 #!/usr/bin/make -f
 
-# Copyright (C) 2020 Florijan Hamzic <fh[at]infinicode.de>
-# This file is distributed under the same license as the stocks-extension package.
+# Copyright (C) 2021 Florijan Hamzic <fh[at]infinicode.de>
 
 .PHONY: clean mrproper
 
@@ -18,16 +17,21 @@ LOCALE_DIR := $(SRC_DIR)/locale
 
 JS_FILES := $(wildcard $(SRC_DIR)/*.js)
 UI_FILES := $(wildcard $(SRC_DIR)/*.ui)
+ICON_FILES := $(SRC_DIR)/icons
+CSS_FILES := $(wildcard $(SRC_DIR)/*.css)
+JS_COMPONENTS := $(SRC_DIR)/components $(SRC_DIR)/helpers $(SRC_DIR)/services
 
 FILES := $(SRC_DIR)/* README.md
 COMPILED_SCHEMAS := $(SCHEMAS_DIR)/gschemas.compiled
 
+POT_FILE := $(PO_DIR)/$(UUID).pot
 PO_FILES := $(wildcard $(PO_DIR)/*.po)
 MO_FILES := $(PO_FILES:$(PO_DIR)/%.po=$(LOCALE_DIR)/%/LC_MESSAGES/$(UUID).mo)
 MO_DIR := $(PO_FILES:$(PO_DIR)/%.po=$(LOCALE_DIR)/%/LC_MESSAGES)
 
-POT_FILE := $(PO_DIR)/$(UUID).pot
-TOLOCALIZE := $(JS_FILES:$(SRC_DIR)/%.js=%.js) $(UI_FILES:$(SRC_DIR)/%.ui=%.ui)
+TOLOCALIZE := $(JS_FILES) $(UI_FILES) $(SRC_DIR)/helpers/translations.js
+
+FILES :=  $(JS_FILES) $(ICON_FILES) $(JS_COMPONENTS) $(COMPILED_SCHEMAS) $(UI_FILES) $(CSS_FILES) $(SRC_DIR)/metadata.json README.md
 
 ifeq ($(strip $(DESTDIR)),)
 	INSTALLBASE := $(HOME)/.local
@@ -52,20 +56,24 @@ $(LOCALE_DIR)/%/LC_MESSAGES:
 $(PO_DIR):
 	mkdir -p $@
 
-$(PO_DIR)/%.po: $(POT_FILE) $(PO_DIR)
+$(POT_FILE): $(PO_DIR) $(MO_DIR)
+	xgettext --from-code=UTF-8 --package-name "gnome-shell-extension-$(EXTENSION_NAME)" --msgid-bugs-address=$(AUTHOR_MAIL) -k_ -kN_ -o $(POT_FILE) $(TOLOCALIZE)
+
+$(PO_FILES): $(POT_FILE) $(PO_DIR)
 	msgmerge -m -U --backup=none $@ $<
 
-$(LOCALE_DIR)/%/LC_MESSAGES/$(UUID).mo: $(PO_DIR)/%.po $(MO_DIR)
+$(MO_FILES): $(PO_FILES) $(MO_DIR)
 	msgfmt -c $< -o $@
 
-$(POT_FILE): $(PO_DIR)
-	cd $(SRC_DIR) && xgettext --from-code=UTF-8 --package-name "gnome-shell-extension-$(EXTENSION_NAME)" --msgid-bugs-address=$(AUTHOR_MAIL) -k_ -kN_ -o po/$(UUID).pot $(TOLOCALIZE) && cd -
-
 build: $(BUILD_DIR) $(COMPILED_SCHEMAS) $(MO_FILES)
-	cp -r $(FILES) $<
+	cp -r --parents $(FILES) $<
+
+buildAndReplaceLocal: build
+	rm -fR ~/.local/share/gnome-shell/extensions/$(UUID)
+	cp -r $(BUILD_DIR)/${SRC_DIR} ~/.local/share/gnome-shell/extensions/$(UUID)/
 
 package: $(BUILD_DIR)
-	cd $(BUILD_DIR) && zip -r $(EXTENSION_NAME).zip *
+	cd $(BUILD_DIR)/${SRC_DIR} && zip -r ../$(EXTENSION_NAME).zip *
 
 install: build
 	rm -rf $(INSTALL_DIR)
@@ -73,8 +81,7 @@ install: build
 	cp -r $(BUILD_DIR)/* $(INSTALL_DIR)
 
 clean:
-	rm -f $(COMPILED_SCHEMAS) $(POT_FILE)
-	rm -rf $(LOCALE_DIR)
+	rm -f $(COMPILED_SCHEMAS) $(MO_FILES)
 
 mrproper: clean
 	rm -rf $(BUILD_DIR)

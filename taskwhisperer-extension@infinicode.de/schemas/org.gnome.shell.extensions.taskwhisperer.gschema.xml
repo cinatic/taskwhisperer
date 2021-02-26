@@ -5,9 +5,13 @@
     <value value="1" nick="right"/>
     <value value="2" nick="left"/>
   </enum>
-  <enum id="org.gnome.shell.extensions.taskwhisperer.sortorder">
-    <value value="0" nick="due"/>
-    <value value="1" nick="urgency"/>
+  <enum id="org.gnome.shell.extensions.taskwhisperer.order">
+    <value value="0" nick="DUE"/>
+    <value value="1" nick="URGENCY"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.taskwhisperer.status">
+    <value value="0" nick="PENDING"/>
+    <value value="1" nick="COMPLETED"/>
   </enum>
   <schema path="/org/gnome/shell/extensions/taskwhisperer/" id="org.gnome.shell.extensions.taskwhisperer">
     <key name="position-in-panel" enum="org.gnome.shell.extensions.taskwhisperer.position">
@@ -26,21 +30,21 @@
       <default>true</default>
       <summary>Show TaskWarrior Icon in Panel</summary>
     </key>
-    <key name="show-task-amount" type="b">
+    <key name="show-task-text-in-panel" type="b">
       <default>true</default>
-      <summary>Show Task Amount in Panel</summary>
+      <summary>Show additional text next to task amount in Panel</summary>
     </key>
-      <key name="use-alternative-theme" type="b">
-      <default>false</default>
-      <summary>Use alternative theme</summary>
+    <key name="task-order" enum="org.gnome.shell.extensions.taskwhisperer.order">
+      <default>'DUE'</default>
+      <summary>Order to sort tasks by</summary>
     </key>
-    <key name="dateformat" type="s">
-      <default>'test'</default>
-      <summary>Date &amp; Time Format</summary>
+    <key name="task-status" enum="org.gnome.shell.extensions.taskwhisperer.status">
+      <default>'PENDING'</default>
+      <summary>Status to filter tasks by</summary>
     </key>
-    <key name="sort-order" enum="org.gnome.shell.extensions.taskwhisperer.sortorder">
-      <default>'due'</default>
-      <summary>Order to sort by</summary>
+    <key name="project" type="s">
+      <default>'all'</default>
+      <summary>Selected project by user</summary>
     </key>
   </schema>
 </schemalist>
