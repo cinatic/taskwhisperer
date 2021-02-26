@@ -74,7 +74,7 @@ buildAndReplaceLocal: build
 	cp -r $(BUILD_DIR)/${SRC_DIR} ~/.local/share/gnome-shell/extensions/$(UUID)/
 
 package: $(BUILD_DIR)
-	cd $(BUILD_DIR)/${SRC_DIR} && zip -r ../$(EXTENSION_NAME)-extension.zip *
+	cd $(BUILD_DIR)/${SRC_DIR} && zip -r ../$(EXTENSION_NAME).zip *
 
 install: build
 	rm -rf $(INSTALL_DIR)
