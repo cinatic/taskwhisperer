@@ -117,8 +117,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
       const { tasks, error } = await loadTaskData({
         project: Settings.project,
         taskStatus: Settings.task_status,
-        taskOrder: Settings.task_order,
-        sync: Settings.enable_taskd_sync
+        taskOrder: Settings.task_order
       })
 
       EventHandler.emit('refresh-menu-task-count', {

@@ -1,7 +1,6 @@
 #!/usr/bin/make -f
 
-# Copyright (C) 2020 Florijan Hamzic <fh[at]infinicode.de>
-# This file is distributed under the same license as the stocks-extension package.
+# Copyright (C) 2021 Florijan Hamzic <fh[at]infinicode.de>
 
 .PHONY: clean mrproper
 

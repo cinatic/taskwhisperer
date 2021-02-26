@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TaskWhisperer\n"
 "Report-Msgid-Bugs-To: fh@infinicode.de\n"
-"POT-Creation-Date: 2021-02-26 14:00+0100\n"
+"POT-Creation-Date: 2021-02-26 14:23+0100\n"
 "PO-Revision-Date: 2017-03-31 13:38+0200\n"
 "Last-Translator: Francisco José Rodríguez Bogado <bogado@qinn.es>\n"
 "Language-Team: \n"
@@ -24,14 +24,16 @@ msgid "taskwarrior"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:46
-msgid "Habilitar la sincronización de tareas"
-msgstr ""
+msgid "Enable Taskd Syncronization"
+msgstr "Habilitar la sincronización de tareas"
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:57
 msgid ""
 "Please make sure taskd is proper configured, otherwise you will get errors "
 "fetching data!"
-msgstr "Asegúrese de que taskd esté configurado correctamente; de lo contrario, obtendrá errores al obtener datos."
+msgstr ""
+"Asegúrese de que taskd esté configurado correctamente; de lo contrario, "
+"obtendrá errores al obtener datos."
 
 #: taskwhisperer-extension@infinicode.de/settings.ui:72
 msgid "Show Tasks w/ no due at end of list"

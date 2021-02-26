@@ -1,18 +1,16 @@
 const { Clutter, GObject, St } = imports.gi
 
-const Mainloop = imports.mainloop
-
 const ExtensionUtils = imports.misc.extensionUtils
 const Me = ExtensionUtils.getCurrentExtension()
 
 const { EventHandler } = Me.imports.helpers.eventHandler
-const { Settings, TASKWHISPERER_SHOW_PANEL_ICON, TASKWHISPERER_SHOW_PANEL_LABEL } = Me.imports.helpers.settings
+const { Settings, TASKWHISPERER_SHOW_PANEL_ICON, TASKWHISPERER_SHOW_TEXT_IN_PANEL } = Me.imports.helpers.settings
 const { Translations } = Me.imports.helpers.translations
 const ComponentsHelper = Me.imports.helpers.components
 
 const SETTING_KEYS_TO_REFRESH = [
   TASKWHISPERER_SHOW_PANEL_ICON,
-  TASKWHISPERER_SHOW_PANEL_LABEL
+  TASKWHISPERER_SHOW_TEXT_IN_PANEL
 ]
 
 var MenuItem = GObject.registerClass({}, class MenuItem extends St.BoxLayout {

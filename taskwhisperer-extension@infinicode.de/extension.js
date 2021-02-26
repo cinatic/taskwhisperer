@@ -2,26 +2,24 @@
 /*
  *
  *  GNOME Shell Extension for the great Taskwarrior application
- *  - Displays pending Tasks.
- *  - adding / modifieing tasks.
  *
- * Copyright (C) 2020
+ * Copyright (C) 2021
  *     Florijan Hamzic <fh @ infinicode.de>
  *
- * This file is part of gnome-shell-extension-stocks.
+ * This file is part of taskwhisperer-extension.
  *
- * gnome-shell-extension-stocks is free software: you can redistribute it and/or modify
+ * taskwhisperer-extension is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * gnome-shell-extension-stocks is distributed in the hope that it will be useful,
+ * taskwhisperer-extension is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with gnome-shell-extension-stocks.  If not, see <http://www.gnu.org/licenses/>.
+ * along with taskwhisperer-extension.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 

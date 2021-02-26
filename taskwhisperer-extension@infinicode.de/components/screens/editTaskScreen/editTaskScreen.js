@@ -6,7 +6,6 @@ const Me = ExtensionUtils.getCurrentExtension()
 const { EventHandler } = Me.imports.helpers.eventHandler
 const { ButtonGroup } = Me.imports.components.buttons.buttonGroup
 const { SearchBar } = Me.imports.components.searchBar.searchBar
-const { Settings } = Me.imports.helpers.settings
 const { Translations } = Me.imports.helpers.translations
 const { TaskPriority } = Me.imports.services.meta.taskWarrior
 const { createTask, modifyTask } = Me.imports.services.taskService
