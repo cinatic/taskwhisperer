@@ -7,7 +7,6 @@ const { decodeBase64JsonOrDefault, isNullOrEmpty } = Me.imports.helpers.data
 
 var POSITION_IN_PANEL_KEY = 'position-in-panel'
 var TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync'
-var TASKWHISPERER_DATEFORMAT = 'dateformat'
 var TASKWHISPERER_SHOW_NO_DATES_AT_END = 'show-no-dates-at-end'
 var TASKWHISPERER_SHOW_PANEL_ICON = 'show-taskwarrior-icon'
 var TASKWHISPERER_SHOW_PANEL_LABEL = 'show-task-amount'
@@ -71,10 +70,6 @@ const Handler = class {
 
   get enable_taskd_sync () {
     return this._settings.get_boolean(TASKWHISPERER_ENABLE_TASKD_SYNC)
-  }
-
-  get dateformat () {
-    return this._settings.get_string(TASKWHISPERER_DATEFORMAT)
   }
 
   get show_no_dates_at_end () {

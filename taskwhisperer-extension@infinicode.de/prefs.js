@@ -13,7 +13,6 @@ const EXTENSIONDIR = Me.dir.get_path();
 
 var TASKWHISPERER_POSITION_IN_PANEL_KEY = 'position-in-panel';
 var TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync';
-var TASKWHISPERER_DATEFORMAT = 'dateformat';
 var TASKWHISPERER_SHOW_NO_DATES_AT_END = 'show-no-dates-at-end';
 var TASKWHISPERER_SHOW_PANEL_ICON = 'show-taskwarrior-icon';
 var TASKWHISPERER_SHOW_PANEL_LABEL = 'show-task-amount';
@@ -51,18 +50,6 @@ var PrefsWidget = GObject.registerClass({
         if (!this.Settings)
             this.loadConfig();
         this.Settings.set_boolean(TASKWHISPERER_ENABLE_TASKD_SYNC, v);
-    }
-
-    get dateformat() {
-        if (!this.Settings)
-            this.loadConfig();
-        return this.Settings.get_string(TASKWHISPERER_DATEFORMAT);
-    }
-
-    set dateformat(v) {
-        if (!this.Settings)
-            this.loadConfig();
-        this.Settings.set_string(TASKWHISPERER_DATEFORMAT, v);
     }
 
     get show_no_dates_at_end() {
@@ -216,16 +203,19 @@ var PrefsWidget = GObject.registerClass({
     initEntry(theEntry) {
         let name = theEntry.get_name();
         theEntry.text = this[name];
-        if (this[name].length != 32)
-            theEntry.set_icon_from_icon_name(Gtk.PositionType.LEFT, 'dialog-warning');
+        // TODO: add some validation stuff here
+        // if (this[name].length != 32)
+        //     theEntry.set_icon_from_icon_name(Gtk.PositionType.LEFT, 'dialog-warning');
 
         theEntry.connect("notify::text", () => {
             let key = arguments[0].text;
             this[name] = key;
-            if (key.length == 32)
-                theEntry.set_icon_from_icon_name(Gtk.PositionType.LEFT, '');
-            else
-                theEntry.set_icon_from_icon_name(Gtk.PositionType.LEFT, 'dialog-warning');
+
+            // TODO: add some validation stuff here
+            // if (key.length == 32)
+            //     theEntry.set_icon_from_icon_name(Gtk.PositionType.LEFT, '');
+            // else
+            //     theEntry.set_icon_from_icon_name(Gtk.PositionType.LEFT, 'dialog-warning');
         });
     }
 
