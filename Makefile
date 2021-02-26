@@ -18,6 +18,7 @@ LOCALE_DIR := $(SRC_DIR)/locale
 
 JS_FILES := $(wildcard $(SRC_DIR)/*.js)
 UI_FILES := $(wildcard $(SRC_DIR)/*.ui)
+ICON_FILES := $(SRC_DIR)/icons
 CSS_FILES := $(wildcard $(SRC_DIR)/*.css)
 JS_COMPONENTS := $(SRC_DIR)/components $(SRC_DIR)/helpers $(SRC_DIR)/services
 
@@ -31,7 +32,7 @@ MO_DIR := $(PO_FILES:$(PO_DIR)/%.po=$(LOCALE_DIR)/%/LC_MESSAGES)
 
 TOLOCALIZE := $(JS_FILES) $(UI_FILES) $(SRC_DIR)/helpers/translations.js
 
-FILES :=  $(JS_FILES) $(JS_COMPONENTS) $(COMPILED_SCHEMAS) $(UI_FILES) $(CSS_FILES) $(SRC_DIR)/metadata.json $(SRC_DIR)/locale README.md
+FILES :=  $(JS_FILES) $(ICON_FILES) $(JS_COMPONENTS) $(COMPILED_SCHEMAS) $(UI_FILES) $(CSS_FILES) $(SRC_DIR)/metadata.json README.md
 
 ifeq ($(strip $(DESTDIR)),)
 	INSTALLBASE := $(HOME)/.local
@@ -66,14 +67,14 @@ $(MO_FILES): $(PO_FILES) $(MO_DIR)
 	msgfmt -c $< -o $@
 
 build: $(BUILD_DIR) $(COMPILED_SCHEMAS) $(MO_FILES)
-	cp -r $(FILES) $<
+	cp -r --parents $(FILES) $<
 
 buildAndReplaceLocal: build
 	rm -fR ~/.local/share/gnome-shell/extensions/$(UUID)
-	cp -r $(BUILD_DIR) ~/.local/share/gnome-shell/extensions/$(UUID)/
+	cp -r $(BUILD_DIR)/${SRC_DIR} ~/.local/share/gnome-shell/extensions/$(UUID)/
 
 package: $(BUILD_DIR)
-	cd $(BUILD_DIR) && zip -r $(EXTENSION_NAME).zip *
+	cd $(BUILD_DIR)/${SRC_DIR} && zip -r ../$(EXTENSION_NAME)-extension.zip *
 
 install: build
 	rm -rf $(INSTALL_DIR)

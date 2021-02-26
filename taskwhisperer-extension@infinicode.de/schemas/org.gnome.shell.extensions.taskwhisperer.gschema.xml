@@ -33,12 +33,13 @@
     <key name="show-task-amount" type="b">
       <default>true</default>
       <summary>Show Task Amount in Panel</summary>
+    </key>
     <key name="task-order" enum="org.gnome.shell.extensions.taskwhisperer.order">
-      <default>'due'</default>
+      <default>'DUE'</default>
       <summary>Order to sort tasks by</summary>
     </key>
     <key name="task-status" enum="org.gnome.shell.extensions.taskwhisperer.status">
-      <default>'pending'</default>
+      <default>'PENDING'</default>
       <summary>Status to filter tasks by</summary>
     </key>
     <key name="project" type="s">
