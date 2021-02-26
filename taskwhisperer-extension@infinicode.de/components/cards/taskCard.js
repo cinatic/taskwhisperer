@@ -122,26 +122,28 @@ var TaskCard = GObject.registerClass({
       y_align: Clutter.ActorAlign.CENTER
     })
 
-    if (!this.cardItem.Started) {
-      const startTaskIconButton = new IconButton({
-        isCustomIcon: true,
-        icon_name: 'start-symbolic',
-        style_class: 'button quick-action',
-        icon_size: 20,
-        onClick: () => this._startTask()
-      })
+    if (!this.cardItem.IsCompleted) {
+      if (!this.cardItem.Started) {
+        const startTaskIconButton = new IconButton({
+          isCustomIcon: true,
+          icon_name: 'start-symbolic',
+          style_class: 'button quick-action',
+          icon_size: 20,
+          onClick: () => this._startTask()
+        })
 
-      quickIconBox.add_child(startTaskIconButton)
-    } else {
-      const stopTaskIconButton = new IconButton({
-        isCustomIcon: true,
-        icon_name: 'stop-symbolic',
-        style_class: 'button quick-action',
-        icon_size: 20,
-        onClick: () => this._stopTask()
-      })
+        quickIconBox.add_child(startTaskIconButton)
+      } else {
+        const stopTaskIconButton = new IconButton({
+          isCustomIcon: true,
+          icon_name: 'stop-symbolic',
+          style_class: 'button quick-action',
+          icon_size: 20,
+          onClick: () => this._stopTask()
+        })
 
-      quickIconBox.add_child(stopTaskIconButton)
+        quickIconBox.add_child(stopTaskIconButton)
+      }
     }
 
     if (this.cardItem.Status === 'pending') {
