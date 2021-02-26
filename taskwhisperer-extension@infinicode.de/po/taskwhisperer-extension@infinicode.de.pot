@@ -1,0 +1,190 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-shell-extension-taskwhisperer-extension package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-shell-extension-taskwhisperer-extension\n"
+"Report-Msgid-Bugs-To: fh@infinicode.de\n"
+"POT-Creation-Date: 2021-02-26 10:05+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: taskwhisperer-extension@infinicode.de/extension.js:63
+msgid "taskwarrior"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:46
+msgid "Enable Taskd Syncronization"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:57
+msgid ""
+"Please make sure taskd is proper configured, otherwise you will get errors "
+"fetching data!"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:72
+msgid "Show Tasks w/ no due at end of list"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:100
+msgid "Taskwarrior"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:123
+msgid "Position in Panel"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:138
+msgid "Center"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:139
+msgid "Right"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:140
+msgid "Left"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:155
+msgid "Show TaskWarrior Icon in Panel"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:181
+msgid "Show Task Amount in Panel"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:210
+msgid "Layout"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:262
+msgid "Version: "
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:276
+msgid "unknown (self-build ?)"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:296
+msgid ""
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
+"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
+"upcoming tasks and task details as well as to create and modify them.</span>"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:319
+msgid "Maintained by"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:370
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
+"License, version 3 or later</a> for details.</span>"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:391
+msgid "About"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:12
+msgid "back"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:13
+msgid "Filter Tasks"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:14
+msgid "Loading Data"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:15
+msgid "UNKNOWN"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:16
+#, javascript-format
+msgid "%d Task"
+msgid_plural "%d Tasks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:17
+msgid "All"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:18
+msgid "Unassigned"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:20
+msgid "↕ Due"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:21
+msgid "↕ Urgency"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:22
+msgid "Pending"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:23
+msgid "Completed"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:25
+msgid "High"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:26
+msgid "Medium"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:27
+msgid "Low"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:30
+msgid "Project"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:31
+msgid "Description"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:32
+msgid "Due"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:33
+msgid "Tags"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:34
+msgid "Priority"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:35
+msgid "Additional"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:36
+msgid "Save Task"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:40
+msgid "%H:%M:%S %d.%m.%Y"
+msgstr ""

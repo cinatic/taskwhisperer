@@ -1,0 +1,211 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: fh@infinicode.de\n"
+"POT-Creation-Date: 2021-02-26 10:05+0100\n"
+"PO-Revision-Date: 2016-04-16 23:40+0200\n"
+"Last-Translator: Florijan Hamzic <florijanh@gmail.com>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: taskwhisperer-extension@infinicode.de/extension.js:63
+msgid "taskwarrior"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:46
+msgid "Enable Taskd Syncronization"
+msgstr "Taskd Syncronization aktivieren"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:57
+msgid ""
+"Please make sure taskd is proper configured, otherwise you will get errors "
+"fetching data!"
+msgstr ""
+"Stell sicher, dass taskd richtig konfiguriert ist. Andernfalls können Fehler "
+"auftreten!"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:72
+msgid "Show Tasks w/ no due at end of list"
+msgstr "Aufgaben ohne Zeit am Ende anzeigen"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:100
+msgid "Taskwarrior"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:123
+msgid "Position in Panel"
+msgstr "Position"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:138
+msgid "Center"
+msgstr "Mittig"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:139
+msgid "Right"
+msgstr "Rechts"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:140
+msgid "Left"
+msgstr "Links"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:155
+msgid "Show TaskWarrior Icon in Panel"
+msgstr "Zeige TaskWarrior Icon im Panel"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:181
+#, fuzzy
+msgid "Show Task Amount in Panel"
+msgstr "Zeige TaskWarrior Icon im Panel"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:210
+msgid "Layout"
+msgstr "Layout"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:262
+msgid "Version: "
+msgstr "Version: "
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:276
+msgid "unknown (self-build ?)"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:296
+msgid ""
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
+"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
+"upcoming tasks and task details as well as to create and modify them.</span>"
+msgstr ""
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
+"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
+"upcoming tasks and task details as well as to create and modify them.</span>"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:319
+msgid "Maintained by"
+msgstr "Maintained von"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:370
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
+"License, version 3 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
+"License, version 3 or later</a> for details.</span>"
+
+#: taskwhisperer-extension@infinicode.de/settings.ui:391
+msgid "About"
+msgstr "Über"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:12
+msgid "back"
+msgstr "zurück"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:13
+msgid "Filter Tasks"
+msgstr "Aufgaben Filtern"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:14
+msgid "Loading Data"
+msgstr "Lade Daten"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:15
+msgid "UNKNOWN"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:16
+#, javascript-format
+msgid "%d Task"
+msgid_plural "%d Tasks"
+msgstr[0] "%d Aufgabe"
+msgstr[1] "%d Aufgaben"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:17
+msgid "All"
+msgstr "Alle"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:18
+msgid "Unassigned"
+msgstr ""
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:20
+msgid "↕ Due"
+msgstr "↕ Fälligkeit"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:21
+#, fuzzy
+msgid "↕ Urgency"
+msgstr "↕ Dringlichkeit"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:22
+msgid "Pending"
+msgstr "Laufende"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:23
+msgid "Completed"
+msgstr "Erledigte"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:25
+msgid "High"
+msgstr "Hoch"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:26
+msgid "Medium"
+msgstr "Mittel"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:27
+msgid "Low"
+msgstr "Niedrig"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:30
+#, fuzzy
+msgid "Project"
+msgstr "Projekt"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:31
+#, fuzzy
+msgid "Description"
+msgstr "Beschreibung"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:32
+#, fuzzy
+msgid "Due"
+msgstr "Fälligkeit"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:33
+#, fuzzy
+msgid "Tags"
+msgstr "Tags"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:34
+#, fuzzy
+msgid "Priority"
+msgstr "Priorität"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:35
+#, fuzzy
+msgid "Additional"
+msgstr "Weitere Parameter"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:36
+#, fuzzy
+msgid "Save Task"
+msgstr "Aufgabe speichern"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:40
+msgid "%H:%M:%S %d.%m.%Y"
+msgstr ""
+
+#~ msgid "The date format is used when creating taks and showing dates"
+#~ msgstr "Das Datumsformat wird beim speichern und editieren verwendet"
+
+#~ msgid "Date & Time Format"
+#~ msgstr "Zeit und Datumsformat"
+
+#~ msgid "e.g. D.M.Y H:N (default is Y-M-D)"
+#~ msgstr "D.M.Y H:N (standard Y-M-D)"

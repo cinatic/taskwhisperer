@@ -31,7 +31,7 @@ MO_DIR := $(PO_FILES:$(PO_DIR)/%.po=$(LOCALE_DIR)/%/LC_MESSAGES)
 
 TOLOCALIZE := $(JS_FILES) $(UI_FILES) $(SRC_DIR)/helpers/translations.js
 
-FILES :=  $(JS_FILES) $(JS_COMPONENTS) $(COMPILED_SCHEMAS) $(UI_FILES) $(CSS_FILES) $(SRC_DIR)/metadata.json $(MO_FILES) README.md
+FILES :=  $(JS_FILES) $(JS_COMPONENTS) $(COMPILED_SCHEMAS) $(UI_FILES) $(CSS_FILES) $(SRC_DIR)/metadata.json $(SRC_DIR)/locale README.md
 
 ifeq ($(strip $(DESTDIR)),)
 	INSTALLBASE := $(HOME)/.local
