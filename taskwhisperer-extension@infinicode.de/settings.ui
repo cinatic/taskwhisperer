@@ -51,7 +51,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch" id="enable_taskd_sync">
+                  <object class="GtkSwitch" id="enable-taskd-sync">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip_text" translatable="yes">Please make sure taskd is proper configured, otherwise you will get errors fetching data!</property>
@@ -77,7 +77,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch" id="show_no_dates_at_end">
+                  <object class="GtkSwitch" id="show-no-dates-at-end">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="halign">center</property>
@@ -130,15 +130,16 @@
                 </child>
 
                 <child>
-                  <object class="GtkComboBoxText" id="position_in_panel">
+                  <object class="GtkComboBoxText" id="position-in-panel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <items>
-                      <item translatable="yes">Center</item>
-                      <item translatable="yes">Right</item>
-                      <item translatable="yes">Left</item>
-                    </items>
+                        <items>
+                          <item id="center" translatable="yes">Center</item>
+                          <item id="right" translatable="yes">Right</item>
+                          <item id="left" translatable="yes">Left</item>
+                        </items>
+
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -160,7 +161,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch" id="show_taskwarrior_icon">
+                  <object class="GtkSwitch" id="show-taskwarrior-icon">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="halign">center</property>
@@ -186,7 +187,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch" id="show_task_text_in_panel">
+                  <object class="GtkSwitch" id="show-task-text-in-panel">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="halign">center</property>
@@ -401,3 +402,4 @@ See the &lt;a href="https://www.gnu.org/licenses/gpl"&gt;GNU General Public Lice
     </child>
   </object>
 </interface>
+
