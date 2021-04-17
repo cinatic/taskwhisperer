@@ -7,12 +7,15 @@ const ComponentsHelper = Me.imports.helpers.components
 var IconButton = GObject.registerClass({
   GTypeName: 'TaskWhisperer_IconButton'
 }, class IconButton extends St.Button {
-  _init ({ icon_name, isCustomIcon, onClick, icon_size = 18, text, style_class, ...props }) {
+  _init ({ icon_name, isCustomIcon, onClick, icon_size = 18, text, style_class, asButton, ...props }
+      = {
+    asButton: true
+  }) {
     super._init({
       reactive: true,
       can_focus: true,
       track_hover: true,
-      style_class: 'icon-button ' + (style_class || ''),
+      style_class: `icon-button ${asButton ? 'button' : ''} ${style_class || ''}`,
       y_align: Clutter.ActorAlign.CENTER,
       ...props
     })

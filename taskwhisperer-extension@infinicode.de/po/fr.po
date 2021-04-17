@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: fh@infinicode.de\n"
-"POT-Creation-Date: 2021-03-31 16:11+0200\n"
+"POT-Creation-Date: 2021-04-17 21:56+0200\n"
 "PO-Revision-Date: 2016-04-16 23:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,17 +18,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: taskwhisperer-extension@infinicode.de/extension.js:61
+#: taskwhisperer-extension@infinicode.de/extension.js:60
 msgid "taskwarrior"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:40
-#: taskwhisperer-extension@infinicode.de/settings.ui:43
+#: taskwhisperer-extension@infinicode.de/settings.ui:46
 msgid "Enable Taskd Syncronization"
 msgstr "Activer la synchronisation des tâches"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:49
-#: taskwhisperer-extension@infinicode.de/settings.ui:54
+#: taskwhisperer-extension@infinicode.de/settings.ui:57
 msgid ""
 "Please make sure taskd is proper configured, otherwise you will get errors "
 "fetching data!"
@@ -37,64 +37,64 @@ msgstr ""
 "obtiendrez des erreurs lors de la récupération des données!"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:62
-#: taskwhisperer-extension@infinicode.de/settings.ui:68
+#: taskwhisperer-extension@infinicode.de/settings.ui:72
 msgid "Show Tasks w/ no due at end of list"
 msgstr "Afficher les tâches sans échéance à la fin de la liste"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:98
-#: taskwhisperer-extension@infinicode.de/settings.ui:107
+#: taskwhisperer-extension@infinicode.de/settings.ui:100
 msgid "Taskwarrior"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:123
-#: taskwhisperer-extension@infinicode.de/settings.ui:128
+#: taskwhisperer-extension@infinicode.de/settings.ui:123
 msgid "Position in Panel"
 msgstr "Position dans le panneau"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:135
-#: taskwhisperer-extension@infinicode.de/settings.ui:141
+#: taskwhisperer-extension@infinicode.de/settings.ui:138
 msgid "Center"
 msgstr "Centre"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:136
-#: taskwhisperer-extension@infinicode.de/settings.ui:142
+#: taskwhisperer-extension@infinicode.de/settings.ui:139
 msgid "Right"
 msgstr "Droite"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:137
-#: taskwhisperer-extension@infinicode.de/settings.ui:143
+#: taskwhisperer-extension@infinicode.de/settings.ui:140
 msgid "Left"
 msgstr "Gauche"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:150
-#: taskwhisperer-extension@infinicode.de/settings.ui:157
+#: taskwhisperer-extension@infinicode.de/settings.ui:156
 msgid "Show TaskWarrior Icon in Panel"
 msgstr "Afficher l'icône TaskWarrior dans le panneau"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:171
-#: taskwhisperer-extension@infinicode.de/settings.ui:181
+#: taskwhisperer-extension@infinicode.de/settings.ui:182
 msgid "Show additional text next to task amount in Panel"
 msgstr ""
 "Afficher le texte supplémentaire à côté du montant de la tâche dans le "
 "panneau"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:201
-#: taskwhisperer-extension@infinicode.de/settings.ui:217
+#: taskwhisperer-extension@infinicode.de/settings.ui:211
 msgid "Layout"
 msgstr "Agencement"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:233
-#: taskwhisperer-extension@infinicode.de/settings.ui:256
+#: taskwhisperer-extension@infinicode.de/settings.ui:263
 msgid "Version: "
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:240
-#: taskwhisperer-extension@infinicode.de/settings.ui:269
+#: taskwhisperer-extension@infinicode.de/settings.ui:277
 msgid "unknown (self-build ?)"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:249
-#: taskwhisperer-extension@infinicode.de/settings.ui:289
+#: taskwhisperer-extension@infinicode.de/settings.ui:297
 msgid ""
 "<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
 "\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
@@ -102,12 +102,12 @@ msgid ""
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:265
-#: taskwhisperer-extension@infinicode.de/settings.ui:312
+#: taskwhisperer-extension@infinicode.de/settings.ui:320
 msgid "Maintained by"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:289
-#: taskwhisperer-extension@infinicode.de/settings.ui:361
+#: taskwhisperer-extension@infinicode.de/settings.ui:371
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
@@ -115,7 +115,7 @@ msgid ""
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:301
-#: taskwhisperer-extension@infinicode.de/settings.ui:382
+#: taskwhisperer-extension@infinicode.de/settings.ui:392
 msgid "About"
 msgstr ""
 

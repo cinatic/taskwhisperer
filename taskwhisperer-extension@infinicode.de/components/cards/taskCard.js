@@ -16,8 +16,7 @@ var TaskCard = GObject.registerClass({
     super._init({
       style_class: 'card message task-card',
       can_focus: true,
-      x_expand: true,
-      hover: true
+      x_expand: true
     })
 
     this.cardItem = quoteSummary
@@ -77,6 +76,7 @@ var TaskCard = GObject.registerClass({
 
     if (iconName) {
       icon = new IconButton({
+        asButton: false,
         isCustomIcon: true,
         icon_name: iconName,
         icon_size: 20
