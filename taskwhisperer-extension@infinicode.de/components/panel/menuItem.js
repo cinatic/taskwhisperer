@@ -13,14 +13,16 @@ const SETTING_KEYS_TO_REFRESH = [
   TASKWHISPERER_SHOW_TEXT_IN_PANEL
 ]
 
-var MenuItem = GObject.registerClass({}, class MenuItem extends St.BoxLayout {
+var MenuItem = GObject.registerClass({
+  GTypeName: 'TaskWhisperer_MenuItem'
+}, class MenuItem extends St.BoxLayout {
   _init () {
     super._init({
       style_class: 'menu-item',
       x_expand: true,
-      y_expand: true,
       y_align: Clutter.ActorAlign.CENTER,
-      reactive: true
+      reactive: true,
+      y_expand: true,
     })
 
     this._taskCount = 0
@@ -50,14 +52,18 @@ var MenuItem = GObject.registerClass({}, class MenuItem extends St.BoxLayout {
 
     const taskInformationBox = new St.BoxLayout({
       style_class: 'task-information-box',
+      vertical: false,
       x_expand: true,
-      y_expand: true
+      y_expand: true,
+      y_align: Clutter.ActorAlign.CENTER
     })
 
     if (Settings.show_taskwarrior_icon) {
       const icon = new St.Icon({
+        y_align: Clutter.ActorAlign.CENTER,
+        y_expand: true,
         gicon: ComponentsHelper.getCustomIconPath('taskwarrior-symbolic'),
-        style_class: 'system-status-icon'
+        style_class: 'menu-icon'
       })
 
       taskInformationBox.add_child(icon)
@@ -72,6 +78,9 @@ var MenuItem = GObject.registerClass({}, class MenuItem extends St.BoxLayout {
     }
 
     const label = new St.Label({
+      style_class: 'menu-label',
+      y_align: Clutter.ActorAlign.CENTER,
+      y_expand: true,
       text: additionalTaskAmountInformationText
     })
 
