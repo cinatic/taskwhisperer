@@ -48,7 +48,6 @@ const MenuPosition = {
 
 let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButton extends PanelMenu.Button {
   _init () {
-    this._currentPanelPosition = null
     this._settingsChangedId = null
 
     // Panel menu item - the current class
@@ -72,9 +71,9 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
 
     // Bind events
     EventHandler.connect('hide-panel', () => this.menu.close())
-    this._settingsChangedId = Settings.connect('changed', (changedValue, changedKey) => this._sync(changedValue, changedKey))
+    this._settingsChangedId = Settings.connect('changed', this._sync.bind(this))
 
-    this.menu.connect('destroy', this._onDestroy.bind(this))
+    this.menu.connect('destroy', this._destroyExtension.bind(this))
     this.menu.connect('open-state-changed', (menu, isOpen) => {
       EventHandler.emit('open-state-changed', { isOpen })
     })
@@ -89,46 +88,32 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
   checkPositionInPanel () {
     const newPosition = Settings.position_in_panel
 
-    if (this._currentPanelPosition === newPosition) {
-      return
-    }
+    const container = this.container
+    const parent = container.get_parent()
 
-    this.get_parent().remove_actor(this.actor)
-
-    switch (this._currentPanelPosition) {
-      case MenuPosition.LEFT:
-        Main.panel._leftBox.remove_actor(this.actor)
-        break
-      case MenuPosition.CENTER:
-        Main.panel._centerBox.remove_actor(this.actor)
-        break
-      case MenuPosition.RIGHT:
-        Main.panel._rightBox.remove_actor(this.actor)
-        break
+    if (parent) {
+      parent.remove_actor(container)
     }
 
     let children = null
+
     switch (newPosition) {
       case MenuPosition.LEFT:
         children = Main.panel._leftBox.get_children()
-        Main.panel._leftBox.insert_child_at_index(this.actor, children.length)
+        Main.panel._leftBox.insert_child_at_index(container, children.length)
         break
       case MenuPosition.CENTER:
         children = Main.panel._centerBox.get_children()
-        Main.panel._centerBox.insert_child_at_index(this.actor, children.length)
+        Main.panel._centerBox.insert_child_at_index(container, children.length)
         break
       case MenuPosition.RIGHT:
         children = Main.panel._rightBox.get_children()
-        Main.panel._rightBox.insert_child_at_index(this.actor, 0)
+        Main.panel._rightBox.insert_child_at_index(container, 0)
         break
     }
-
-    this._currentPanelPosition = newPosition
   }
 
-  _onDestroy () {
-    super._onDestroy()
-
+  _destroyExtension () {
     if (this._settingsChangedId) {
       Settings.disconnect(this._settingsChangedId)
     }
@@ -144,6 +129,7 @@ function init (extensionMeta) {
 function enable () {
   taskWhispererMenu = new TaskWhispererMenuButton()
   Main.panel.addToStatusArea('taskWhispererMenu', taskWhispererMenu)
+  taskWhispererMenu.checkPositionInPanel()
 }
 
 function disable () {
