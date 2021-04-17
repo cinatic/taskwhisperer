@@ -48,6 +48,7 @@ const MenuPosition = {
 
 let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButton extends PanelMenu.Button {
   _init () {
+    this._previousPanelPosition = null
     this._settingsChangedId = null
 
     // Panel menu item - the current class
@@ -86,18 +87,18 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
   }
 
   checkPositionInPanel () {
-    const newPosition = Settings.position_in_panel
-
     const container = this.container
     const parent = container.get_parent()
 
-    if (parent) {
-      parent.remove_actor(container)
+    if (!parent || this._previousPanelPosition === Settings.position_in_panel) {
+      return
     }
+
+    parent.remove_actor(container)
 
     let children = null
 
-    switch (newPosition) {
+    switch (Settings.position_in_panel) {
       case MenuPosition.LEFT:
         children = Main.panel._leftBox.get_children()
         Main.panel._leftBox.insert_child_at_index(container, children.length)
@@ -111,6 +112,8 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         Main.panel._rightBox.insert_child_at_index(container, 0)
         break
     }
+
+    this._previousPanelPosition = Settings.position_in_panel
   }
 
   _destroyExtension () {
