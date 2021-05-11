@@ -1,10 +1,18 @@
-const { Clutter, GObject, Graphene, St, Gtk } = imports.gi
+const { Clutter, GObject, St, Gtk } = imports.gi
 
 const ExtensionUtils = imports.misc.extensionUtils
 const Me = ExtensionUtils.getCurrentExtension()
 
 const { ScaleLayout } = Me.imports.components.scaleLayout.scaleLayout
 const { Translations } = Me.imports.helpers.translations
+
+let Graphene
+
+try {
+  Graphene = imports.gi.Graphene
+} catch (e) {
+  // no graphene older gnome
+}
 
 var MESSAGE_ANIMATION_TIME = 100
 
@@ -83,9 +91,12 @@ var FlatList = GObject.registerClass({
 
     const listItem = new St.Bin({
       child: item,
-      layout_manager: new ScaleLayout(),
-      pivot_point: new Graphene.Point({ x: .5, y: .5 })
+      layout_manager: new ScaleLayout()
     })
+
+    if (Graphene) {
+      listItem.pivot_point = new Graphene.Point({ x: .5, y: .5 })
+    }
 
     this._content.insert_child_at_index(listItem, index)
 

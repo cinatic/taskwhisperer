@@ -2,6 +2,8 @@
   "description": "Taskwhisperer is a extension for TaskWarrior Application https://taskwarrior.org. It is to display upcoming tasks and task details as well as to create and modify them.\n",
   "localedir": "/usr/local/share/locale",
   "name": "TaskWhisperer",
+  "gettext-domain": "org.gnome.shell.extensions.taskwhisperer",
+  "settings-schema": "org.gnome.shell.extensions.taskwhisperer",
   "shell-version": [
     "3.32",
     "3.36",

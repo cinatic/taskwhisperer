@@ -137,7 +137,7 @@ var EditTaskScreen = GObject.registerClass({}, class EditTaskScreen extends St.B
         can_focus: true
       })
 
-      formElement.connect('notify::text', entry => {
+      formElement.connect('key-release-event', entry => {
         this.newTask[dataField] = entry.text
       })
     }
