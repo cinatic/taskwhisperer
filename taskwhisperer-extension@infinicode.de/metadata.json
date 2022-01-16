@@ -6,9 +6,10 @@
     "3.32",
     "3.36",
     "3.38",
-    "40"
+    "40",
+    "41"
   ],
   "url": "https://github.com/cinatic/taskwhisperer",
   "uuid": "taskwhisperer-extension@infinicode.de",
-  "version": 20
+  "version": 21
 }
