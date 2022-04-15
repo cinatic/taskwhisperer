@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: fh@infinicode.de\n"
-"POT-Creation-Date: 2021-04-17 21:56+0200\n"
+"POT-Creation-Date: 2022-03-04 14:13+0100\n"
 "PO-Revision-Date: 2016-04-16 23:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: taskwhisperer-extension@infinicode.de/extension.js:60
+#: taskwhisperer-extension@infinicode.de/extension.js:61
 msgid "taskwarrior"
 msgstr ""
 

@@ -101,6 +101,10 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
   }
 
   _registerTimeout () {
+    if (this._autoRefreshTimeoutId) {
+      Mainloop.source_remove(this._autoRefreshTimeoutId)
+    }
+
     this._autoRefreshTimeoutId = Mainloop.timeout_add_seconds(Settings.ticker_interval || 30, () => {
       this._loadData()
 

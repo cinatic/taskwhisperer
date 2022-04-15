@@ -13,6 +13,9 @@
 
 ## Installation
 
+### Requirements
+
+Gnome, Gnome-Shell, make also sure it has graphene [#99](https://github.com/cinatic/taskwhisperer/issues/99)
 ### Over extensions.gnome.org (EGO)
 
 Install via install button -> https://extensions.gnome.org/extension/1039/taskwhisperer/
