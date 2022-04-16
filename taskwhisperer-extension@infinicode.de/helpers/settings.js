@@ -1,9 +1,5 @@
-const { Gio, GLib } = imports.gi
-
 const ExtensionUtils = imports.misc.extensionUtils
 const Me = ExtensionUtils.getCurrentExtension()
-
-const { decodeBase64JsonOrDefault, isNullOrEmpty } = Me.imports.helpers.data
 
 var POSITION_IN_PANEL_KEY = 'position-in-panel'
 var TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync'
@@ -16,7 +12,7 @@ var TASKWHISPERER_PROJECT = 'project'
 
 var SETTINGS_SCHEMA_DOMAIN = 'org.gnome.shell.extensions.taskwhisperer'
 
-const Handler = class {
+var SettingsHandler = class SettingsHandler {
   constructor () {
     this._settings = ExtensionUtils.getSettings(SETTINGS_SCHEMA_DOMAIN)
   }
@@ -73,5 +69,3 @@ const Handler = class {
     this._settings.disconnect(connectId)
   }
 }
-
-var Settings = new Handler()

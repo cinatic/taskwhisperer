@@ -33,7 +33,7 @@ const { run } = Me.imports.helpers.subprocess
 
 const { Task } = Me.imports.services.dto.task
 const { TaskStatus, TaskOrder } = Me.imports.services.meta.taskWarrior
-const { Settings } = Me.imports.helpers.settings
+const { SettingsHandler } = Me.imports.helpers.settings
 
 var loadTaskData = async ({ taskStatus, project, taskOrder }) => {
   let statusFilter = 'status:Pending'
@@ -223,7 +223,8 @@ var modifyTask = async (taskUUID, task) => {
 }
 
 var syncTasks = async () => {
-  if (!Settings.enable_taskd_sync) {
+  const settings = new SettingsHandler()
+  if (!settings.enable_taskd_sync) {
     return
   }
 
@@ -276,10 +277,12 @@ const _convertTaskToParams = task => {
 }
 
 const _sortByDue = (a, b) => {
+  const settings = new SettingsHandler()
+
   let dueA
   let dueB
 
-  if (Settings.show_no_dates_at_end) {
+  if (settings.show_no_dates_at_end) {
     dueA = a.Due || '999999999999999'
     dueB = b.Due || '999999999999999'
   } else {

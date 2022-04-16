@@ -13,7 +13,7 @@ const { TaskCard } = Me.imports.components.cards.taskCard
 const { SearchBar } = Me.imports.components.searchBar.searchBar
 const { setTimeout, clearTimeout } = Me.imports.helpers.components
 const { clearCache } = Me.imports.helpers.data
-const { Settings, TASKWHISPERER_PROJECT, TASKWHISPERER_TASK_ORDER, TASKWHISPERER_TASK_STATUS } = Me.imports.helpers.settings
+const { SettingsHandler, TASKWHISPERER_PROJECT, TASKWHISPERER_TASK_ORDER, TASKWHISPERER_TASK_STATUS } = Me.imports.helpers.settings
 const { Translations } = Me.imports.helpers.translations
 const { TaskOrder, TaskStatus } = Me.imports.services.meta.taskWarrior
 const { loadProjectsData, loadTaskData } = Me.imports.services.taskService
@@ -30,6 +30,8 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
       style_class: 'screen task-overview-screen',
       vertical: true
     })
+
+    this._settings = new SettingsHandler()
 
     this._isRendering = false
     this._showLoadingInfoTimeoutId = null
@@ -72,7 +74,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
 
     searchBar.connect('text-change', (sender, searchText) => this._filter_results(searchText))
 
-    this._settingsChangedId = Settings.connect('changed', (_, key) => {
+    this._settingsChangedId = this._settings.connect('changed', (_, key) => {
       if (SETTING_KEYS_TO_REFRESH.includes(key)) {
         this._loadData()
       }
@@ -105,7 +107,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
       Mainloop.source_remove(this._autoRefreshTimeoutId)
     }
 
-    this._autoRefreshTimeoutId = Mainloop.timeout_add_seconds(Settings.ticker_interval || 30, () => {
+    this._autoRefreshTimeoutId = Mainloop.timeout_add_seconds(this._settings.ticker_interval || 30, () => {
       this._loadData()
 
       return true
@@ -119,9 +121,9 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
 
     try {
       const { tasks, error } = await loadTaskData({
-        project: Settings.project,
-        taskStatus: Settings.task_status,
-        taskOrder: Settings.task_order
+        project: this._settings.project,
+        taskStatus: this._settings.task_status,
+        taskOrder: this._settings.task_order
       })
 
       EventHandler.emit('refresh-menu-task-count', {
@@ -155,10 +157,10 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
   }
 
   async _createProjectsButtonGroup () {
-    const projects = await loadProjectsData(Settings.task_status)
+    const projects = await loadProjectsData(this._settings.task_status)
 
-    if (!['all', 'unassigned', ...projects].includes(Settings.project)) {
-      Settings.project = 'all'
+    if (!['all', 'unassigned', ...projects].includes(this._settings.project)) {
+      this._settings.project = 'all'
     }
 
     let buttons = []
@@ -168,17 +170,17 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
         {
           label: Translations.ALL_PROJECT,
           value: 'all',
-          selected: Settings.project === 'all'
+          selected: this._settings.project === 'all'
         },
         ...projects.map(item => ({
           label: item,
           value: item,
-          selected: Settings.project === item
+          selected: this._settings.project === item
         })),
         {
           label: Translations.UNASSIGNED_PROJECT,
           value: 'unassigned',
-          selected: Settings.project === 'unassigned'
+          selected: this._settings.project === 'unassigned'
         }
       ]
     }
@@ -215,7 +217,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
     const buttons = Object.keys(TaskStatus).map(key => ({
       label: Translations.TASKS[`SHOW_${key}`],
       value: TaskStatus[key],
-      selected: TaskStatus[key] === Settings.task_status
+      selected: TaskStatus[key] === this._settings.task_status
     }))
 
     const taskStatusButtonGroup = new ButtonGroup({
@@ -240,7 +242,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
     const buttons = Object.keys(TaskOrder).map(key => ({
       label: Translations.TASKS[`ORDER_BY_${key}`],
       value: TaskOrder[key],
-      selected: TaskOrder[key] === Settings.task_order
+      selected: TaskOrder[key] === this._settings.task_order
     }))
 
     const taskOrderButtonGroup = new ButtonGroup({
@@ -256,15 +258,15 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
   }
 
   _selectProject (project) {
-    Settings.project = project
+    this._settings.project = project
   }
 
   _selectOrder (order) {
-    Settings.task_order = order
+    this._settings.task_order = order
   }
 
   _selectStatus (status) {
-    Settings.task_status = status
+    this._settings.task_status = status
   }
 
   _onDestroy () {
@@ -273,7 +275,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
     }
 
     if (this._settingsChangedId) {
-      Settings.disconnect(this._settingsChangedId)
+      this._settings.disconnect(this._settingsChangedId)
     }
   }
 })
