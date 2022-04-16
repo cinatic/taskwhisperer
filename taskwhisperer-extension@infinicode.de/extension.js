@@ -31,10 +31,9 @@ const Me = ExtensionUtils.getCurrentExtension()
 const { MenuItem } = Me.imports.components.panel.menuItem
 const { ScreenWrapper } = Me.imports.components.screenWrapper.screenWrapper
 const { EventHandler } = Me.imports.helpers.eventHandler
-const { initTranslations } = Me.imports.helpers.translations
 const { Settings } = Me.imports.helpers.settings
 
-const Gettext = imports.gettext.domain('taskwhisperer@infinicode.de')
+const Gettext = imports.gettext
 const _ = Gettext.gettext
 
 const Main = imports.ui.main
@@ -126,7 +125,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
 var taskWhispererMenu
 
 function init (extensionMeta) {
-  initTranslations()
+  ExtensionUtils.initTranslations(Me.metadata['gettext-domain'])
 }
 
 function enable () {
@@ -136,5 +135,7 @@ function enable () {
 }
 
 function disable () {
-  taskWhispererMenu.destroy()
+  if (taskWhispererMenu) {
+    taskWhispererMenu.destroy()
+  }
 }
