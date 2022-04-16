@@ -5,7 +5,6 @@ const Mainloop = imports.mainloop
 const ExtensionUtils = imports.misc.extensionUtils
 const Me = ExtensionUtils.getCurrentExtension()
 
-const { EventHandler } = Me.imports.helpers.eventHandler
 const { ButtonGroup } = Me.imports.components.buttons.buttonGroup
 const { IconButton } = Me.imports.components.buttons.iconButton
 const { FlatList } = Me.imports.components.flatList.flatList
@@ -25,12 +24,13 @@ const SETTING_KEYS_TO_REFRESH = [
 ]
 
 var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen extends St.BoxLayout {
-  _init () {
+  _init (mainEventHandler) {
     super._init({
       style_class: 'screen task-overview-screen',
       vertical: true
     })
 
+    this._mainEventHandler = mainEventHandler
     this._settings = new SettingsHandler()
 
     this._isRendering = false
@@ -38,6 +38,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
     this._autoRefreshTimeoutId = null
 
     const searchBar = new SearchBar({
+      mainEventHandler: this._mainEventHandler,
       additionalIcons: [
         new IconButton({
           isCustomIcon: true,
@@ -45,7 +46,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
           icon_name: 'create-symbolic',
           icon_size: 18,
           onClick: () => {
-            EventHandler.emit('show-screen', {
+            this._mainEventHandler.emit('show-screen', {
               screen: 'edit-task'
             })
           }
@@ -66,7 +67,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
 
     this.connect('destroy', this._onDestroy.bind(this))
 
-    EventHandler.connect('refresh-tasks', () => this._loadData())
+    this._mainEventHandler.connect('refresh-tasks', () => this._loadData())
     searchBar.connect('refresh', () => {
       clearCache()
       this._loadData()
@@ -126,7 +127,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
         taskOrder: this._settings.task_order
       })
 
-      EventHandler.emit('refresh-menu-task-count', {
+      this._mainEventHandler.emit('refresh-menu-task-count', {
         taskCount: tasks ? tasks.length : '-'
       })
 
@@ -144,7 +145,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
       this._list.clear_list_items()
 
       tasks.forEach(quoteSummary => {
-        this._list.addItem(new TaskCard(quoteSummary))
+        this._list.addItem(new TaskCard(quoteSummary, this._mainEventHandler))
       })
     } catch (e) {
       logError(e)

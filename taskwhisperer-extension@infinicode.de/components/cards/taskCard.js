@@ -5,20 +5,20 @@ const Me = ExtensionUtils.getCurrentExtension()
 
 const { isNullOrEmpty } = Me.imports.helpers.data
 const { IconButton } = Me.imports.components.buttons.iconButton
-const { EventHandler } = Me.imports.helpers.eventHandler
 const { TaskPriority } = Me.imports.services.meta.taskWarrior
 const { setTaskDone, setTaskUndone, startTask, stopTask } = Me.imports.services.taskService
 
 var TaskCard = GObject.registerClass({
   GTypeName: 'TaskWhisperer_TaskCard'
 }, class TaskCard extends St.Button {
-  _init (quoteSummary) {
+  _init (quoteSummary, mainEventHandler) {
     super._init({
       style_class: 'card message task-card',
       can_focus: true,
       x_expand: true
     })
 
+    this._mainEventHandler = mainEventHandler
     this.cardItem = quoteSummary
 
     const vContentBox = new St.BoxLayout({
@@ -204,26 +204,26 @@ var TaskCard = GObject.registerClass({
 
   async _startTask () {
     await startTask(this.cardItem.ID)
-    EventHandler.emit('refresh-tasks')
+    this._mainEventHandler.emit('refresh-tasks')
   }
 
   async _stopTask () {
     await stopTask(this.cardItem.ID)
-    EventHandler.emit('refresh-tasks')
+    this._mainEventHandler.emit('refresh-tasks')
   }
 
   async _setTaskDone () {
     await setTaskDone(this.cardItem.ID)
-    EventHandler.emit('refresh-tasks')
+    this._mainEventHandler.emit('refresh-tasks')
   }
 
   async _setTaskUnDone () {
     await setTaskUndone(this.cardItem.UUID)
-    EventHandler.emit('refresh-tasks')
+    this._mainEventHandler.emit('refresh-tasks')
   }
 
   _editTask () {
-    EventHandler.emit('show-screen', {
+    this._mainEventHandler.emit('show-screen', {
       screen: 'edit-task',
       additionalData: {
         item: this.cardItem

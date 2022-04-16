@@ -50,6 +50,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
     this._previousPanelPosition = null
     this._settingsChangedId = null
 
+    this._mainEventHandler = new EventHandler()
     this._settings = new SettingsHandler()
 
     // Panel menu item - the current class
@@ -62,22 +63,22 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
     super._init(menuAlignment, _('taskwarrior'))
     this.add_style_class_name('taskwhisperer-extension')
 
-    this.add_child(new MenuItem())
+    this.add_child(new MenuItem(this._mainEventHandler))
 
     const bin = new St.Widget({ style_class: 'taskwhisperer-extension' })
     bin._delegate = this
     this.menu.box.add_child(bin)
 
-    this._screenWrapper = new ScreenWrapper()
+    this._screenWrapper = new ScreenWrapper(this._mainEventHandler)
     bin.add_child(this._screenWrapper)
 
     // Bind events
-    EventHandler.connect('hide-panel', () => this.menu.close())
+    this._mainEventHandler.connect('hide-panel', () => this.menu.close())
     this._settingsChangedId = this._settings.connect('changed', this._sync.bind(this))
 
     this.menu.connect('destroy', this._destroyExtension.bind(this))
     this.menu.connect('open-state-changed', (menu, isOpen) => {
-      EventHandler.emit('open-state-changed', { isOpen })
+      this._mainEventHandler.emit('open-state-changed', { isOpen })
     })
 
     this._sync()
