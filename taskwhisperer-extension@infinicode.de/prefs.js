@@ -71,7 +71,7 @@ var PrefsWidget = GObject.registerClass({
   }
 
   loadConfig () {
-    this.Settings = ExtensionUtils.getSettings(SETTINGS_SCHEMA_DOMAIN)
+    this.Settings = ExtensionUtils.getSettings()
   }
 })
 
@@ -101,7 +101,7 @@ const isGnome4 = () => Config.PACKAGE_VERSION.startsWith('4')
 
 // this is called when settings has been opened
 var init = () => {
-  ExtensionUtils.initTranslations(Me.metadata['gettext-domain'])
+  ExtensionUtils.initTranslations()
 }
 
 function buildPrefsWidget () {

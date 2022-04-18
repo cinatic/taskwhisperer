@@ -128,7 +128,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
 var taskWhispererMenu
 
 function init (extensionMeta) {
-  ExtensionUtils.initTranslations(Me.metadata['gettext-domain'])
+  ExtensionUtils.initTranslations()
 }
 
 function enable () {
