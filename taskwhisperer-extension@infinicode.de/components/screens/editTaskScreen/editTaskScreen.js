@@ -3,7 +3,6 @@ const { Clutter, GObject, St } = imports.gi
 const ExtensionUtils = imports.misc.extensionUtils
 const Me = ExtensionUtils.getCurrentExtension()
 
-const { EventHandler } = Me.imports.helpers.eventHandler
 const { ButtonGroup } = Me.imports.components.buttons.buttonGroup
 const { SearchBar } = Me.imports.components.searchBar.searchBar
 const { Translations } = Me.imports.helpers.translations
@@ -11,12 +10,13 @@ const { TaskPriority } = Me.imports.services.meta.taskWarrior
 const { createTask, modifyTask } = Me.imports.services.taskService
 
 var EditTaskScreen = GObject.registerClass({}, class EditTaskScreen extends St.BoxLayout {
-  _init (taskItem) {
+  _init (taskItem, mainEventHandler) {
     super._init({
       style_class: 'screen edit-task-screen',
       vertical: true
     })
 
+    this._mainEventHandler = mainEventHandler
     this.task = taskItem || {}
     this.newTask = {}
 
@@ -25,7 +25,8 @@ var EditTaskScreen = GObject.registerClass({}, class EditTaskScreen extends St.B
     const searchBar = new SearchBar({
       back_screen_name: 'overview',
       showFilterInputBox: false,
-      showRefreshIcon: false
+      showRefreshIcon: false,
+      mainEventHandler: this._mainEventHandler
     })
 
     this.add_child(searchBar)
@@ -161,7 +162,7 @@ var EditTaskScreen = GObject.registerClass({}, class EditTaskScreen extends St.B
       if (result.error) {
         this._errorPlaceHolder.text = result.error
       } else {
-        EventHandler.emit('show-screen', {
+        this._mainEventHandler.emit('show-screen', {
           screen: 'overview'
         })
       }

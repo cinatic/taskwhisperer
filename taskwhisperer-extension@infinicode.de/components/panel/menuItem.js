@@ -3,8 +3,7 @@ const { Clutter, GObject, St } = imports.gi
 const ExtensionUtils = imports.misc.extensionUtils
 const Me = ExtensionUtils.getCurrentExtension()
 
-const { EventHandler } = Me.imports.helpers.eventHandler
-const { Settings, TASKWHISPERER_SHOW_PANEL_ICON, TASKWHISPERER_SHOW_TEXT_IN_PANEL } = Me.imports.helpers.settings
+const { SettingsHandler, TASKWHISPERER_SHOW_PANEL_ICON, TASKWHISPERER_SHOW_TEXT_IN_PANEL } = Me.imports.helpers.settings
 const { Translations } = Me.imports.helpers.translations
 const ComponentsHelper = Me.imports.helpers.components
 
@@ -16,7 +15,7 @@ const SETTING_KEYS_TO_REFRESH = [
 var MenuItem = GObject.registerClass({
   GTypeName: 'TaskWhisperer_MenuItem'
 }, class MenuItem extends St.BoxLayout {
-  _init () {
+  _init (mainEventHandler) {
     super._init({
       style_class: 'menu-item',
       x_expand: true,
@@ -25,15 +24,18 @@ var MenuItem = GObject.registerClass({
       y_expand: true,
     })
 
+    this._mainEventHandler = mainEventHandler
+    this._settings = new SettingsHandler()
+
     this._taskCount = 0
 
-    this._settingsChangedId = Settings.connect('changed', (value, key) => {
+    this._settingsChangedId = this._settings.connect('changed', (value, key) => {
       if (SETTING_KEYS_TO_REFRESH.includes(key)) {
         this._sync()
       }
     })
 
-    this._refreshMenuTaskCountId = EventHandler.connect('refresh-menu-task-count', (_, { taskCount }) => {
+    this._refreshMenuTaskCountId = this._mainEventHandler.connect('refresh-menu-task-count', (_, { taskCount }) => {
       this._taskCount = taskCount
       this._sync()
     })
@@ -58,7 +60,7 @@ var MenuItem = GObject.registerClass({
       y_align: Clutter.ActorAlign.CENTER
     })
 
-    if (Settings.show_taskwarrior_icon) {
+    if (this._settings.show_taskwarrior_icon) {
       const icon = new St.Icon({
         y_align: Clutter.ActorAlign.CENTER,
         y_expand: true,
@@ -71,10 +73,10 @@ var MenuItem = GObject.registerClass({
 
     let additionalTaskAmountInformationText
 
-    if (Settings.show_task_text_in_panel) {
+    if (this._settings.show_task_text_in_panel) {
       additionalTaskAmountInformationText = Translations.PANEL_TASK_INFO(this._taskCount)
     } else {
-      additionalTaskAmountInformationText = Settings.show_taskwarrior_icon ? `${this._taskCount}` : `${this._taskCount} T`
+      additionalTaskAmountInformationText = this._settings.show_taskwarrior_icon ? `${this._taskCount}` : `${this._taskCount} T`
     }
 
     const label = new St.Label({
@@ -91,11 +93,11 @@ var MenuItem = GObject.registerClass({
 
   _onDestroy () {
     if (this._settingsChangedId) {
-      Settings.disconnect(this._settingsChangedId)
+      this._settings.disconnect(this._settingsChangedId)
     }
 
     if (this._refreshMenuTaskCountId) {
-      EventHandler.disconnect(this._refreshMenuTaskCountId)
+      this._mainEventHandler.disconnect(this._refreshMenuTaskCountId)
     }
   }
 })

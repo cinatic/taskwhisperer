@@ -31,10 +31,9 @@ const Me = ExtensionUtils.getCurrentExtension()
 const { MenuItem } = Me.imports.components.panel.menuItem
 const { ScreenWrapper } = Me.imports.components.screenWrapper.screenWrapper
 const { EventHandler } = Me.imports.helpers.eventHandler
-const { initTranslations } = Me.imports.helpers.translations
-const { Settings } = Me.imports.helpers.settings
+const { SettingsHandler } = Me.imports.helpers.settings
 
-const Gettext = imports.gettext.domain('taskwhisperer@infinicode.de')
+const Gettext = imports.gettext
 const _ = Gettext.gettext
 
 const Main = imports.ui.main
@@ -51,6 +50,9 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
     this._previousPanelPosition = null
     this._settingsChangedId = null
 
+    this._mainEventHandler = new EventHandler()
+    this._settings = new SettingsHandler()
+
     // Panel menu item - the current class
     let menuAlignment = 0.25
 
@@ -61,22 +63,22 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
     super._init(menuAlignment, _('taskwarrior'))
     this.add_style_class_name('taskwhisperer-extension')
 
-    this.add_child(new MenuItem())
+    this.add_child(new MenuItem(this._mainEventHandler))
 
     const bin = new St.Widget({ style_class: 'taskwhisperer-extension' })
     bin._delegate = this
     this.menu.box.add_child(bin)
 
-    this._screenWrapper = new ScreenWrapper()
+    this._screenWrapper = new ScreenWrapper(this._mainEventHandler)
     bin.add_child(this._screenWrapper)
 
     // Bind events
-    EventHandler.connect('hide-panel', () => this.menu.close())
-    this._settingsChangedId = Settings.connect('changed', this._sync.bind(this))
+    this._mainEventHandler.connect('hide-panel', () => this.menu.close())
+    this._settingsChangedId = this._settings.connect('changed', this._sync.bind(this))
 
     this.menu.connect('destroy', this._destroyExtension.bind(this))
     this.menu.connect('open-state-changed', (menu, isOpen) => {
-      EventHandler.emit('open-state-changed', { isOpen })
+      this._mainEventHandler.emit('open-state-changed', { isOpen })
     })
 
     this._sync()
@@ -90,7 +92,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
     const container = this.container
     const parent = container.get_parent()
 
-    if (!parent || this._previousPanelPosition === Settings.position_in_panel) {
+    if (!parent || this._previousPanelPosition === this._settings.position_in_panel) {
       return
     }
 
@@ -98,7 +100,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
 
     let children = null
 
-    switch (Settings.position_in_panel) {
+    switch (this._settings.position_in_panel) {
       case MenuPosition.LEFT:
         children = Main.panel._leftBox.get_children()
         Main.panel._leftBox.insert_child_at_index(container, children.length)
@@ -113,12 +115,12 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
         break
     }
 
-    this._previousPanelPosition = Settings.position_in_panel
+    this._previousPanelPosition = this._settings.position_in_panel
   }
 
   _destroyExtension () {
     if (this._settingsChangedId) {
-      Settings.disconnect(this._settingsChangedId)
+      this._settings.disconnect(this._settingsChangedId)
     }
   }
 })
@@ -126,7 +128,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
 var taskWhispererMenu
 
 function init (extensionMeta) {
-  initTranslations()
+  ExtensionUtils.initTranslations()
 }
 
 function enable () {
@@ -136,5 +138,7 @@ function enable () {
 }
 
 function disable () {
-  taskWhispererMenu.destroy()
+  if (taskWhispererMenu) {
+    taskWhispererMenu.destroy()
+  }
 }

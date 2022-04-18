@@ -4,9 +4,7 @@ const Config = imports.misc.config
 const ExtensionUtils = imports.misc.extensionUtils
 const Me = ExtensionUtils.getCurrentExtension()
 
-const Settings = Me.imports.helpers.settings
-
-const { initTranslations } = Me.imports.helpers.translations
+const { SETTINGS_SCHEMA_DOMAIN } = Me.imports.helpers.settings
 
 const EXTENSIONDIR = Me.dir.get_path()
 
@@ -73,7 +71,7 @@ var PrefsWidget = GObject.registerClass({
   }
 
   loadConfig () {
-    this.Settings = Settings.getSettings()
+    this.Settings = ExtensionUtils.getSettings()
   }
 })
 
@@ -103,7 +101,7 @@ const isGnome4 = () => Config.PACKAGE_VERSION.startsWith('4')
 
 // this is called when settings has been opened
 var init = () => {
-  initTranslations(Settings.SETTINGS_SCHEMA_DOMAIN)
+  ExtensionUtils.initTranslations()
 }
 
 function buildPrefsWidget () {
