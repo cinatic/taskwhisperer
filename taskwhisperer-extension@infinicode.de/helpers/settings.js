@@ -10,8 +10,6 @@ var TASKWHISPERER_TASK_ORDER = 'task-order'
 var TASKWHISPERER_TASK_STATUS = 'task-status'
 var TASKWHISPERER_PROJECT = 'project'
 
-var SETTINGS_SCHEMA_DOMAIN = 'org.gnome.shell.extensions.taskwhisperer'
-
 var SettingsHandler = class SettingsHandler {
   constructor () {
     this._settings = ExtensionUtils.getSettings()

@@ -140,5 +140,6 @@ function enable () {
 function disable () {
   if (taskWhispererMenu) {
     taskWhispererMenu.destroy()
+    taskWhispererMenu = null
   }
 }

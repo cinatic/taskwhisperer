@@ -4,8 +4,6 @@ const Config = imports.misc.config
 const ExtensionUtils = imports.misc.extensionUtils
 const Me = ExtensionUtils.getCurrentExtension()
 
-const { SETTINGS_SCHEMA_DOMAIN } = Me.imports.helpers.settings
-
 const EXTENSIONDIR = Me.dir.get_path()
 
 var PrefsWidget = GObject.registerClass({

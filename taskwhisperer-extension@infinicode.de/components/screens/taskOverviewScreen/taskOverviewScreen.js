@@ -278,5 +278,9 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
     if (this._settingsChangedId) {
       this._settings.disconnect(this._settingsChangedId)
     }
+
+    if (this._showLoadingInfoTimeoutId) {
+      this._showLoadingInfoTimeoutId = clearTimeout(this._showLoadingInfoTimeoutId)
+    }
   }
 })
