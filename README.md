@@ -22,13 +22,23 @@ Install via install button -> https://extensions.gnome.org/extension/1039/taskwh
 
 ### Generic (Local installation)
 
-Move files into your locale extension directory (~/.local/share/gnome-shell/extensions/taskwhisperer-extension@infinicode.de) and enable the extension via the Tweak Tool
-Restart GNOME Shell (`Alt`+`F2`, `r`, `Enter`) and enable the extension through *gnome-tweak-tool*.
+#### Git master
 
-After the installation, restart GNOME Shell (`Alt`+`F2`, `r`, `Enter`) and enable the extension through *gnome-tweak-tool*.
+Checkout and run `make install`, a locale copy will be generated in (~/.local/share/gnome-shell/extensions/). 
+Maybe a restart of GNOME Shell is needed and/or enabling the extension.
 
-Not Yet commited 
-Go on the [TaskWhisperer](https://extensions.gnome.org/extension/1039/taskwhisperer/) extension page on extensions.gnome.org and click on the switch ("OFF" => "ON")!
+```
+git clone https://github.com/cinatic/taskwhisperer.git && cd taskwhisperer && make install
+```
+
+#### Git Release
+
+Download [latest release](https://github.com/cinatic/taskwhisperer/releases/latest/download/taskwhisperer-extension.zip) and extract it to ***~/.local/share/gnome-shell/extensions/taskwhisperer-extension@infinicode.de/***.
+Maybe a restart of GNOME Shell is needed and/or enabling the extension.
+
+```
+mkdir -p ~/.local/share/gnome-shell/extensions/taskwhisperer-extension@infinicode.de/ && curl -L https://github.com/cinatic/taskwhisperer/releases/latest/download/taskwhisperer-extension.zip | bsdtar -xf - -C ~/.local/share/gnome-shell/extensions/taskwhisperer-extension@infinicode.de/
+```
 
 ### Requirements
 
