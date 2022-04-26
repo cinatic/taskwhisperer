@@ -56,13 +56,15 @@ $(LOCALE_DIR)/%/LC_MESSAGES:
 $(PO_DIR):
 	mkdir -p $@
 
-$(POT_FILE): $(PO_DIR) $(MO_DIR)
+$(POT_FILE): $(PO_DIR)
 	xgettext --from-code=UTF-8 --package-name "gnome-shell-extension-$(EXTENSION_NAME)" --msgid-bugs-address=$(AUTHOR_MAIL) -k_ -kN_ -o $(POT_FILE) $(TOLOCALIZE)
 
 $(PO_FILES): $(POT_FILE) $(PO_DIR)
 	msgmerge -m -U --backup=none $@ $<
 
 $(MO_FILES): $(PO_FILES) $(MO_DIR)
+
+$(LOCALE_DIR)/%/LC_MESSAGES/$(UUID).mo: $(PO_DIR)/%.po
 	msgfmt -c $< -o $@
 
 build: $(BUILD_DIR) $(COMPILED_SCHEMAS) $(MO_FILES)
