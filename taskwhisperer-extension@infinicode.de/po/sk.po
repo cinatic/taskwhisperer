@@ -1,0 +1,310 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Jose Riha <jose1711 gmail com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: fh@infinicode.de\n"
+"POT-Creation-Date: 2022-04-16 11:23+0200\n"
+"PO-Revision-Date: 2022-04-25 17:30+0200\n"
+"Last-Translator: Jose Riha <jose1711@gmail.com>\n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: taskwhisperer-extension@infinicode.de/extension.js:63
+msgid "taskwarrior"
+msgstr "taskwarrior"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:40
+#: taskwhisperer-extension@infinicode.de/settings.ui:46
+msgid "Enable Taskd Syncronization"
+msgstr "Povoliť synchronizáciu pomocou Taskd"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:49
+#: taskwhisperer-extension@infinicode.de/settings.ui:57
+msgid ""
+"Please make sure taskd is proper configured, otherwise you will get errors "
+"fetching data!"
+msgstr ""
+"Prosím, uistite sa, že taskd je korektne nastavený, inak budete pri "
+"získavaní údajov dostávať chyby!"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:62
+#: taskwhisperer-extension@infinicode.de/settings.ui:72
+msgid "Show Tasks w/ no due at end of list"
+msgstr "Zobraziť úlohy bez termínu na konci zoznamu"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:98
+#: taskwhisperer-extension@infinicode.de/settings.ui:100
+msgid "Taskwarrior"
+msgstr "Taskwarrior"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:123
+#: taskwhisperer-extension@infinicode.de/settings.ui:123
+msgid "Position in Panel"
+msgstr "Umiestnenie na paneli"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:135
+#: taskwhisperer-extension@infinicode.de/settings.ui:138
+msgid "Center"
+msgstr "V strede"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:136
+#: taskwhisperer-extension@infinicode.de/settings.ui:139
+msgid "Right"
+msgstr "Vpravo"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:137
+#: taskwhisperer-extension@infinicode.de/settings.ui:140
+msgid "Left"
+msgstr "Vľavo"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:150
+#: taskwhisperer-extension@infinicode.de/settings.ui:156
+msgid "Show TaskWarrior Icon in Panel"
+msgstr "Zobraziť ikonu TaskWarrior na paneli"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:171
+#: taskwhisperer-extension@infinicode.de/settings.ui:182
+msgid "Show additional text next to task amount in Panel"
+msgstr "Zobraziť ďalšie informácie vedľa počtu úloh na paneli"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:201
+#: taskwhisperer-extension@infinicode.de/settings.ui:211
+msgid "Layout"
+msgstr "Rozloženie"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:233
+#: taskwhisperer-extension@infinicode.de/settings.ui:263
+msgid "Version: "
+msgstr "Verzia: "
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:240
+#: taskwhisperer-extension@infinicode.de/settings.ui:277
+msgid "unknown (self-build ?)"
+msgstr "neznáma (vlastné zostavenie?)"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:249
+#: taskwhisperer-extension@infinicode.de/settings.ui:297
+msgid ""
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
+"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
+"upcoming tasks and task details as well as to create and modify them.</span>"
+msgstr ""
+"<span>Taskwhisperer je rozšírenie pre program TaskWarrior <a href=\"https://"
+"taskwarrior.org\">https://taskwarrior.org</a>. Zobrazuje aktuálne úlohy a "
+"podrobnosti o nich a rovnako vám umožňuje ich vytvárať a meniť.</span>"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:265
+#: taskwhisperer-extension@infinicode.de/settings.ui:320
+msgid "Maintained by"
+msgstr "Správca"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:289
+#: taskwhisperer-extension@infinicode.de/settings.ui:371
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/gpl\">GNU General Public "
+"License, version 3 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">Tento program je vadaný BEZ ABSOLÚTNEJ ZÁRUKY.\n"
+"Podrobnosti nájdete v <a href=\"https://www.gnu.org/licenses/gpl\">GNU "
+"General Public License, verzii 3 alebo novšej</a>.</span>"
+
+#: taskwhisperer-extension@infinicode.de/settings_40.ui:301
+#: taskwhisperer-extension@infinicode.de/settings.ui:392
+msgid "About"
+msgstr "O rozšírení"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:6
+msgid "back"
+msgstr "späť"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:7
+msgid "Filter Tasks"
+msgstr "Filtrovať úlohy"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:8
+msgid "Loading Data"
+msgstr "Načítanie údajov"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:9
+msgid "UNKNOWN"
+msgstr "NEZNÁME"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:10
+#, javascript-format
+msgid "%d Task"
+msgid_plural "%d Tasks"
+msgstr[0] "%d úloha"
+msgstr[1] "%d úlohy"
+msgstr[2] "%d úloh"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:11
+msgid "All"
+msgstr "Všetky"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:12
+msgid "Unassigned"
+msgstr "Nepriradené"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:14
+msgid "↕ Due"
+msgstr "↕ Termín"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:15
+msgid "↕ Urgency"
+msgstr "↕ Naliehavosť:"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:16
+msgid "Pending"
+msgstr "Nevybavené"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:17
+msgid "Completed"
+msgstr "Dokončené"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:19
+msgid "High"
+msgstr "Vysoká"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:20
+msgid "Medium"
+msgstr "Stredná"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:21
+msgid "Low"
+msgstr "Nízka"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:24
+msgid "Project"
+msgstr "Projekt"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:25
+msgid "Description"
+msgstr "Popis"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:26
+msgid "Due"
+msgstr "Termín"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:27
+msgid "Tags"
+msgstr "Značky"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:28
+msgid "Priority"
+msgstr "Priorita"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:29
+msgid "Additional"
+msgstr "Ďalšie"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:30
+msgid "Save Task"
+msgstr "Uložiť úlohu"
+
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:34
+msgid "%H:%M:%S %d.%m.%Y"
+msgstr "%H:%M:%S %d.%m.%Y"
+
+#~ msgid "Identifier:"
+#~ msgstr "Identifikátor:"
+
+#~ msgid "Status:"
+#~ msgstr "Stav:"
+
+#~ msgid "Annotations:"
+#~ msgstr "Komentáre:"
+
+#~ msgid "%H:%M %A %d. %b. %Y"
+#~ msgstr "%H:%M %A %d. %b. %Y"
+
+#~ msgid "Set Task Undone"
+#~ msgstr "Nastaviť úlohu ako nedokončenú"
+
+#~ msgid "Stop task"
+#~ msgstr "Zastaviť úlohu"
+
+#~ msgid "Start task"
+#~ msgstr "Začať úlohu"
+
+#~ msgid "Modify Task"
+#~ msgstr "Upraviť úlohu"
+
+#~ msgid ""
+#~ "No Tasks to show! \n"
+#~ "\n"
+#~ " Add some more tasks or change filter settings."
+#~ msgstr ""
+#~ "Neexistujú úlohy na zobrazenie!\n"
+#~ "\n"
+#~ "Pridajte zopár úloh alebo zmeňte nastavenia filtra."
+
+#~ msgid ""
+#~ "There was an error executing TaskWarrior: \n"
+#~ "\n"
+#~ msgstr ""
+#~ "Pri spúšťaní TaskWarrior nastala chyba:\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "You can find some troubleshoot information on TaskWhisperer Github page!"
+#~ msgstr ""
+#~ "Nejaké informácie týkajúce sa riešenia problémov nájdete na stránke "
+#~ "TaskWhisperera na Githube!"
+
+#~ msgid "TaskWhisperer Service Error"
+#~ msgstr "Chyba služby TaskWhisperer"
+
+#~ msgid "Error!"
+#~ msgstr "Chyba!"
+
+#~ msgid "…"
+#~ msgstr "…"
+
+#~ msgid "Sorry, that didn't work. Please try again."
+#~ msgstr "Ľutujem, toto neprešlo. Skúste to, prosím, znova."
+
+#~ msgid "The date format is used when creating taks and showing dates"
+#~ msgstr "Formát dátumu sa používa pri vytváraní a zobrazovaní dátumov"
+
+#~ msgid "Date & Time Format"
+#~ msgstr "Formát dátumu a času"
+
+#~ msgid "e.g. D.M.Y H:N (default is Y-M-D)"
+#~ msgstr "napríklad D.M.Y H:M (predvolené je Y-M-D)"
+
+#~ msgid "Use alternative Theme"
+#~ msgstr "Použiť alternatívny motív"
+
+#~ msgid "Modify:"
+#~ msgstr "Upraviť:"
+
+#~ msgid "Cancel"
+#~ msgstr "Zrušiť"
+
+#~ msgid "Modify"
+#~ msgstr "Upraviť"
+
+#~ msgid "A description is required to create a new task!"
+#~ msgstr "Na vytvorenie novej úlohy je potrebné zadať jej popis!"
+
+#~ msgid "Create New Task"
+#~ msgstr "Vytvoriť novú úlohu"
+
+#~ msgid "Enter Description"
+#~ msgstr "Zadajte popis"
+
+#~ msgid "Enter DueDate"
+#~ msgstr "Zadajte termín do"
+
+#~ msgid "Create"
+#~ msgstr "Vytvoriť"
