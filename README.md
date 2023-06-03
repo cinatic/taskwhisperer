@@ -5,8 +5,8 @@
 *gnome-shell-extension-taskwhisperer* is a simple extension for displaying pending tasks created by [TaskWarrior](https://taskwarrior.org/) in GNOME Shell.
 
 <p align="middle">
-    <img alt="projects" src="https://github.com/cinatic/taskwhisperer/raw/master/images/overview.png" width="350">
-    <img alt="commits" src="https://github.com/cinatic/taskwhisperer/raw/master/images/edit_task.png" width="350">
+    <img alt="projects" src="images/overview.png" width="350">
+    <img alt="commits" src="images/edit_task.png" width="350">
 </p>
 
 ----
