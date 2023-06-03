@@ -1,8 +1,6 @@
 const { GObject, St } = imports.gi
 
 const ExtensionUtils = imports.misc.extensionUtils
-const Util = imports.misc.util
-
 const Me = ExtensionUtils.getCurrentExtension()
 
 const { IconButton } = Me.imports.components.buttons.iconButton
@@ -108,7 +106,7 @@ var SearchBar = GObject.registerClass({
       icon_size: 18,
       onClick: () => {
         this._mainEventHandler.emit('hide-panel')
-        Util.spawn(['gnome-shell-extension-prefs', 'taskwhisperer-extension@infinicode.de'])
+        ExtensionUtils.openPrefs();
       }
     })
     buttonBox.add_child(settingsIconButton)
