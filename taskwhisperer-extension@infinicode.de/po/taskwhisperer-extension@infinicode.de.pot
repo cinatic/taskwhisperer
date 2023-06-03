@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-shell-extension-taskwhisperer-extension\n"
 "Report-Msgid-Bugs-To: fh@infinicode.de\n"
-"POT-Creation-Date: 2022-04-26 11:47+0200\n"
+"POT-Creation-Date: 2023-06-03 22:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,9 +92,10 @@ msgstr ""
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:249
 #: taskwhisperer-extension@infinicode.de/settings.ui:297
 msgid ""
-"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
-"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
-"upcoming tasks and task details as well as to create and modify them.</span>"
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a "
+"href=\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to "
+"display upcoming tasks and task details as well as to create and modify them."
+"</span>"
 msgstr ""
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:265
