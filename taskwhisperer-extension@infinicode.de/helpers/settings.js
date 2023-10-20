@@ -1,18 +1,18 @@
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
-var POSITION_IN_PANEL_KEY = 'position-in-panel'
-var TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync'
-var TASKWHISPERER_SHOW_NO_DATES_AT_END = 'show-no-dates-at-end'
-var TASKWHISPERER_SHOW_PANEL_ICON = 'show-taskwarrior-icon'
-var TASKWHISPERER_SHOW_TEXT_IN_PANEL = 'show-task-text-in-panel'
-var TASKWHISPERER_TASK_ORDER = 'task-order'
-var TASKWHISPERER_TASK_STATUS = 'task-status'
-var TASKWHISPERER_PROJECT = 'project'
+export const POSITION_IN_PANEL_KEY = 'position-in-panel'
+export const TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync'
+export const TASKWHISPERER_SHOW_NO_DATES_AT_END = 'show-no-dates-at-end'
+export const TASKWHISPERER_SHOW_PANEL_ICON = 'show-taskwarrior-icon'
+export const TASKWHISPERER_SHOW_TEXT_IN_PANEL = 'show-task-text-in-panel'
+export const TASKWHISPERER_TASK_ORDER = 'task-order'
+export const TASKWHISPERER_TASK_STATUS = 'task-status'
+export const TASKWHISPERER_PROJECT = 'project'
 
-var SettingsHandler = class SettingsHandler {
+export const SettingsHandler = class SettingsHandler {
   constructor () {
-    this._settings = ExtensionUtils.getSettings()
+    this._extensionObject = Extension.lookupByURL(import.meta.url)
+    this._settings = this._extensionObject.getSettings()
   }
 
   get position_in_panel () {

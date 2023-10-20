@@ -1,10 +1,10 @@
-const { GObject, St, Clutter } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
+import St from 'gi://St'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
-const ComponentsHelper = Me.imports.helpers.components
+import * as ComponentsHelper from '../../helpers/components.js'
 
-var IconButton = GObject.registerClass({
+export const IconButton = GObject.registerClass({
   GTypeName: 'TaskWhisperer_IconButton'
 }, class IconButton extends St.Button {
   _init ({ icon_name, isCustomIcon, onClick, icon_size = 18, text, style_class, asButton, ...props }

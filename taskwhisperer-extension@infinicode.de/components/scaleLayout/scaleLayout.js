@@ -1,6 +1,7 @@
-const { Clutter, GObject } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
 
-var ScaleLayout = GObject.registerClass({
+export const ScaleLayout = GObject.registerClass({
       GTypeName: 'TaskWhisperer_ScaleLayout'
     }, class ScaleLayout extends Clutter.BinLayout {
       _init (params) {

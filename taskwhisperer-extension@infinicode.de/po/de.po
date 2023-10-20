@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: fh@infinicode.de\n"
-"POT-Creation-Date: 2022-04-16 11:21+0200\n"
+"POT-Creation-Date: 2023-10-20 17:43+0200\n"
 "PO-Revision-Date: 2016-04-16 23:40+0200\n"
 "Last-Translator: Florijan Hamzic <florijanh@gmail.com>\n"
 "Language-Team: German\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: taskwhisperer-extension@infinicode.de/extension.js:63
+#: taskwhisperer-extension@infinicode.de/extension.js:60
 msgid "taskwarrior"
 msgstr ""
 
@@ -90,13 +90,15 @@ msgstr ""
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:249
 #: taskwhisperer-extension@infinicode.de/settings.ui:297
 msgid ""
-"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
-"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
-"upcoming tasks and task details as well as to create and modify them.</span>"
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a "
+"href=\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to "
+"display upcoming tasks and task details as well as to create and modify them."
+"</span>"
 msgstr ""
-"<span>Taskwhisperer is a extension for TaskWarrior Application <a href="
-"\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to display "
-"upcoming tasks and task details as well as to create and modify them.</span>"
+"<span>Taskwhisperer is a extension for TaskWarrior Application <a "
+"href=\"https://taskwarrior.org\">https://taskwarrior.org</a>. It is to "
+"display upcoming tasks and task details as well as to create and modify them."
+"</span>"
 
 #: taskwhisperer-extension@infinicode.de/settings_40.ui:265
 #: taskwhisperer-extension@infinicode.de/settings.ui:320
@@ -119,102 +121,100 @@ msgstr ""
 msgid "About"
 msgstr "Über"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:6
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:2
 msgid "back"
 msgstr "zurück"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:7
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:3
 msgid "Filter Tasks"
 msgstr "Aufgaben Filtern"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:8
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:4
 msgid "Loading Data"
 msgstr "Lade Daten"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:9
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:5
 msgid "UNKNOWN"
 msgstr ""
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:10
-#, javascript-format
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:6
+#, fuzzy, javascript-format
 msgid "%d Task"
-msgid_plural "%d Tasks"
-msgstr[0] "%d Aufgabe"
-msgstr[1] "%d Aufgaben"
+msgstr "%d Aufgabe"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:11
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:7
 msgid "All"
 msgstr "Alle"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:12
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:8
 msgid "Unassigned"
 msgstr "Projektlos"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:14
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:10
 msgid "↕ Due"
 msgstr "↕ Fälligkeit"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:15
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:11
 #, fuzzy
 msgid "↕ Urgency"
 msgstr "↕ Dringlichkeit"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:16
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:12
 msgid "Pending"
 msgstr "Laufende"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:17
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:13
 msgid "Completed"
 msgstr "Erledigte"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:19
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:15
 msgid "High"
 msgstr "Hoch"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:20
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:16
 msgid "Medium"
 msgstr "Mittel"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:21
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:17
 msgid "Low"
 msgstr "Niedrig"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:24
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:20
 #, fuzzy
 msgid "Project"
 msgstr "Projekt"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:25
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:21
 #, fuzzy
 msgid "Description"
 msgstr "Beschreibung"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:26
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:22
 #, fuzzy
 msgid "Due"
 msgstr "Fälligkeit"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:27
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:23
 #, fuzzy
 msgid "Tags"
 msgstr "Tags"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:28
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:24
 #, fuzzy
 msgid "Priority"
 msgstr "Priorität"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:29
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:25
 #, fuzzy
 msgid "Additional"
 msgstr "Weitere Parameter"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:30
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:26
 #, fuzzy
 msgid "Save Task"
 msgstr "Aufgabe speichern"
 
-#: taskwhisperer-extension@infinicode.de/helpers/translations.js:34
+#: taskwhisperer-extension@infinicode.de/helpers/translations.js:30
 msgid "%H:%M:%S %d.%m.%Y"
 msgstr ""
 

@@ -1,11 +1,10 @@
-const { GObject, St } = imports.gi
+import GObject from 'gi://GObject'
+import St from 'gi://St'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
-const { TaskOverviewScreen } = Me.imports.components.screens.taskOverviewScreen.taskOverviewScreen
-const { EditTaskScreen } = Me.imports.components.screens.editTaskScreen.editTaskScreen
+import { TaskOverviewScreen } from '../screens/taskOverviewScreen/taskOverviewScreen.js'
+import { EditTaskScreen } from '../screens/editTaskScreen/editTaskScreen.js'
 
-var ScreenWrapper = GObject.registerClass({
+export const ScreenWrapper = GObject.registerClass({
       GTypeName: 'TaskWhisperer_ScreenWrapper'
     },
     class ScreenWrapper extends St.Widget {

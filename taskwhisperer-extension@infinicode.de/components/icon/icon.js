@@ -1,11 +1,9 @@
-const { GObject, St } = imports.gi
+import GObject from 'gi://GObject'
+import St from 'gi://St'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import * as ComponentsHelper from '../../helpers/components.js'
 
-const ComponentsHelper = Me.imports.helpers.components
-
-var Icon = GObject.registerClass({
+export const Icon = GObject.registerClass({
   GTypeName: 'TaskWhisperer_Icon'
 }, class Icon extends St.Icon {
   _init ({ icon_name, isCustomIcon, ...props }) {

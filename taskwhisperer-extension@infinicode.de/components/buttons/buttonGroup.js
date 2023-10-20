@@ -1,6 +1,11 @@
-const { GObject, St, Clutter, Gtk, Pango } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
+import St from 'gi://St'
+import Gtk from 'gi://Gtk'
+import Pango from 'gi://Pango'
 
-var ButtonGroup = GObject.registerClass({
+
+export const ButtonGroup = GObject.registerClass({
   GTypeName: 'TaskWhisperer_ButtonGroup',
   Signals: {
     'clicked': {

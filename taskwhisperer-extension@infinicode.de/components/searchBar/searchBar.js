@@ -1,12 +1,13 @@
-const { GObject, St } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
+import St from 'gi://St'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
-const { IconButton } = Me.imports.components.buttons.iconButton
-const { Translations } = Me.imports.helpers.translations
+import { IconButton } from '../buttons/iconButton.js'
+import { Translations } from '../../helpers/translations.js'
 
-var SearchBar = GObject.registerClass({
+export const SearchBar = GObject.registerClass({
   GTypeName: 'TaskWhisperer_SearchBar',
   Signals: {
     'text-change': {
@@ -83,7 +84,7 @@ var SearchBar = GObject.registerClass({
   _createButtonBox () {
     let buttonBox = new St.BoxLayout({
       style_class: 'button-box',
-      x_align: St.Align.END
+      x_align: Clutter.ActorAlign.END
     })
 
     if (this.additionalIcons) {
@@ -106,7 +107,9 @@ var SearchBar = GObject.registerClass({
       icon_size: 18,
       onClick: () => {
         this._mainEventHandler.emit('hide-panel')
-        ExtensionUtils.openPrefs();
+        const extensionObject = Extension.lookupByURL(import.meta.url);
+        this._mainEventHandler.emit('hide-panel')
+        extensionObject.openPreferences();
       }
     })
     buttonBox.add_child(settingsIconButton)

@@ -1,14 +1,15 @@
-const { Clutter, GObject, Graphene, St, Gtk } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
+import St from 'gi://St'
+import Gtk from 'gi://Gtk'
+import Graphene from 'gi://Graphene'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { ScaleLayout } from '../scaleLayout/scaleLayout.js'
+import { Translations } from '../../helpers/translations.js'
 
-const { ScaleLayout } = Me.imports.components.scaleLayout.scaleLayout
-const { Translations } = Me.imports.helpers.translations
+export const MESSAGE_ANIMATION_TIME = 100
 
-var MESSAGE_ANIMATION_TIME = 100
-
-var FlatList = GObject.registerClass({
+export const FlatList = GObject.registerClass({
   GTypeName: 'TaskWhisperer_FlatList',
   Signals: {
     'clicked-item': {

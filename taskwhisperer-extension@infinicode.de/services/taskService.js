@@ -25,17 +25,14 @@
  *
  */
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { showNotification } from '../helpers/components.js'
+import { run } from '../helpers/subprocess.js'
+import { SettingsHandler } from '../helpers/settings.js'
 
-const { showNotification } = Me.imports.helpers.components
-const { run } = Me.imports.helpers.subprocess
+import { Task } from './dto/task.js'
+import { TaskStatus, TaskOrder } from './meta/taskWarrior.js'
 
-const { Task } = Me.imports.services.dto.task
-const { TaskStatus, TaskOrder } = Me.imports.services.meta.taskWarrior
-const { SettingsHandler } = Me.imports.helpers.settings
-
-var loadTaskData = async ({ taskStatus, project, taskOrder }) => {
+export const loadTaskData = async ({ taskStatus, project, taskOrder }) => {
   let statusFilter = 'status:Pending'
   let projectFilter = ''
 
@@ -95,7 +92,7 @@ var loadTaskData = async ({ taskStatus, project, taskOrder }) => {
   return { tasks, error }
 }
 
-var loadProjectsData = async taskStatus => {
+export const loadProjectsData = async taskStatus => {
   let statusFilter = 'status:Pending'
 
   switch (taskStatus) {
@@ -124,7 +121,7 @@ var loadProjectsData = async taskStatus => {
   return sortedUniqueProjects
 }
 
-var setTaskDone = async taskID => {
+export const setTaskDone = async taskID => {
   if (!taskID) {
     return
   }
@@ -141,7 +138,7 @@ var setTaskDone = async taskID => {
   return result
 }
 
-var setTaskUndone = async taskUUID => {
+export const setTaskUndone = async taskUUID => {
   if (!taskUUID) {
     return
   }
@@ -158,7 +155,7 @@ var setTaskUndone = async taskUUID => {
   return result
 }
 
-var startTask = async taskID => {
+export const startTask = async taskID => {
   if (!taskID) {
     return
   }
@@ -175,7 +172,7 @@ var startTask = async taskID => {
   return result
 }
 
-var stopTask = async taskID => {
+export const stopTask = async taskID => {
   if (!taskID) {
     return
   }
@@ -192,7 +189,7 @@ var stopTask = async taskID => {
   return result
 }
 
-var createTask = async task => {
+export const createTask = async task => {
   const params = _convertTaskToParams(task)
 
   const command = ['task', 'add', ...params].join(' ')
@@ -205,7 +202,7 @@ var createTask = async task => {
   return result
 }
 
-var modifyTask = async (taskUUID, task) => {
+export const modifyTask = async (taskUUID, task) => {
   if (!taskUUID) {
     return
   }
@@ -222,7 +219,7 @@ var modifyTask = async (taskUUID, task) => {
   return result
 }
 
-var syncTasks = async () => {
+export const syncTasks = async () => {
   const settings = new SettingsHandler()
   if (!settings.enable_taskd_sync) {
     return

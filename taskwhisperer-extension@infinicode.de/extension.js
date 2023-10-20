@@ -23,21 +23,18 @@
  *
  */
 
-const { Clutter, GObject, St } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
+import St from 'gi://St'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import * as Main from 'resource:///org/gnome/shell/ui/main.js'
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
+import { Extension, gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js'
 
-const { MenuItem } = Me.imports.components.panel.menuItem
-const { ScreenWrapper } = Me.imports.components.screenWrapper.screenWrapper
-const { EventHandler } = Me.imports.helpers.eventHandler
-const { SettingsHandler } = Me.imports.helpers.settings
-
-const Gettext = imports.gettext
-const _ = Gettext.gettext
-
-const Main = imports.ui.main
-const PanelMenu = imports.ui.panelMenu
+import { MenuItem } from './components/panel/menuItem.js'
+import { ScreenWrapper } from './components/screenWrapper/screenWrapper.js'
+import { EventHandler } from './helpers/eventHandler.js'
+import { SettingsHandler } from './helpers/settings.js'
 
 const MenuPosition = {
   CENTER: 0,
@@ -125,21 +122,19 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
   }
 })
 
-var taskWhispererMenu
+let _taskWhispererMenu = null
 
-function init (extensionMeta) {
-  ExtensionUtils.initTranslations()
-}
+export default class KubectlExtension extends Extension {
+  enable () {
+    _taskWhispererMenu = new TaskWhispererMenuButton()
+    Main.panel.addToStatusArea('taskWhispererMenu', _taskWhispererMenu)
+    _taskWhispererMenu.checkPositionInPanel()
+  }
 
-function enable () {
-  taskWhispererMenu = new TaskWhispererMenuButton()
-  Main.panel.addToStatusArea('taskWhispererMenu', taskWhispererMenu)
-  taskWhispererMenu.checkPositionInPanel()
-}
-
-function disable () {
-  if (taskWhispererMenu) {
-    taskWhispererMenu.destroy()
-    taskWhispererMenu = null
+  disable () {
+    if (_taskWhispererMenu) {
+      _taskWhispererMenu.destroy()
+      _taskWhispererMenu = null
+    }
   }
 }

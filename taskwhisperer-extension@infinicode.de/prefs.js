@@ -1,24 +1,25 @@
-const { Gtk, Gio, GObject } = imports.gi
+import Gio from 'gi://Gio'
+import GObject from 'gi://GObject'
+import Gtk from 'gi://Gtk'
 
-const Config = imports.misc.config
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import * as Config from 'resource:///org/gnome/Shell/Extensions/js/misc/config.js'
 
-const EXTENSIONDIR = Me.dir.get_path()
-
-var PrefsWidget = GObject.registerClass({
+export const PrefsWidget = GObject.registerClass({
   GTypeName: 'TaskWhispererExtensionPrefsWidget'
 }, class Widget extends Gtk.Box {
 
-  _init (params = {}) {
-    super._init(Object.assign(params, {
+  _init (settings, path) {
+    super._init(Object.assign({}, {
       orientation: Gtk.Orientation.VERTICAL,
       spacing: 0
     }))
 
+    this.Settings = settings
+    this.Path = path
+
     this.Window = new Gtk.Builder()
 
-    this.loadConfig()
     this.initWindow()
 
     if (isGnome4()) {
@@ -29,10 +30,10 @@ var PrefsWidget = GObject.registerClass({
   }
 
   initWindow () {
-    let uiFile = EXTENSIONDIR + '/settings.ui'
+    let uiFile = this.Path + '/settings.ui'
 
     if (isGnome4()) {
-      uiFile = EXTENSIONDIR + '/settings_40.ui'
+      uiFile = this.Path + '/settings_40.ui'
     }
 
     this.Window.add_from_file(uiFile)
@@ -55,8 +56,8 @@ var PrefsWidget = GObject.registerClass({
       }
     })
 
-    if (Me.metadata.version !== undefined) {
-      this.Window.get_object('version').set_label(Me.metadata.version.toString())
+    if (Config.PACKAGE_VERSION) {
+      this.Window.get_object('version').set_label(Config.PACKAGE_VERSION.toString())
     }
   }
 
@@ -66,10 +67,6 @@ var PrefsWidget = GObject.registerClass({
 
   initSwitch (gtkWidget, identifier) {
     this.Settings.bind(identifier, gtkWidget, 'active', Gio.SettingsBindFlags.DEFAULT)
-  }
-
-  loadConfig () {
-    this.Settings = ExtensionUtils.getSettings()
   }
 })
 
@@ -95,17 +92,14 @@ const getWidgetType = gtkWidget => {
   }
 }
 
-const isGnome4 = () => Config.PACKAGE_VERSION.startsWith('4')
+const isGnome4 = () => true
 
-// this is called when settings has been opened
-var init = () => {
-  ExtensionUtils.initTranslations()
-}
+export default class TaskWhispererExtensionPreferences extends ExtensionPreferences {
+  getPreferencesWidget () {
+    const widget = new PrefsWidget(this.getSettings(), this.path)
 
-function buildPrefsWidget () {
-  const widget = new PrefsWidget()
-
-  widget.show()
-
-  return widget
+    widget.Settings = this.getSettings()
+    widget.show()
+    return widget
+  }
 }

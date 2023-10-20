@@ -1,13 +1,11 @@
-const { Gio, GLib } = imports.gi
+import GLib from 'gi://GLib'
+import Gio from 'gi://Gio'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
-
-const { clearTimeout, setTimeout } = Me.imports.helpers.components
-const { tryJsonParse } = Me.imports.helpers.data
+import { clearTimeout, setTimeout } from '../helpers/components.js'
+import { tryJsonParse } from '../helpers/data.js'
 
 // partially copied from https://wiki.gnome.org/AndyHolmes/Sandbox/SpawningProcesses
-var run = async ({ command, asJson = true, input = null, timeout = 10 }) => {
+export const run = async ({ command, asJson = true, input = null, timeout = 10 }) => {
   try {
     const [ok, argv] = GLib.shell_parse_argv(command)
 
