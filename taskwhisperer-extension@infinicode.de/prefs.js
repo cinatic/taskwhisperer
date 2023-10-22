@@ -4,6 +4,7 @@ import Gtk from 'gi://Gtk'
 
 import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import * as Config from 'resource:///org/gnome/Shell/Extensions/js/misc/config.js'
+import { initSettings } from './helpers/settings.js'
 
 export const PrefsWidget = GObject.registerClass({
   GTypeName: 'TaskWhispererExtensionPrefsWidget'
@@ -96,6 +97,8 @@ const isGnome4 = () => true
 
 export default class TaskWhispererExtensionPreferences extends ExtensionPreferences {
   getPreferencesWidget () {
+    initSettings(this)
+
     const widget = new PrefsWidget(this.getSettings(), this.path)
 
     widget.Settings = this.getSettings()

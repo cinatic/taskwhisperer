@@ -27,14 +27,15 @@ import Clutter from 'gi://Clutter'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
 
+import { Extension, gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
-import { Extension, gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js'
 
 import { MenuItem } from './components/panel/menuItem.js'
 import { ScreenWrapper } from './components/screenWrapper/screenWrapper.js'
 import { EventHandler } from './helpers/eventHandler.js'
-import { SettingsHandler } from './helpers/settings.js'
+import { initSettings, SettingsHandler } from './helpers/settings.js'
+import { CLEANUP_PROCEDURES as SUBPROCESS_CLEANUP_PROCEDURES } from './helpers/subprocess.js'
 
 const MenuPosition = {
   CENTER: 0,
@@ -126,6 +127,8 @@ let _taskWhispererMenu = null
 
 export default class KubectlExtension extends Extension {
   enable () {
+    initSettings(this)
+
     _taskWhispererMenu = new TaskWhispererMenuButton()
     Main.panel.addToStatusArea('taskWhispererMenu', _taskWhispererMenu)
     _taskWhispererMenu.checkPositionInPanel()
@@ -133,8 +136,22 @@ export default class KubectlExtension extends Extension {
 
   disable () {
     if (_taskWhispererMenu) {
+      this.cleanUp()
       _taskWhispererMenu.destroy()
       _taskWhispererMenu = null
     }
+  }
+
+  cleanUp () {
+    [SUBPROCESS_CLEANUP_PROCEDURES].forEach(procedureMap => {
+      Object.keys(procedureMap).forEach(timeoutId => {
+        try {
+          clearTimeout(timeoutId)
+          procedureMap[timeoutId].call()
+        } catch (e) {
+
+        }
+      })
+    })
   }
 }

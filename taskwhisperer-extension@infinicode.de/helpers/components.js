@@ -2,7 +2,7 @@ import Gio from 'gi://Gio'
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js'
-import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { SettingsHandler } from './settings.js'
 
 const iconCache = {}
 
@@ -11,9 +11,9 @@ export const getCustomIconPath = iconName => {
     return iconCache[iconName]
   }
 
-  const extensionObject = Extension.lookupByURL(import.meta.url);
+  const settings = new SettingsHandler()
 
-  const newIcon = Gio.icon_new_for_string(extensionObject.dir.get_child('icons').get_path() + '/' + iconName + '.svg')
+  const newIcon = Gio.icon_new_for_string(settings.extensionObject.path + '/icons/' + iconName + '.svg')
   iconCache[iconName] = newIcon
 
   return newIcon

@@ -1,19 +1,17 @@
 import Clutter from 'gi://Clutter'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
-
-const Mainloop = imports.mainloop
-
-import { ButtonGroup } from '../../buttons/buttonGroup.js'
-import { IconButton } from '../../buttons/iconButton.js'
-import { FlatList } from '../../flatList/flatList.js'
-import { TaskCard } from '../../cards/taskCard.js'
-import { SearchBar } from '../../searchBar/searchBar.js'
 import { clearCache } from '../../../helpers/data.js'
 import { SettingsHandler, TASKWHISPERER_PROJECT, TASKWHISPERER_TASK_ORDER, TASKWHISPERER_TASK_STATUS } from '../../../helpers/settings.js'
 import { Translations } from '../../../helpers/translations.js'
 import { TaskOrder, TaskStatus } from '../../../services/meta/taskWarrior.js'
 import { loadProjectsData, loadTaskData } from '../../../services/taskService.js'
+
+import { ButtonGroup } from '../../buttons/buttonGroup.js'
+import { IconButton } from '../../buttons/iconButton.js'
+import { TaskCard } from '../../cards/taskCard.js'
+import { FlatList } from '../../flatList/flatList.js'
+import { SearchBar } from '../../searchBar/searchBar.js'
 
 const SETTING_KEYS_TO_REFRESH = [
   TASKWHISPERER_PROJECT,
@@ -103,14 +101,12 @@ export const TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewSc
 
   _registerTimeout () {
     if (this._autoRefreshTimeoutId) {
-      Mainloop.source_remove(this._autoRefreshTimeoutId)
+      clearInterval(this._autoRefreshTimeoutId)
     }
 
-    this._autoRefreshTimeoutId = Mainloop.timeout_add_seconds(this._settings.ticker_interval || 30, () => {
+    this._autoRefreshTimeoutId = setInterval(() => {
       this._loadData()
-
-      return true
-    })
+    }, (this._settings.ticker_interval || 30) * 1000)
   }
 
   async _loadData () {
@@ -270,7 +266,7 @@ export const TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewSc
 
   _onDestroy () {
     if (this._autoRefreshTimeoutId) {
-      Mainloop.source_remove(this._autoRefreshTimeoutId)
+      clearInterval(this._autoRefreshTimeoutId)
     }
 
     if (this._settingsChangedId) {
