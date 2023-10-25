@@ -1,13 +1,12 @@
-const { Gio, GLib } = imports.gi
+import GLib from 'gi://GLib'
+import Gio from 'gi://Gio'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { tryJsonParse } from './data.js'
 
-const { clearTimeout, setTimeout } = Me.imports.helpers.components
-const { tryJsonParse } = Me.imports.helpers.data
+export const CLEANUP_PROCEDURES = {}
 
 // partially copied from https://wiki.gnome.org/AndyHolmes/Sandbox/SpawningProcesses
-var run = async ({ command, asJson = true, input = null, timeout = 10 }) => {
+export const run = async ({ command, asJson = true, input = null, timeout = 10 }) => {
   try {
     const [ok, argv] = GLib.shell_parse_argv(command)
 
@@ -31,6 +30,7 @@ var run = async ({ command, asJson = true, input = null, timeout = 10 }) => {
     proc.init(cancellable)
 
     const cancelTimeOutId = setTimeout(() => cancellable.cancel(), timeout * 1000)
+    CLEANUP_PROCEDURES[cancelTimeOutId] = () => cancellable.cancel()
 
     const result = await new Promise((resolve, reject) => {
       proc.communicate_utf8_async(input, cancellable, (proc, res) => {
@@ -47,11 +47,13 @@ var run = async ({ command, asJson = true, input = null, timeout = 10 }) => {
             resolve({ error: stderr || stdout })
           }
 
-          clearTimeout(cancelTimeOutId)
           resolve({ output: stdout })
         } catch (e) {
           logError(e)
           reject(e)
+        } finally {
+          clearTimeout(cancelTimeOutId)
+          delete CLEANUP_PROCEDURES[cancelTimeOutId]
         }
       })
     })

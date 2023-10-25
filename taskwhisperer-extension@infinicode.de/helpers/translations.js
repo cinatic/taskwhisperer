@@ -1,13 +1,9 @@
-const Gettext = imports.gettext
-const _ = Gettext.gettext
-const ngettext = Gettext.ngettext
-
-var Translations = {
+export const Translations = {
   BACK: _('back'),
   FILTER_PLACEHOLDER: _('Filter Tasks'),
   LOADING_DATA: _('Loading Data'),
   UNKNOWN: _('UNKNOWN'),
-  PANEL_TASK_INFO: amount => ngettext('%d Task', '%d Tasks', amount).format(amount),
+  PANEL_TASK_INFO: amount => N_('%d Task', '%d Tasks', amount).format(amount),
   ALL_PROJECT: _('All'),
   UNASSIGNED_PROJECT: _('Unassigned'),
   TASKS: {

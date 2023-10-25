@@ -1,21 +1,17 @@
-const { Clutter, GObject, St } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
+import St from 'gi://St'
+import { clearCache } from '../../../helpers/data.js'
+import { SettingsHandler, TASKWHISPERER_PROJECT, TASKWHISPERER_TASK_ORDER, TASKWHISPERER_TASK_STATUS } from '../../../helpers/settings.js'
+import { Translations } from '../../../helpers/translations.js'
+import { TaskOrder, TaskStatus } from '../../../services/meta/taskWarrior.js'
+import { loadProjectsData, loadTaskData } from '../../../services/taskService.js'
 
-const Mainloop = imports.mainloop
-
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
-
-const { ButtonGroup } = Me.imports.components.buttons.buttonGroup
-const { IconButton } = Me.imports.components.buttons.iconButton
-const { FlatList } = Me.imports.components.flatList.flatList
-const { TaskCard } = Me.imports.components.cards.taskCard
-const { SearchBar } = Me.imports.components.searchBar.searchBar
-const { setTimeout, clearTimeout } = Me.imports.helpers.components
-const { clearCache } = Me.imports.helpers.data
-const { SettingsHandler, TASKWHISPERER_PROJECT, TASKWHISPERER_TASK_ORDER, TASKWHISPERER_TASK_STATUS } = Me.imports.helpers.settings
-const { Translations } = Me.imports.helpers.translations
-const { TaskOrder, TaskStatus } = Me.imports.services.meta.taskWarrior
-const { loadProjectsData, loadTaskData } = Me.imports.services.taskService
+import { ButtonGroup } from '../../buttons/buttonGroup.js'
+import { IconButton } from '../../buttons/iconButton.js'
+import { TaskCard } from '../../cards/taskCard.js'
+import { FlatList } from '../../flatList/flatList.js'
+import { SearchBar } from '../../searchBar/searchBar.js'
 
 const SETTING_KEYS_TO_REFRESH = [
   TASKWHISPERER_PROJECT,
@@ -23,7 +19,7 @@ const SETTING_KEYS_TO_REFRESH = [
   TASKWHISPERER_TASK_STATUS
 ]
 
-var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen extends St.BoxLayout {
+export const TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen extends St.BoxLayout {
   _init (mainEventHandler) {
     super._init({
       style_class: 'screen task-overview-screen',
@@ -105,14 +101,12 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
 
   _registerTimeout () {
     if (this._autoRefreshTimeoutId) {
-      Mainloop.source_remove(this._autoRefreshTimeoutId)
+      clearInterval(this._autoRefreshTimeoutId)
     }
 
-    this._autoRefreshTimeoutId = Mainloop.timeout_add_seconds(this._settings.ticker_interval || 30, () => {
+    this._autoRefreshTimeoutId = setInterval(() => {
       this._loadData()
-
-      return true
-    })
+    }, (this._settings.ticker_interval || 30) * 1000)
   }
 
   async _loadData () {
@@ -272,7 +266,7 @@ var TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewScreen exte
 
   _onDestroy () {
     if (this._autoRefreshTimeoutId) {
-      Mainloop.source_remove(this._autoRefreshTimeoutId)
+      clearInterval(this._autoRefreshTimeoutId)
     }
 
     if (this._settingsChangedId) {

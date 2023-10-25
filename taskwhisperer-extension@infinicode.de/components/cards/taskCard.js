@@ -1,14 +1,13 @@
-const { Clutter, GObject, St } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
+import St from 'gi://St'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { isNullOrEmpty } from '../../helpers/data.js'
+import { IconButton } from '../buttons/iconButton.js'
+import { TaskPriority } from '../../services/meta/taskWarrior.js'
+import { setTaskDone, setTaskUndone, startTask, stopTask } from '../../services/taskService.js'
 
-const { isNullOrEmpty } = Me.imports.helpers.data
-const { IconButton } = Me.imports.components.buttons.iconButton
-const { TaskPriority } = Me.imports.services.meta.taskWarrior
-const { setTaskDone, setTaskUndone, startTask, stopTask } = Me.imports.services.taskService
-
-var TaskCard = GObject.registerClass({
+export const TaskCard = GObject.registerClass({
   GTypeName: 'TaskWhisperer_TaskCard'
 }, class TaskCard extends St.Button {
   _init (quoteSummary, mainEventHandler) {
@@ -38,7 +37,7 @@ var TaskCard = GObject.registerClass({
     const cardContentBox = new St.BoxLayout({
       style_class: 'content-box',
       x_expand: true,
-      y_align: St.Align.MIDDLE
+      y_align: Clutter.ActorAlign.CENTER
     })
 
     const statusIconBin = this._createStatusIconBin()

@@ -1,12 +1,9 @@
-const Shell = imports.gi.Shell
+import Shell from 'gi://Shell'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { getBestTimeAbbreviation, isoToDate } from '../../helpers/data.js'
+import { TaskProperties } from '../meta/taskWarrior.js'
 
-const { getBestTimeAbbreviation, isoToDate } = Me.imports.helpers.data
-const { TaskProperties } = Me.imports.services.meta.taskWarrior
-
-var Task = class Task {
+export const Task = class Task {
   get AnnotationsAsString () {
     const dateFormat = Shell.util_translate_time_string(N_('%H:%M:%S %d. %b. %Y'))
 

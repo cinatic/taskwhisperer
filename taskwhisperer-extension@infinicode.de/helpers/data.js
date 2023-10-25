@@ -1,5 +1,4 @@
-const ByteArray = imports.byteArray;
-const { GLib } = imports.gi
+import GLib from 'gi://GLib'
 
 const _MS_PER_MINUTE = 1000 * 60;
 const _MS_PER_HOUR = 1000 * 60 * 60;
@@ -8,15 +7,16 @@ const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 let CACHE = {}
 const CACHE_TIME = 10 * 1000
 
-var isNullOrUndefined = value => typeof value === 'undefined' || value === null
-var isNullOrEmpty = value => isNullOrUndefined(value) || value.length === 0
-var fallbackIfNaN = (value, fallback = '--') => typeof value === 'undefined' || value === null || isNaN(value) ? fallback : value
+export const isNullOrUndefined = value => typeof value === 'undefined' || value === null
+export const isNullOrEmpty = value => isNullOrUndefined(value) || value.length === 0
+export const fallbackIfNaN = (value, fallback = '--') => typeof value === 'undefined' || value === null || isNaN(value) ? fallback : value
 
-var closest = (array, target) => array.reduce((prev, curr) => Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev)
+export const closest = (array, target) => array.reduce((prev, curr) => Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev)
 
-var decodeBase64JsonOrDefault = (encodedJson, defaultValue) => {
+export const decodeBase64JsonOrDefault = (encodedJson, defaultValue) => {
   try {
-    const value = JSON.parse(ByteArray.toString(GLib.base64_decode(encodedJson)))
+    const utf8decoder = new TextDecoder();
+    const value = JSON.parse(utf8decoder.decode(GLib.base64_decode(encodedJson)))
 
     if (!value) {
       return defaultValue
@@ -29,7 +29,7 @@ var decodeBase64JsonOrDefault = (encodedJson, defaultValue) => {
   }
 }
 
-var tryJsonParse = (rawJson, defaultValue) => {
+export const tryJsonParse = (rawJson, defaultValue) => {
   try {
     const value = JSON.parse(rawJson)
 
@@ -44,11 +44,11 @@ var tryJsonParse = (rawJson, defaultValue) => {
   }
 }
 
-var clearCache = () => {
+export const clearCache = () => {
   CACHE = {}
 }
 
-var cacheOrDefault = async (cacheKey, evaluator, cacheDuration = CACHE_TIME) => {
+export const cacheOrDefault = async (cacheKey, evaluator, cacheDuration = CACHE_TIME) => {
   const [timestamp, data] = CACHE[cacheKey] || []
 
   if (timestamp && data && timestamp + cacheDuration >= Date.now()) {
@@ -62,9 +62,9 @@ var cacheOrDefault = async (cacheKey, evaluator, cacheDuration = CACHE_TIME) => 
   return freshData
 }
 
-var roundOrDefault = (number, defaultValue = '--') => isNullOrUndefined(number) ? defaultValue : (Math.round((number + Number.EPSILON) * 100) / 100).toFixed(2)
+export const roundOrDefault = (number, defaultValue = '--') => isNullOrUndefined(number) ? defaultValue : (Math.round((number + Number.EPSILON) * 100) / 100).toFixed(2)
 
-var isoToDate = input => {
+export const isoToDate = input => {
   if (!input) {
     return
   }
@@ -75,7 +75,7 @@ var isoToDate = input => {
   return isNaN(a) ? null : new Date(a)
 }
 
-var getBestTimeAbbreviation = (a, b) => {
+export const getBestTimeAbbreviation = (a, b) => {
   if (!a || !b) {
     return
   }

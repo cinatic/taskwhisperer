@@ -1,20 +1,20 @@
-var TaskOrder = {
+export const TaskOrder = {
   DUE: 0,
   URGENCY: 1
 }
 
-var TaskStatus = {
+export const TaskStatus = {
   PENDING: 0,
   COMPLETED: 1
 }
 
-var TaskPriority = {
+export const TaskPriority = {
   LOW: 'L',
   MEDIUM: 'M',
   HIGH: 'H'
 }
 
-var TaskProperties = {
+export const TaskProperties = {
   ID: 'id',
   UUID: 'uuid',
   DESCRIPTION: 'description',
@@ -30,4 +30,4 @@ var TaskProperties = {
   ANNOTATIONS: 'annotations'
 }
 
-var EmptyProject = '(none)'
+export const EmptyProject = '(none)'

@@ -23,21 +23,19 @@
  *
  */
 
-const { Clutter, GObject, St } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
+import St from 'gi://St'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { Extension, gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js'
+import * as Main from 'resource:///org/gnome/shell/ui/main.js'
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
 
-const { MenuItem } = Me.imports.components.panel.menuItem
-const { ScreenWrapper } = Me.imports.components.screenWrapper.screenWrapper
-const { EventHandler } = Me.imports.helpers.eventHandler
-const { SettingsHandler } = Me.imports.helpers.settings
-
-const Gettext = imports.gettext
-const _ = Gettext.gettext
-
-const Main = imports.ui.main
-const PanelMenu = imports.ui.panelMenu
+import { MenuItem } from './components/panel/menuItem.js'
+import { ScreenWrapper } from './components/screenWrapper/screenWrapper.js'
+import { EventHandler } from './helpers/eventHandler.js'
+import { initSettings, SettingsHandler } from './helpers/settings.js'
+import { CLEANUP_PROCEDURES as SUBPROCESS_CLEANUP_PROCEDURES } from './helpers/subprocess.js'
 
 const MenuPosition = {
   CENTER: 0,
@@ -125,21 +123,35 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
   }
 })
 
-var taskWhispererMenu
+let _taskWhispererMenu = null
 
-function init (extensionMeta) {
-  ExtensionUtils.initTranslations()
-}
+export default class KubectlExtension extends Extension {
+  enable () {
+    initSettings(this)
 
-function enable () {
-  taskWhispererMenu = new TaskWhispererMenuButton()
-  Main.panel.addToStatusArea('taskWhispererMenu', taskWhispererMenu)
-  taskWhispererMenu.checkPositionInPanel()
-}
+    _taskWhispererMenu = new TaskWhispererMenuButton()
+    Main.panel.addToStatusArea('taskWhispererMenu', _taskWhispererMenu)
+    _taskWhispererMenu.checkPositionInPanel()
+  }
 
-function disable () {
-  if (taskWhispererMenu) {
-    taskWhispererMenu.destroy()
-    taskWhispererMenu = null
+  disable () {
+    if (_taskWhispererMenu) {
+      this.cleanUp()
+      _taskWhispererMenu.destroy()
+      _taskWhispererMenu = null
+    }
+  }
+
+  cleanUp () {
+    [SUBPROCESS_CLEANUP_PROCEDURES].forEach(procedureMap => {
+      Object.keys(procedureMap).forEach(timeoutId => {
+        try {
+          clearTimeout(timeoutId)
+          procedureMap[timeoutId].call()
+        } catch (e) {
+
+        }
+      })
+    })
   }
 }

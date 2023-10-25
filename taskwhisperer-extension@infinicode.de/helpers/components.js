@@ -1,40 +1,25 @@
-const { Gio, GLib, GObject } = imports.gi
+import Gio from 'gi://Gio'
 
-const Main = imports.ui.main
-const MessageTray = imports.ui.messageTray
-
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import * as Main from 'resource:///org/gnome/shell/ui/main.js'
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js'
+import { SettingsHandler } from './settings.js'
 
 const iconCache = {}
 
-var getCustomIconPath = iconName => {
+export const getCustomIconPath = iconName => {
   if (iconCache[iconName]) {
     return iconCache[iconName]
   }
 
-  const newIcon = Gio.icon_new_for_string(Me.dir.get_child('icons').get_path() + '/' + iconName + '.svg')
+  const settings = new SettingsHandler()
+
+  const newIcon = Gio.icon_new_for_string(settings.extensionObject.path + '/icons/' + iconName + '.svg')
   iconCache[iconName] = newIcon
 
   return newIcon
 }
 
-var setTimeout = (func, time) => GLib.timeout_add(
-    GLib.PRIORITY_DEFAULT,
-    time,
-    () => {
-      func.call()
-
-      return GLib.SOURCE_REMOVE
-    })
-
-var clearTimeout = timerId => {
-  GLib.source_remove(timerId)
-
-  return null
-}
-
-var showNotification = ({ title, message, dialogType }) => {
+export const showNotification = ({ title, message, dialogType }) => {
   let icon = 'dialog-question'
 
   switch (dialogType) {

@@ -1,20 +1,20 @@
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+let _settings = null
+let _extensionObject = {}
 
-var POSITION_IN_PANEL_KEY = 'position-in-panel'
-var TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync'
-var TASKWHISPERER_SHOW_NO_DATES_AT_END = 'show-no-dates-at-end'
-var TASKWHISPERER_SHOW_PANEL_ICON = 'show-taskwarrior-icon'
-var TASKWHISPERER_SHOW_TEXT_IN_PANEL = 'show-task-text-in-panel'
-var TASKWHISPERER_TASK_ORDER = 'task-order'
-var TASKWHISPERER_TASK_STATUS = 'task-status'
-var TASKWHISPERER_PROJECT = 'project'
+export const initSettings = extensionObject => {
+  _extensionObject = extensionObject
+}
 
-var SettingsHandler = class SettingsHandler {
-  constructor () {
-    this._settings = ExtensionUtils.getSettings()
-  }
+export const POSITION_IN_PANEL_KEY = 'position-in-panel'
+export const TASKWHISPERER_ENABLE_TASKD_SYNC = 'enable-taskd-sync'
+export const TASKWHISPERER_SHOW_NO_DATES_AT_END = 'show-no-dates-at-end'
+export const TASKWHISPERER_SHOW_PANEL_ICON = 'show-taskwarrior-icon'
+export const TASKWHISPERER_SHOW_TEXT_IN_PANEL = 'show-task-text-in-panel'
+export const TASKWHISPERER_TASK_ORDER = 'task-order'
+export const TASKWHISPERER_TASK_STATUS = 'task-status'
+export const TASKWHISPERER_PROJECT = 'project'
 
+export const SettingsHandler = class SettingsHandler {
   get position_in_panel () {
     return this._settings.get_enum(POSITION_IN_PANEL_KEY)
   }
@@ -57,6 +57,18 @@ var SettingsHandler = class SettingsHandler {
 
   set project (v) {
     this._settings.set_string(TASKWHISPERER_PROJECT, v)
+  }
+
+  get extensionObject () {
+    return _extensionObject
+  }
+
+  get _settings () {
+    if (!_settings) {
+      _settings = this.extensionObject.getSettings()
+    }
+
+    return _settings
   }
 
   connect (identifier, onChange) {

@@ -1,15 +1,14 @@
-const { Clutter, GObject, St } = imports.gi
+import Clutter from 'gi://Clutter'
+import GObject from 'gi://GObject'
+import St from 'gi://St'
 
-const ExtensionUtils = imports.misc.extensionUtils
-const Me = ExtensionUtils.getCurrentExtension()
+import { ButtonGroup } from '../../buttons/buttonGroup.js'
+import { SearchBar } from '../../searchBar/searchBar.js'
+import { Translations } from '../../../helpers/translations.js'
+import { TaskPriority } from '../../../services/meta/taskWarrior.js'
+import { createTask, modifyTask } from '../../../services/taskService.js'
 
-const { ButtonGroup } = Me.imports.components.buttons.buttonGroup
-const { SearchBar } = Me.imports.components.searchBar.searchBar
-const { Translations } = Me.imports.helpers.translations
-const { TaskPriority } = Me.imports.services.meta.taskWarrior
-const { createTask, modifyTask } = Me.imports.services.taskService
-
-var EditTaskScreen = GObject.registerClass({}, class EditTaskScreen extends St.BoxLayout {
+export const EditTaskScreen = GObject.registerClass({}, class EditTaskScreen extends St.BoxLayout {
   _init (taskItem, mainEventHandler) {
     super._init({
       style_class: 'screen edit-task-screen',

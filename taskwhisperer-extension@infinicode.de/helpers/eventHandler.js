@@ -1,6 +1,3 @@
-const { GObject } = imports.gi
-const Signals = imports.signals
+import * as Signals from 'resource:///org/gnome/shell/misc/signals.js'
 
-var EventHandler = class EventHandler {}
-
-Signals.addSignalMethods(EventHandler.prototype)
+export const EventHandler = class EventEmitter extends Signals.EventEmitter {}
