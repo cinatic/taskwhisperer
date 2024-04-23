@@ -55,6 +55,10 @@
     padding: 5px 10px;
 }
 
+.taskwhisperer-extension .search-bar .search-area-box StEntry {
+    width: 400px;
+}
+
 .taskwhisperer-extension .search-bar .search-area-box .navigate-back-icon-button {
     margin-right: 15px;
     padding: 5px;

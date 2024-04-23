@@ -34,7 +34,7 @@ export const FlatList = GObject.registerClass({
       y_expand: true
     })
 
-    this.add_actor(this._content)
+    this.add_child(this._content)
   }
 
   get items () {
