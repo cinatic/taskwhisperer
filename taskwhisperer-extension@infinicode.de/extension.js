@@ -94,7 +94,7 @@ let TaskWhispererMenuButton = GObject.registerClass(class TaskWhispererMenuButto
       return
     }
 
-    parent.remove_actor(container)
+    parent.remove_child(container)
 
     let children = null
 

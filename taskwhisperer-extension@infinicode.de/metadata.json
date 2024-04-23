@@ -5,9 +5,9 @@
   "settings-schema": "org.gnome.shell.extensions.taskwhisperer",
   "gettext-domain": "gnome-shell-extension-taskwhisperer",
   "shell-version": [
-    "45"
+    "46"
   ],
   "url": "https://github.com/cinatic/taskwhisperer",
   "uuid": "taskwhisperer-extension@infinicode.de",
-  "version": 27
+  "version": 9999
 }

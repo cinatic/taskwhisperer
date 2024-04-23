@@ -31,7 +31,7 @@ export const ButtonGroup = GObject.registerClass({
       x_expand: true
     })
 
-    this.add_actor(this._content)
+    this.add_child(this._content)
 
     this.connect('destroy', this._onDestroy.bind(this))
 

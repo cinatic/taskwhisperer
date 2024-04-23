@@ -37,7 +37,7 @@ export const ScreenWrapper = GObject.registerClass({
         }
 
         this.destroy_all_children()
-        this.add_actor(screen)
+        this.add_child(screen)
       }
 
       _onDestroy () {
