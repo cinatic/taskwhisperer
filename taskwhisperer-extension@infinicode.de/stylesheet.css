@@ -87,8 +87,10 @@
     box-shadow: none;
 }
 
+.taskwhisperer-extension .task-card .status-icon-button,
 .taskwhisperer-extension .task-card .status-icon-bin {
-    width: 20px;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .taskwhisperer-extension .task-card .description-box {

@@ -113,7 +113,7 @@ export const loadProjectsData = async taskStatus => {
   let sortedUniqueProjects = []
 
   try {
-    sortedUniqueProjects = [...new Set(allTheTasks.filter(item => item.project).map(item => item.project).sort())]
+    sortedUniqueProjects = [...new Set((allTheTasks || []).filter(item => item.project).map(item => item.project).sort())]
   } catch (e) {
     logError(e)
   }
