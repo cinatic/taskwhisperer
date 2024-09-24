@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install packages
         run: sudo apt-get update -y && sudo apt-get install -y gettext
       - name: build extension
@@ -19,7 +19,7 @@ jobs:
       - name: create zip package
         run: make package
       - name: store zip package artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: taskwhisperer-extension.zip
           path: _build/taskwhisperer-extension.zip
