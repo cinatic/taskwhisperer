@@ -75,6 +75,7 @@ export const TaskCard = GObject.registerClass({
 
     if (iconName) {
       icon = new IconButton({
+        style_class: 'status-icon-button',
         asButton: false,
         isCustomIcon: true,
         icon_name: iconName,
