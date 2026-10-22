@@ -6,7 +6,11 @@
   "gettext-domain": "gnome-shell-extension-taskwhisperer",
   "shell-version": [
     "46",
-    "47"
+    "47",
+    "48",
+    "49",
+    "50",
+    "51"
   ],
   "url": "https://github.com/cinatic/taskwhisperer",
   "uuid": "taskwhisperer-extension@infinicode.de",

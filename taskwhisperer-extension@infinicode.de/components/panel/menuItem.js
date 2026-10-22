@@ -53,7 +53,7 @@ export const MenuItem = GObject.registerClass({
 
     const taskInformationBox = new St.BoxLayout({
       style_class: 'task-information-box',
-      vertical: false,
+      orientation: Clutter.Orientation.HORIZONTAL,
       x_expand: true,
       y_expand: true,
       y_align: Clutter.ActorAlign.CENTER

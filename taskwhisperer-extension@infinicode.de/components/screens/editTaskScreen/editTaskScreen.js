@@ -12,7 +12,7 @@ export const EditTaskScreen = GObject.registerClass({}, class EditTaskScreen ext
   _init (taskItem, mainEventHandler) {
     super._init({
       style_class: 'screen edit-task-screen',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     this._mainEventHandler = mainEventHandler
@@ -117,7 +117,7 @@ export const EditTaskScreen = GObject.registerClass({}, class EditTaskScreen ext
   _createFormElement ({ text, placeholder, dataField, customFormElement }) {
     const formElementbox = new St.BoxLayout({
       style_class: 'form-element-box',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     const label = new St.Label({

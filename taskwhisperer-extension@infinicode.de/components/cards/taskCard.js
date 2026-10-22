@@ -21,7 +21,7 @@ export const TaskCard = GObject.registerClass({
     this.cardItem = quoteSummary
 
     const vContentBox = new St.BoxLayout({
-      vertical: true,
+      orientation: Clutter.Orientation.VERTICAL,
       x_expand: true
     })
 
@@ -96,7 +96,7 @@ export const TaskCard = GObject.registerClass({
     const descriptionContentBox = new St.BoxLayout({
       style_class: 'description-box',
       x_expand: true,
-      vertical: true,
+      orientation: Clutter.Orientation.VERTICAL,
       y_align: Clutter.ActorAlign.CENTER
     })
 
