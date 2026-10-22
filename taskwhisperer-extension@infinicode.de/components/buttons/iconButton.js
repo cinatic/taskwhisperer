@@ -21,7 +21,7 @@ export const IconButton = GObject.registerClass({
     })
 
     let hContentBox = new St.BoxLayout({
-      vertical: false,
+      orientation: Clutter.Orientation.HORIZONTAL,
       x_expand: true,
       y_expand: true,
       y_align: Clutter.ActorAlign.CENTER

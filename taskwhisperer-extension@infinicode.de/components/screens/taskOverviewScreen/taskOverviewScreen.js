@@ -23,7 +23,7 @@ export const TaskOverviewScreen = GObject.registerClass({}, class TaskOverviewSc
   _init (mainEventHandler) {
     super._init({
       style_class: 'screen task-overview-screen',
-      vertical: true
+      orientation: Clutter.Orientation.VERTICAL
     })
 
     this._mainEventHandler = mainEventHandler

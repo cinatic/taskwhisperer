@@ -29,7 +29,7 @@ export const FlatList = GObject.registerClass({
 
     this._content = new St.BoxLayout({
       style_class: 'flatlist',
-      vertical: true,
+      orientation: Clutter.Orientation.VERTICAL,
       x_expand: true,
       y_expand: true
     })

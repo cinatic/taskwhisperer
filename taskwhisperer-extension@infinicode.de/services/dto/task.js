@@ -1,3 +1,4 @@
+import GLib from 'gi://GLib'
 import Shell from 'gi://Shell'
 
 import { getBestTimeAbbreviation, isoToDate } from '../../helpers/data.js'
@@ -12,7 +13,7 @@ export const Task = class Task {
 
       this.Annotations.forEach((item, index) => {
         const entryDate = isoToDate(item.entry)
-        const dateText = entryDate.toLocaleFormat(dateFormat)
+        const dateText = GLib.DateTime.new_from_unix_local(entryDate.getTime() / 1000).format(dateFormat)
 
         if (index !== 0) {
           this._annotationsAsString += '\r\n'
